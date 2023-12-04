@@ -1,3 +1,37 @@
-body {
-    background-color: rgb(227, 227, 227);
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --blue: #4988FF;
+    --pink: #FF47AE;
+    --light-pink: #F0EEF6;
+
+    --primary-color: var(--blue);
+    --background-color: var(--light-pink);
+    --accent-color: var(--pink);
 }
+body {
+    background-color: var(--background-color);
+        font-family: 'Orbitron', sans-serif;
+        color: var(--accent-color);
+    }
+    
+    .btn {
+        background-color: var(--primary-color);
+        border-radius: 5px;
+    }
+    
+    .btn:hover {
+        color: black;
+        background-color: var(--accent-color);
+    }
+    
+    h1 {
+        color: var(--primary-color);
+        /* color: white; */
+        font-size: 80px;
+        text-shadow: 2px 2px 4px var(--accent-color);
+    }
+    
+    p {
+        color: var(--accent-color);
+    }
