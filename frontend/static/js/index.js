@@ -33,18 +33,18 @@ const router = async () => {
     // { path: "/statistics", view: () => console.log("Viewing Statistic") },
   ];
 
-// Example of programmatically switching to the login route
-// You can call this function wherever you need to switch views
-let userId = "123";
-if (userId === "123") {
-  console.log("User is logged in. User ID:", userId);
-  const view = new views[0].view();
-  document.querySelector("#content").innerHTML = await view.getHtml();
-} else {
-  console.log("User is not logged in. User ID:", userId);
-  const view = new views[1].view();
-  document.querySelector("#content").innerHTML = await view.getHtml();
-}
+  // Example of programmatically switching to the login route
+  // You can call this function wherever you need to switch views
+  let userId = "1234";
+  if (userId === "123") {
+    console.log("User is logged in. User ID:", userId);
+    const view = new views[0].view();
+    // view.getHtml();
+  } else {
+    console.log("User is not logged in. User ID:", userId);
+    const view = new views[1].view();
+    // await view.getHtml();
+  }
 };
 
 window.addEventListener("popstate", router);
@@ -54,13 +54,11 @@ window.addEventListener("popstate", router);
 //   navigateTo(path);
 // };
 
-
 document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", (e) => {
     // if (e.target.matches("[data-link]")) {
-      console.log("e: ", e.target);
-      e.preventDefault();
-      // navigateTo(e.target.href);
+    e.preventDefault();
+    // navigateTo(e.target.href);
     // }
   });
 

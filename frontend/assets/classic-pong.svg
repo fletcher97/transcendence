@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="166px" height="98px" viewBox="0 0 166 98" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>PONG EXAMPLE 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+
+        <rect id="path-2" x="157" y="58" width="5" height="25" fill="blue"></rect>
+        <filter x="-140.0%" y="-20.0%" width="380.0%" height="156.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.517795139   0 0 0 0 1   0 0 0 0 0.901315072  0 0 0 0.704427083 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CHOOSE-GAME" transform="translate(-306.000000, -308.000000)">
+            <g id="PONG-EXAMPLE-1" transform="translate(306.000000, 308.000000)">
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="162" height="98"></rect>
+                <rect id="Rectangle" fill="#00FFFB" x="0" y="18" width="5" height="25"></rect>
+                <g id="Rectangle-Copy">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill="#00FFFB" fill-rule="evenodd" xlink:href="#path-2"></use>
+                </g>
+                <text id="CLASSIC-PONG" font-family="Orbitron-Regular, Orbitron" font-size="24" font-weight="normal" fill="#4988FF">
+                    <tspan x="40.596" y="42">CLASSIC </tspan>
+                    <tspan x="41.628" y="72">PONG</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,33 +1,37 @@
-const canvas = document.getElementById("pingPongCanvas");
-const ctx = canvas.getContext("2d");
+function drawClassicPong() {
+  console.log("runnign draw classic pong");
+  const canvas = document.querySelector("#classic-pong-canvas");
+  const ctx = canvas.getContext("2d");
+  if (canvas) {
+    // Rest of your drawing logic here
+  } else {
+    console.error("Canvas element not found!");
+  }
+  // Paddle
+  const paddleWidth = 10,
+    paddleHeight = 60;
+  let playerPaddleY = (canvas.height - paddleHeight) / 2;
+  let botPaddleY = (canvas.height - paddleHeight) / 2;
 
-// Paddle
-const paddleWidth = 10,
-  paddleHeight = 60;
-let playerPaddleY = (canvas.height - paddleHeight) / 2;
-let botPaddleY = (canvas.height - paddleHeight) / 2;
+  // Ball
+  const ballSize = 10;
+  let ballX = canvas.width / 2,
+    ballY = canvas.height / 2;
+  let ballSpeedX = 5,
+    ballSpeedY = 5;
 
-// Ball
-const ballSize = 10;
-let ballX = canvas.width / 2,
-  ballY = canvas.height / 2;
-let ballSpeedX = 5,
-  ballSpeedY = 5;
-
-// Paddle controls
-const paddleSpeed = 10;
-let upPressed = false,
-  downPressed = false;
-
-function draw() {
+  // Paddle controls
+  const paddleSpeed = 10;
+  let upPressed = false,
+    downPressed = false;
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the player's paddle
+  // drawClassicPong the player's paddle
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, playerPaddleY, paddleWidth, paddleHeight);
 
-  // Draw the bot's paddle
+  // drawClassicPong the bot's paddle
   ctx.fillRect(
     canvas.width - paddleWidth,
     botPaddleY,
@@ -35,20 +39,20 @@ function draw() {
     paddleHeight
   );
 
-  // Draw the ball
+  // drawClassicPong the ball
   ctx.beginPath();
   ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
   ctx.fillStyle = "#fff";
   ctx.fill();
   ctx.closePath();
 
-  // Move the player's paddle
-  if (upPressed && playerPaddleY > 0) {
-    playerPaddleY -= paddleSpeed;
-  }
-  if (downPressed && playerPaddleY < canvas.height - paddleHeight) {
-    playerPaddleY += paddleSpeed;
-  }
+  // // Move the player's paddle
+  // if (upPressed && playerPaddleY > 0) {
+  //   playerPaddleY -= paddleSpeed;
+  // }
+  // if (downPressed && playerPaddleY < canvas.height - paddleHeight) {
+  //   playerPaddleY += paddleSpeed;
+  // }
 
   // Move the bot's paddle (simple bot logic)
   const botCenter = botPaddleY + paddleHeight / 2;
@@ -85,26 +89,12 @@ function draw() {
     ballY = canvas.height / 2;
   }
 
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawClassicPong);
 }
 
-function keyDownHandler(e) {
-  if (e.key === "ArrowUp") {
-    upPressed = true;
-  } else if (e.key === "ArrowDown") {
-    downPressed = true;
-  }
-}
+// document.addEventListener("keydown", keyDownHandler);
+// document.addEventListener("keyup", keyUpHandler);
 
-function keyUpHandler(e) {
-  if (e.key === "ArrowUp") {
-    upPressed = false;
-  } else if (e.key === "ArrowDown") {
-    downPressed = false;
-  }
-}
+// drawClassicPong(); // Start the game loop
 
-document.addEventListener("keydown", keyDownHandler);
-document.addEventListener("keyup", keyUpHandler);
-
-draw(); // Start the game loop
+export default drawClassicPong;
