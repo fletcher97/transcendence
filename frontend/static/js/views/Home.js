@@ -92,7 +92,7 @@ export default class extends AbstractView {
         <div id="content" class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
           <div class="row justify-content-center">
             <h1 class="text-center">META PONG</h1>
-            <p class="text-center">  hello <b>${this.username}</b>!</p>
+            <p class="text-center"> welcome <b>${this.username}</b>!</p>
             <h3 class="text-center" id="header">CHOOSE GAME</h3>
             <br/>
             <br/>

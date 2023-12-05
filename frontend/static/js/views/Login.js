@@ -63,12 +63,11 @@ export default class extends AbstractView {
 
   async getHtml() {
     return `
-        <div id="content" class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div id="content" class="container d-flex align-items-center justify-content-center" style="height: 95vh;">
         <div class="row justify-content-center">
           <h1 class="text-center">META PONG</h1>
           <div class="col-md-8 d-flex flex-column justify-content-center gap-2 align-items-center">
-            <!-- <h2 class="">lol</h2> -->
-            <!-- <label for="username">Username:</label> -->
+            <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter your username">
             <div id="login-spinner">
               </div>
@@ -77,11 +76,11 @@ export default class extends AbstractView {
               </div>
               <p>already a user? <a href="#">sign in</a></p>
               </div>
-              <!-- <div>
-              <button type="button" class="btn btn-secondary btn-lg">Meta Pong</button>
-            </div> -->
-          </div>
-          </div>
+              <div>
+              </div>
+              </div>
+              </div>
+              <p>made by @fletcher97, @irifarac & @dbekic</p>
       </div>    
         `;
   }
