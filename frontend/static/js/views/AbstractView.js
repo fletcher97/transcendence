@@ -11,7 +11,7 @@ export default class {
   async fetchData() {
   }
 
-  render() {
+  initialRender() {
     // Implement render logic in the child class
   }
 

@@ -17,9 +17,12 @@ background-color: var(--background-color);
 
 .btn {
     background-color: var(--primary-color);
-    border-radius: 5px;
-}
-
+        border-radius: 5px;
+        }
+        .btn:disabled {
+            background-color: var(--primary-color);
+            border-radius: 5px;
+        }
 .btn:hover {
     color: black;
     background-color: var(--accent-color);
@@ -36,10 +39,22 @@ h3 {
     color: var(--accent-color);
     /* color: white; */
     font-size: 24px;
-    text-shadow: 1px 1px 4px var(--primary-color);
+    text-shadow: 1px 1px 4px var(--accent-color);
+    }
+    
+    h4 {
+        color: white;
+        color: var(--accent-color);
+        font-size: 18px;
+        text-shadow: 1px 1px 6px var(--accent-color);
 }
 p {
     color: var(--accent-color);
+    margin-bottom: 0;
+    }
+    
+    a {
+        color: var(--accent-color);
 }
 /* #CLASSIC-PONG {
             /* color: var(--accent-color); */

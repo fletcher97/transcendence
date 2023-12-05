@@ -1,6 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import classicPongComponent from "../../../components/classicPongImage.js";
 import drawClassicPong from "../../../scripts/drawClassicPong.js";
+import Spinner from "../../../../components/spinner.js";
 
 export default class extends AbstractView {
   constructor() {
@@ -10,7 +11,7 @@ export default class extends AbstractView {
     this.headerText = "lool";
     this.username = "";
     this.fetchData();
-    this.render = this.render.bind(this);
+    this.initialRender = this.initialRender.bind(this);
     this.getHtml = this.getHtml.bind(this); // Bind the getHtml method
   }
 
@@ -29,11 +30,11 @@ export default class extends AbstractView {
       console.error("Error fetching data:", error);
     } finally {
       this.isLoading = false;
-      await this.render();
+      await this.initialRender();
     }
   }
 
-  async render() {
+  async initialRender() {
     const content = document.getElementById("content");
     console.log("this.username: ", this.username);
     if (content) {

@@ -1,5 +1,5 @@
 import Home from "./views/Home.js";
-import Login from "./views/Login.js";
+import LoginView from "./views/Login/View.js";
 import ChooseGame from "./views/ChooseGame.js";
 
 const navigateTo = (url) => {
@@ -9,9 +9,9 @@ const navigateTo = (url) => {
 
 export async function switchView(view) {
   const views = [
-  { path: "/", view: Home },
-  { path: "login", view: Login },
-  { path: "chooseGame", view: ChooseGame },
+    { path: "/", view: Home },
+    { path: "login", view: Login },
+    { path: "chooseGame", view: ChooseGame },
   ];
 
   // find correct view based on view input string
@@ -20,14 +20,12 @@ export async function switchView(view) {
   view = new targetView.view();
   console.log(view);
   document.querySelector("#content").innerHTML = await view.getHtml();
-
 }
-
 
 const router = async () => {
   const views = [
     { path: "/", view: Home },
-    { path: "login", view: Login },
+    { path: "login", view: LoginView },
     { path: "chooseGame", view: ChooseGame },
     // { path: "/about", view: () => console.log("Viewing About") },
     // { path: "/statistics", view: () => console.log("Viewing Statistic") },
