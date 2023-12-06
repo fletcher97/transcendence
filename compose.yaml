@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:443"
     networks:
-        - transcendence
+        - transcendence-net
 
   db:
     image: postgres:16-alpine
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
     networks:
-      - transcendence
+      - transcendence-net
 
   back:
     container_name: back
@@ -39,11 +39,12 @@ services:
     expose:
       - "8000"
     networks:
-        - transcendence
+        - transcendence-net
     depends_on:
       - db
 
 
 networks:
-  transcendence:
+  transcendence-net:
+    name: transcendence-net
     driver: bridge
