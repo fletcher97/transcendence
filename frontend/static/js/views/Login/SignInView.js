@@ -48,7 +48,6 @@ const addEventListeners = () => {
 
 export const SignInView = () => {
   let content = document.getElementById("login-container");
-  console.log(content);
   if (content) {
     content.innerHTML = getHtml();
     addEventListeners();

@@ -10,23 +10,40 @@
     --accent-color: var(--pink);
 }
 body {
-background-color: var(--background-color);
+    /* background-color: var(--background-color); */
     font-family: 'Orbitron', sans-serif;
     color: var(--accent-color);
-}
+    cursor: url('./icons8-cursor-48.png'), none;
+    }
 
-.btn {
-    background-color: var(--primary-color);
-        border-radius: 5px;
-        }
-        .btn:disabled {
-            background-color: var(--primary-color);
-            border-radius: 5px;
-        }
-.btn:hover {
+.my-btn {
+    background-color: var(--background-color);
+    border-radius: 5px;
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px 10px 20px;
+    /* cursor: auto; */
+    color: var(--accent-color);
+    }
+.my-btn:disabled {
+    background-color: var(--background-color);
+    border-radius: 5px;
+}
+.my-btn:hover {
     color: black;
     background-color: var(--accent-color);
+    }
+
+.hidden {
+    opacity: 0%;
+    transform: translateY(-100%);
+    transition: all .2s ease-in-out ;
 }
+
+.show {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
 
 h1 {
     color: var(--primary-color);
@@ -88,3 +105,28 @@ p {
     fill: rgba(0, 0, 255, 0.3);
     box-shadow: 10px 10px;
 }
+
+.child1 {
+    transition-delay: 0ms;
+}
+
+.child2 {
+    transition-delay: 200ms;
+}
+
+.child3 {
+    transition-delay: 400ms;
+}
+
+.child4 {
+    transition-delay: 600ms;
+}
+
+#pongBackground {
+    z-index: -1;
+    position:fixed;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--background-color);
+  }

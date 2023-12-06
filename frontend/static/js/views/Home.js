@@ -1,6 +1,5 @@
 import AbstractView from "./AbstractView.js";
 import classicPongComponent from "../../../components/classicPongImage.js";
-import drawClassicPong from "../../../scripts/drawClassicPong.js";
 import Spinner from "../../../../components/spinner.js";
 
 export default class extends AbstractView {
@@ -55,7 +54,6 @@ export default class extends AbstractView {
 
     const pingPongCanvas = document.querySelector("#classic-pong-canvas");
     console.log(pingPongCanvas);
-    if (pingPongCanvas) drawClassicPong();
 
     const startNewGameButton = document.querySelector("#start-new-game-btn");
     if (startNewGameButton) {

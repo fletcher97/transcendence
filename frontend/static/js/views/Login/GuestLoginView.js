@@ -3,29 +3,20 @@ import { enterGame } from "./enterGame.js";
 
 const getHtml = async () => {
   return `
-        <div id="content" class="container d-flex align-items-center justify-content-center" style="height: 95vh;">
-        <div class="row justify-content-center">
-        <h1 class="text-center">META PONG</h1>
-          <div id="login-container" class="col-md-8 d-flex flex-column justify-content-center gap-2 align-items-center">
-          <h4>PLAY AS GUEST</h4>
-            <input type="text" id="username" name="username" placeholder="Enter your username">
-            <div id="login-spinner">
-              </div>
+
+          <h4 class="hidden">PLAY AS GUEST</h4>
+            <input class="hidden" type="text" id="username" name="username" placeholder="Enter your username">
               <div id="btn-container" class="row">
-                <button id="play-btn" type="button" class="btn btn-primary btn-lg"><span id="play-btn-content">PLAY</span></button>
+                <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
               </div>
-              <div class="d-flex gap-2">
-                <p><a id="sign-in-link" href="#">sign in</a></p>
+              <div class="d-flex gap-2 hidden">
+                <p><a class="hidden" id="sign-in-link" href="#">sign in</a></p>
                 <p> | </p>
                 <p><a id="sign-in-link" href="#">register</a></p>
               </div>
               </div>
               <div>
               </div>
-              </div>
-              </div>
-              <p>made by @fletcher97, @irifarac & @dbekic</p>
-      </div>    
         `;
 };
 
@@ -51,10 +42,33 @@ const addEventListeners = () => {
   signInLink.addEventListener("click", () => {
     SignInView();
   });
+
+  // on DOM load
+  window.onload = () => {
+    const hiddenElements = document.querySelectorAll(".hidden");
+    console.log(hiddenElements);
+    let i = 1;
+    hiddenElements.forEach((element) => {
+      element.classList.add("child" + i);
+      i++;
+    });
+    hiddenElements.forEach((element) => {
+      element.classList.add("show");
+    });
+    i = 1;
+    setTimeout(() => {
+      console.log("running timeout");
+      hiddenElements.forEach((element) => {
+        element.classList.remove("child" + i);
+        // element.classList.remove("show");
+        i++;
+      });
+    }, 100);
+  };
 };
 
 export async function GuestLoginView() {
-  const content = document.getElementById("content");
+  const content = document.getElementById("login-container");
   if (content) {
     content.innerHTML = await getHtml(); // Update the content with new HTML
     addEventListeners(); // Add event listeners after updating the content
