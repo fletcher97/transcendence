@@ -4,7 +4,7 @@ import Home from "../Home.js";
 export const enterGame = async (id) => {
   const content = document.querySelector("#content");
   document.querySelector("#play-btn-content").innerHTML = Spinner();
-  const canvas = document.querySelector("#pongBackground");
+  const canvas = document.querySelector("#pong-background");
   const parentElement = document.getElementById("body");
 
   // Remove the canvas from its parent node

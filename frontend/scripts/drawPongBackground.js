@@ -1,6 +1,6 @@
 import { accentColor, primaryColor } from "../assets/colors.js";
 
-const canvas = document.getElementById("pongBackground");
+const canvas = document.getElementById("pong-background");
 const ctx = canvas.getContext("2d");
 
 // Paddle
@@ -11,7 +11,7 @@ let firstBotPaddleY = (canvas.height - paddleHeight) / 2;
 let secondBotPaddleY = (canvas.height - paddleHeight) / 2;
 
 // Ball
-const ballSize = 2;
+const ballSize = 3;
 let ballX = canvas.width / 2,
   ballY = canvas.height / 2;
 let ballSpeedX = 1.5,
@@ -79,7 +79,8 @@ export function drawPongBackground() {
   //   ballX = canvas.width / 2;
   //   ballY = canvas.height / 2;
   // }
-  requestAnimationFrame(drawPongBackground);
+  let rqf = requestAnimationFrame(drawPongBackground);
+  if (!document.getElementById("pong-background")) cancelAnimationFrame(rqf);
 }
 
 // drawPongBackground(); // Start the game loop
