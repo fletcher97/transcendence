@@ -1,4 +1,4 @@
-import Spinner from "../../../../components/spinner.js";
+import Toaster from "../../../../components/Toaster.js";
 import { drawPongBackground } from "../../../../scripts/drawPongBackground.js";
 import AbstractView from "../AbstractView.js";
 import Home from "../Home.js";
@@ -31,9 +31,10 @@ export default class LoginView extends AbstractView {
       </div>
       </div>    
           <p>made by @fletcher97, @irifarac & @dbekic</p>
+          ${Toaster("username already taken", "liveToast")}
         `;
       this.addEventListeners();
-      drawPongBackground();
+      // drawPongBackground();
     }
 
     await GuestLoginView(); // Update the content with new HTML
