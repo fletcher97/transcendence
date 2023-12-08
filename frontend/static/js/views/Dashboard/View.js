@@ -1,4 +1,4 @@
-import Spinner from "../../../../components/spinner.js";
+import Spinner from "../../../../components/Spinner.js";
 import AbstractView from "../AbstractView.js";
 import Home from "../Home.js";
 import { GuestLoginView } from "./GuestLoginView.js";

@@ -1,6 +1,6 @@
 import AbstractView from "./AbstractView.js";
 import classicPongComponent from "../../../components/classicPongImage.js";
-import Spinner from "../../../../components/spinner.js";
+import Spinner from "../../../components/Spinner.js";
 
 export default class extends AbstractView {
   constructor() {

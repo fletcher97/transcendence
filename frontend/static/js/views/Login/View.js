@@ -1,9 +1,6 @@
-import Toaster from "../../../../components/Toaster.js";
-import { drawPongBackground } from "../../../../scripts/drawPongBackground.js";
+import Toast from "../../../../components/Toast.js";
 import AbstractView from "../AbstractView.js";
-import Home from "../Home.js";
 import { GuestLoginView } from "./GuestLoginView.js";
-import { SignInView } from "./SignInView.js";
 // import Home from "./Home.js";
 
 export default class LoginView extends AbstractView {
@@ -31,7 +28,8 @@ export default class LoginView extends AbstractView {
       </div>
       </div>    
           <p>made by @fletcher97, @irifarac & @dbekic</p>
-          ${Toaster("username already taken", "liveToast")}
+          ${Toast("username already taken", "username-taken-toast", "red")}
+          ${Toast("succesfully logged in", "successful-login-toast", "green")}
         `;
       this.addEventListeners();
       // drawPongBackground();

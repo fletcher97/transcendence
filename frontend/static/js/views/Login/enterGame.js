@@ -1,4 +1,4 @@
-import Spinner from "../../../../components/spinner.js";
+import Spinner from "../../../../components/Spinner.js";
 import Home from "../Home.js";
 
 export const enterGame = async (id) => {
@@ -11,7 +11,7 @@ export const enterGame = async (id) => {
   console.log("parent: ", parentElement);
   parentElement.removeChild(canvas);
 
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 1500));
   if (content) {
     const view = new Home();
     document.querySelector("#content").innerHTML = view.getHtml();

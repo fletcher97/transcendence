@@ -24,17 +24,23 @@ const addEventListeners = () => {
   signInButton.disabled = true;
 
   // ** SIGN IN CLICK LISTENER ** //
-  signInButton.addEventListener("click", () => {
-    console.log(usernameInput.value);
+  signInButton.addEventListener("click", async () => {
     localStorage.setItem("username", usernameInput.value);
     if (usernameInput.value === "taken") {
-      const toastLiveExample = document.getElementById("liveToast");
+      const toastLiveExample = document.getElementById("username-taken-toast");
       const toastBootstrap =
         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
       toastBootstrap.show();
       usernameInput.value = "";
       passwordInput.value = "";
+      signInButton.disabled = true;
     } else {
+      const toastLiveExample = document.getElementById(
+        "successful-login-toast"
+      );
+      const toastBootstrap =
+        bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+      toastBootstrap.show();
       enterGame("#content");
     }
   });
@@ -53,7 +59,6 @@ const addEventListeners = () => {
   returnLink.addEventListener("click", () => {
     GuestLoginView();
   });
-
 };
 
 export const SignInView = () => {

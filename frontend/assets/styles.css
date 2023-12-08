@@ -137,6 +137,10 @@ p {
     width: 100px;
   }
 
-  .toast-container, .toast-header {
+  .toast-container.toast-red, .toast-header.toast-red {
     color: red;
+  }
+
+  .toast-container.toast-green, .toast-header.toast-green {
+    color: green;
   }
