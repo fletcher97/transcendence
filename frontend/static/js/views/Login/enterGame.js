@@ -1,5 +1,5 @@
 import Spinner from "../../../../components/Spinner.js";
-import Home from "../Home.js";
+import DashboardView from "../Dashboard/View.js";
 
 export const enterGame = async (id) => {
   const content = document.querySelector("#content");
@@ -8,12 +8,11 @@ export const enterGame = async (id) => {
   const parentElement = document.getElementById("body");
 
   // Remove the canvas from its parent node
-  console.log("parent: ", parentElement);
   parentElement.removeChild(canvas);
 
   await new Promise((resolve) => setTimeout(resolve, 1500));
   if (content) {
-    const view = new Home();
-    document.querySelector("#content").innerHTML = view.getHtml();
+    const view = new DashboardView();
+    view.getHtml();
   }
 };

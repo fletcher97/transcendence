@@ -21,6 +21,7 @@ const getHtml = async () => {
 };
 
 const addEventListeners = () => {
+  // const audio = new Audio("assets/kick.wav");
   let playButton = document.querySelector("#play-btn");
   playButton.disabled = true;
   const usernameInput = document.querySelector("#username");
@@ -35,6 +36,8 @@ const addEventListeners = () => {
     console.log(usernameInput.value);
     if (usernameInput.value.trim())
       localStorage.setItem("username", usernameInput.value);
+    const audio = new Audio("/assets/kick.mp3");
+    audio.play();
     enterGame("#content");
   });
 
@@ -57,7 +60,6 @@ const addEventListeners = () => {
     });
     i = 1;
     setTimeout(() => {
-      console.log("running timeout");
       hiddenElements.forEach((element) => {
         element.classList.remove("child" + i);
         // element.classList.remove("show");
