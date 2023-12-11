@@ -14,9 +14,9 @@ services:
     container_name: db
     restart: always
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER=pong
+      - POSTGRES_PASSWORD=pong
+      - POSTGRES_DB=db
     expose:
         - "5432"
     ports:
@@ -31,10 +31,10 @@ services:
     build:
       context: back
     environment:
-      - POSTGRES_HOST
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_HOST=pong
+      - POSTGRES_USER=pong
+      - POSTGRES_PASSWORD=pong
+      - POSTGRES_DB=db
     restart: always
     expose:
       - "8000"
