@@ -15,9 +15,19 @@ clean:
 	@echo "$(RED)Stop and remove containers $(RESET)"
 	docker compose -f compose.yaml down -v
 
+remove-images:
+	@echo "$(RED)Removing images...$(RESET)"
+	@docker rmi -f $$(docker images -q)
+
+remove-containers:
+	@echo "$(RED)Removing containers...$(RESET)"
+	@docker container prune -f
+
+remove-all: remove-containers remove-images
+	@echo "$(RED)Removing all...$(RESET)"
+
 fclean:
 	@echo "$(RED)Removing server...$(RESET)"
-	@rm -rf db
 	@docker system prune -af
 
 re: fclean all

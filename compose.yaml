@@ -30,8 +30,10 @@ services:
     container_name: back
     build:
       context: back
+    volumes:
+      - ./back/src:/srv
     environment:
-      - POSTGRES_HOST=pong
+      - POSTGRES_HOST=db
       - POSTGRES_USER=pong
       - POSTGRES_PASSWORD=pong
       - POSTGRES_DB=db

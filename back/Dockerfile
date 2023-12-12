@@ -4,7 +4,9 @@ WORKDIR /srv
 
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN apk update && \
+    apk add --no-cache vim && \
+    pip install -r requirements.txt
 
 COPY src /srv
 
