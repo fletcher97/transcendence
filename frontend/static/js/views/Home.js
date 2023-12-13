@@ -1,10 +1,10 @@
-import AbstractView from "./AbstractView.js";
+// import AbstractView from "./AbstractView.js";
 import classicPongComponent from "../../../components/classicPongImage.js";
 import Spinner from "../../../components/Spinner.js";
 
-export default class extends AbstractView {
+export default class {
   constructor() {
-    super();
+    // super();
     this.isLoading = true;
     this.data = null;
     this.headerText = "lool";

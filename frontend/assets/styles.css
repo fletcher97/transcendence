@@ -122,6 +122,11 @@ p {
     transition-delay: 600ms;
 }
 
+.inactive {
+    opacity: 0.5;
+
+}
+
 #pong-background {
     z-index: -1;
     position:fixed;
