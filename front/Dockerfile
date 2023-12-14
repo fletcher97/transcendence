@@ -2,4 +2,4 @@
 FROM nginx:alpine
 
 # Copy the contents of the frontend directory to the Nginx HTML directory
-COPY ./ /var/www/html
+COPY ./ /var/www

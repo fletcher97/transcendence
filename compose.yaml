@@ -14,7 +14,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - front-volume:/usr/share/nginx/
+      - front-volume:/usr/share/nginx/html
     depends_on:
       - front
     networks:
