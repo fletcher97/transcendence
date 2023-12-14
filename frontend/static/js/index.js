@@ -12,7 +12,7 @@ const switchRoute = (route) => {
 
 const initApp = () => {
   // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
-  let userId = "124";
+  let userId = "1234";
   if (userId === "123") {
     console.log("User is logged in. User ID:", userId);
     switchRoute("/home");

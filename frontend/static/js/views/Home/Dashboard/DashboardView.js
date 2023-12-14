@@ -1,21 +1,14 @@
-import Spinner from "../../../../../components/Spinner.js";
-// import AbstractView from "../../AbstractView.js";
-import Home from "../../Home.js";
-import {
-  primaryColor,
-  backgroundAccentColor,
-} from "../../../../../assets/colors.js";
+import { backgroundAccentColor } from "../../../../../assets/colors.js";
 import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js";
-// import Home from "./Home.js";
 
 export default class DashboardView {
   constructor(switchRoute, switchView) {
     this.switchRoute = switchRoute;
     this.switchView = switchView;
     this.rooms = [
-      { roomName: "room1", numPlayers: 2, game: "classic pong" },
-      { roomName: "room2", numPlayers: 3, game: "meta pong" },
-      { roomName: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room1", numPlayers: 2, game: "classic pong" },
+      { name: "room2", numPlayers: 3, game: "meta pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
     ];
   }
 

@@ -3,6 +3,8 @@
 import DashboardView from "./Dashboard/DashboardView.js";
 import Spinner from "../../../../components/Spinner.js";
 import RoomsView from "./Rooms/RoomsView.js";
+import ProfileView from "./Profile/ProfileView.js";
+import { accentColor } from "../../../../assets/colors.js";
 
 export default class HomeView {
   constructor(switchRoute) {
@@ -16,6 +18,10 @@ export default class HomeView {
       this.render.bind(this)
     );
     this.roomsViewInstance = new RoomsView(switchRoute, this.render.bind(this));
+    this.profileViewInstance = new ProfileView(
+      switchRoute,
+      this.render.bind(this)
+    );
   }
 
   toggleTab = (button) => {
@@ -45,6 +51,12 @@ export default class HomeView {
       homeContainer.innerHTML = content;
       this.toggleTab(document.querySelector("#rooms-button"));
       this.roomsViewInstance.addEventListeners();
+    } else if (view === "profileView") {
+      homeContainer.innerHTML = Spinner();
+      const content = await this.profileViewInstance.renderView();
+      homeContainer.innerHTML = content;
+      this.toggleTab(document.querySelector("#profile-button"));
+      this.profileViewInstance.addEventListeners();
     }
   }
 
@@ -53,6 +65,7 @@ export default class HomeView {
     const dashboardButton = document.querySelector("#dashboard-button");
     const roomsButton = document.querySelector("#rooms-button");
     const logoutButton = document.querySelector("#log-out-btn");
+    const profileButton = document.querySelector("#profile-button");
     // window.onload = async () => {
     // addEventListener("DOMContentLoaded", async (event) => {
     // });
@@ -69,6 +82,10 @@ export default class HomeView {
       this.toggleTab(roomsButton);
       this.render("roomsView");
     });
+    profileButton.addEventListener("click", () => {
+      this.toggleTab(profileButton);
+      this.render("profileView");
+    });
     logoutButton.addEventListener("click", () => {
       localStorage.clear();
       this.switchRoute("/login");
@@ -80,11 +97,17 @@ export default class HomeView {
     const content = document.getElementById("content");
     if (content) {
       content.innerHTML = `
+      <audio controls autoplay style="display:none">
+        <source src="/assets/lcd.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
       <div class="min-vh-100">
         <div class="container row min-vw-100">
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
-              <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40"/>
+              <div style="border-radius: 50%;overflow: hidden">
+                <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+              </div>
               <p class="ml-1">welcome back, <b>${localStorage.getItem(
                 "username"
               )}!</b></p>
@@ -97,8 +120,8 @@ export default class HomeView {
           <div class="d-flex align-items-center">
           <h2 id="dashboard-button" class="btn" style="color: ${"black"}">DASHBOARD</h2>
           <h2 id="rooms-button" class="mx-5 btn inactive" style="color: ${"black"}">ROOMS</h2>
-          <h2 class="mx-5 btn inactive" style="color: ${"black"}">STATS</h2>
           <h2 class="mx-5 btn inactive" style="color: ${"black"}">FRIENDS</h2>
+          <h2 id="profile-button" class="mx-5 btn inactive" style="color: ${"black"}">MY PROFILE</h2>
           </div>
           <hr class="w-100 border-2" />
           <div id="home-container"></div> 
