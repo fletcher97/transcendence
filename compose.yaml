@@ -5,6 +5,8 @@ services:
     restart: always
     volumes:
       - front-volume:/var/www
+    networks:
+      - transcendence-net
 
   nginx:
     build:
