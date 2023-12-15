@@ -1,5 +1,4 @@
 import Spinner from "../../../../components/Spinner.js";
-import { SignInView } from "./SignInView.js";
 
 export class GuestLoginView {
   constructor(switchRoute, switchView) {
@@ -15,8 +14,9 @@ export class GuestLoginView {
     return content;
   };
 
-  addEventListeners = () => {
+  addEventListeners = async () => {
     console.log("adding event listeners");
+    await new Promise((resolve) => setTimeout(resolve, 100));
     // const audio = new Audio("assets/kick.wav");
     let playButton = document.querySelector("#play-btn");
     playButton.disabled = true;
@@ -57,7 +57,7 @@ export class GuestLoginView {
     i = 1;
     setTimeout(() => {
       hiddenElements.forEach((element) => {
-        element.classList.remove("hidden");
+        // element.classList.remove("hidden");
         // element.classList.remove("child" + i);
         i++;
       });
@@ -102,7 +102,7 @@ export class GuestLoginView {
           </div>
     `;
     }
-    // this.addEventListeners();
+    this.addEventListeners();
     return template;
   };
 }

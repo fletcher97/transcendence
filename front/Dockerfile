@@ -1,5 +1,4 @@
-# Use a lightweight web server image to serve static files
+## THIS DOCKERFILE CURRENTLY DOES ABSOLUTELY NOTHING
+## IN THE FUTURE WE MIGHT SHARE A VOLUME WITH NGINX AND COPY STATIC FILES FROM HERE TO THERE
+## BUT FRANKLY I DON'T SEE WHY WE WOULD EVEN DO THAT
 FROM nginx:alpine
-
-# Copy the contents of the frontend directory to the Nginx HTML directory
-COPY ./ /var/www

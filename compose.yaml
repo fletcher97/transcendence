@@ -3,8 +3,6 @@ services:
     container_name: front
     build: ./front
     restart: always
-    volumes:
-      - front-volume:/var/www
     networks:
       - transcendence-net
 
@@ -16,7 +14,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - front-volume:/usr/share/nginx/html
+      - ./front:/usr/share/nginx/html
     depends_on:
       - front
     networks:
@@ -56,9 +54,9 @@ services:
     depends_on:
       - db
 
-volumes:
-  front-volume:
-    driver: local
+# volumes:
+#   front-volume:
+#     driver: local
 
 
 networks:

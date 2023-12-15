@@ -22,7 +22,7 @@ body {
 }
 
 h1.night-mode {
-    color: #ffffff;
+    color: #5596ff;
     text-shadow: 4px 4px 8px var(--accent-color);
 }
 
@@ -121,14 +121,18 @@ p {
 }
 
 .child2 {
-    transition-delay: 200ms;
+    transition-delay: 150ms;
 }
 
 .child3 {
-    transition-delay: 400ms;
+    transition-delay: 300ms;
 }
 
 .child4 {
+    transition-delay: 450ms;
+}
+
+.child5 {
     transition-delay: 600ms;
 }
 

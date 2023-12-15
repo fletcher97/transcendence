@@ -41,9 +41,10 @@ export default class LoginView {
   }
 
   async addEventListeners() {
-    window.onload = async () => {
-      await this.render("guestView");
-    };
+    // window.onload = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await this.render("guestView");
+    // };
     const moonButton = document.getElementById("moon-button");
     moonButton.addEventListener("click", () => {
       document.body.classList.toggle("night-mode");
