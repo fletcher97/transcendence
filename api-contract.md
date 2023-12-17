@@ -1,3 +1,5 @@
+# API CONTRACT
+
 ## Users
 
 * User object:
@@ -194,5 +196,5 @@ Deletes the specified friend from specified user's friend list.
 ## GET /rooms
 
 
-## GET /rooms:id
+## GET /rooms/:id
 
