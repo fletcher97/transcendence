@@ -1,3 +1,4 @@
+# API Contract
 
 #### Table of Contents
 - [Rest API HTTP Endpoints](#rest-api-http-endpoints)
