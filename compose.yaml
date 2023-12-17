@@ -30,11 +30,16 @@ services:
     container_name: back
     build:
       context: back
+    volumes:
+      - ./back/src:/srv:Z
     environment:
       - POSTGRES_HOST
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
+      - DJANGO_SUPERUSER_USERNAME
+      - DJANGO_SUPERUSER_PASSWORD
+      - DJANGO_SUPERUSER_EMAIL
     restart: always
     expose:
       - "8000"
