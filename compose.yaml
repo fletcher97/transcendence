@@ -54,11 +54,6 @@ services:
     depends_on:
       - db
 
-# volumes:
-#   front-volume:
-#     driver: local
-
-
 networks:
   transcendence-net:
     name: transcendence-net
