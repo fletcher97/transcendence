@@ -9,7 +9,8 @@
 		- [POST /users](#post-users)
 		- [POST /users/:id/friends](#post-usersidfriends)
 		- [POST /login](#post-login)
-		- [POST /register](#register)
+		- [POST /register](#post-register)
+		- [POST /logout/:id](#post-logoutid)
 		- [PATCH /users/:id](#patch-usersid)
 		- [DELETE /users/:id](#delete-usersid)
 		- [DELETE /users/:id/friends/:friendId](#delete-usersidfriendsfriendId)
@@ -198,7 +199,21 @@ Logs in a User and returns the user object.
 	- **Code:** 422  
 		- **Content:** `{ error : "Password doesn't meet requirements" }`  
 
+## **POST /logout/:id**
 
+Logs out specified user.
+
+- **URL Params**  
+    _Required:_ `id=[integer]`
+- **Headers**  
+    Content-Type: application/json
+- **Data Params**
+	None
+- **Success Response:**
+	- **Code:** 204
+- **Error Response:**
+	- **Code:** 404  
+		- **Content:** `{ error : "User doesn't exist" }`  
 
 ## **PATCH /users/:id**
 
@@ -263,7 +278,8 @@ Deletes the specified friend from the specified user's friend list.
 {
   id: int
   roomName: string
-  users: <user_objects>[]
+  users: <...user_object, readyToPlay: boolean>[]
+  status: "waiting" | "ready" | "playing"
   game: "classic-pong" | "meta-pong"
   created_at: datetime(iso 8601)
   updated_at: datetime(iso 8601)
@@ -336,7 +352,7 @@ Creates a new Room and returns the new object.
 
 ## PATCH /rooms/:id
 
-Makes field changes to specified room and returns updated object. For example, it can be used to add and remove users from a room.
+Makes field changes to specified room and returns updated object. For example, it can be used to add and remove users from a room or change room status to "ready".
 
 - **URL Params**  
     _Required:_ `id=[integer]`
@@ -350,6 +366,7 @@ Makes field changes to specified room and returns updated object. For example, i
 	  	<user_object>
 	  	...
 	  	]
+	status: "ready"
   }
 ```
 
