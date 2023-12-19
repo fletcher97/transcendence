@@ -11,8 +11,15 @@ up:
 down:
 	$(DOCKER_COMPOSE) down
 
-clear: down
-	docker system prune -af
+remove-images:
+	@docker rmi -f $$(docker images -q)
+
+remove-containers:
+	@docker container prune -f
+
+remove-all: remove-containers remove-images
+
+clear: down remove-all
 
 re: clear all
 
