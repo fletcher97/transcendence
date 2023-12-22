@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -40,7 +41,7 @@ def login_view(request: HttpRequest) -> JsonResponse:
             return (JsonResponse(data))
     return (render(request, "user/login.html"))
 
-@csrf_exempt
+@login_required
 def logout_view(request: HttpRequest) -> JsonResponse:
     logout(request)
     data = {
@@ -49,6 +50,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
             }
     return (JsonResponse(data))
 
+@csrf_exempt
 def register_user(request: HttpRequest) -> JsonResponse:
     form = UserCreationForm()
     if request.method == "POST":
