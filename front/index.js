@@ -1,13 +1,23 @@
-import HomeView from "./views/Home/View.js";
-import LoginView from "./views/Login/View.js";
+import HomeView from "./pages/Home/View.js";
+import LoginView from "./pages/Login/View.js";
 
 const switchRoute = (route) => {
   console.log("switching route to: ", route);
-  if (route === "/home") {
+  history.pushState({ route }, null, route);
+  console.log(history.state.route);
+  if (route === "/") {
     new HomeView(switchRoute);
   } else if (route === "/login") {
-    new LoginView(switchRoute);
+    if (history.state.route !== "/") {
+      new LoginView(switchRoute);
+    }
   }
+};
+
+window.onpopstate = (event) => {
+  console.log("event: ", event);
+  const route = event.state ? event.state.route : window.location.pathname;
+  switchRoute(route);
 };
 
 const initApp = () => {
@@ -15,7 +25,7 @@ const initApp = () => {
   let userId = "1234";
   if (userId === "123") {
     console.log("User is logged in. User ID:", userId);
-    switchRoute("/home");
+    switchRoute("/");
     // new DashboardView();
   } else {
     console.log("User is not logged in. User ID:", userId);

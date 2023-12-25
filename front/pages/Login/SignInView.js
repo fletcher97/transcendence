@@ -9,7 +9,6 @@ export class SignInView {
   }
 
   getHtml = async () => {
-    console.log("getting html");
     let template = `
       <h4>SIGN IN</h4>
       <input type="text" id="sign-in-username" name="username" placeholder="username">
@@ -59,7 +58,7 @@ export class SignInView {
         toastBootstrap.show();
         signInButton.innerHTML = Spinner();
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        this.switchRoute("/home");
+        this.switchRoute("/");
       }
     });
 

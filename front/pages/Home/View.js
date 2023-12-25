@@ -8,6 +8,7 @@ import { accentColor } from "../../../../assets/colors.js";
 
 export default class HomeView {
   constructor(switchRoute) {
+    console.log("home view constructor");
     // super();
     this.initialRender();
     this.activeTab = "dashboard-button";
@@ -33,6 +34,10 @@ export default class HomeView {
 
   async render(view) {
     await new Promise((resolve) => setTimeout(resolve, 100));
+    if (view === this.activeTab.toLowerCase()) {
+      // View is already active, no need to re-render
+      return;
+    }
     const homeContainer = document.getElementById("home-container");
     if (view === "dashboardView") {
       homeContainer.innerHTML = Spinner();
@@ -70,7 +75,7 @@ export default class HomeView {
     // addEventListener("DOMContentLoaded", async (event) => {
     // });
     // };
-    await this.render("dashboardView");
+
     // await new Promise((resolve) => setTimeout(resolve, 200));
     this.activeTabElement = document.getElementById(this.activeTab);
     // Add click event listener
@@ -94,6 +99,7 @@ export default class HomeView {
 
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
+    console.log("initial render");
     const content = document.getElementById("content");
     if (content) {
       content.innerHTML = `
@@ -130,6 +136,7 @@ export default class HomeView {
         </div>
           
           `;
+      await this.render("dashboardView");
       this.addEventListeners();
       // <canvas id="three-canvas"></canvas>
     }

@@ -15,7 +15,6 @@ export class GuestLoginView {
   };
 
   addEventListeners = async () => {
-    console.log("adding event listeners");
     await new Promise((resolve) => setTimeout(resolve, 100));
     // const audio = new Audio("assets/kick.wav");
     let playButton = document.querySelector("#play-btn");
@@ -35,7 +34,7 @@ export class GuestLoginView {
       audio.play();
       playButton.innerHTML = Spinner();
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      this.switchRoute("/home");
+      this.switchRoute("/");
     });
 
     const signInLink = document.querySelector("#sign-in-link");
@@ -45,7 +44,6 @@ export class GuestLoginView {
     });
 
     const hiddenElements = document.querySelectorAll(".hidden");
-    console.log(hiddenElements);
     let i = 1;
     hiddenElements.forEach((element) => {
       element.classList.add("child" + i);
@@ -66,7 +64,6 @@ export class GuestLoginView {
   };
 
   getHtml = async () => {
-    console.log("getting html");
     let template = "";
     if (this.firstRender) {
       template = `

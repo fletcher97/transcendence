@@ -10,7 +10,6 @@ import { accentColor } from "../../../../assets/colors.js";
 export default class LoginView {
   constructor(switchRoute) {
     // super();
-    console.log("switchRoute in loginview: ", switchRoute);
     this.guestLoginViewInstance = new GuestLoginView(
       switchRoute,
       this.render.bind(this)
@@ -31,12 +30,12 @@ export default class LoginView {
       loginContainer.innerHTML = Spinner();
       const content = await this.guestLoginViewInstance.renderView();
       loginContainer.innerHTML = content;
-      this.guestLoginViewInstance.addEventListeners();
+      // this.guestLoginViewInstance.addEventListeners();
     } else if (view === "signInView") {
       loginContainer.innerHTML = Spinner();
       const content = await this.signInViewInstance.renderView();
       loginContainer.innerHTML = content;
-      this.signInViewInstance.addEventListeners();
+      // this.signInViewInstance.addEventListeners();
     }
   }
 
