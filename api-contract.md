@@ -299,7 +299,7 @@ when the game starts, it will change to `playing`.
 
 - **timer**: the timer server to represent how long a play has been on. Before the game starts it will have a negative value signifying how long it will be until the game starts. Once the game starts it will count how long the game has been on for.
 
-## GET /pong/get_rooms
+## GET /pong/rooms
 
 A list with [rooms](#rooms) will returned
 
