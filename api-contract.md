@@ -14,16 +14,8 @@
 		- [PATCH /users/:id](#patch-usersid)
 		- [DELETE /users/:id](#delete-usersid)
 		- [DELETE /users/:id/friends/:friendId](#delete-usersidfriendsfriendId)
-	- [Rooms](#rooms)
-		- [GET /rooms](#get-rooms)
-		- [GET /rooms/:id](#get-roomsid")
-		- [POST /rooms](#post-rooms)
-		- [PATCH /rooms/:id](#patch-roomsid)
-		- [DELETE /rooms/:id](#delete-roomsid)
 - [Web Socket endpoints](#web-socket-endpoints)
-	- [/ws/dashboard](#wsdashboard)
-	- [/ws/room](#wsroom)
-	- [/ws/game](#wsgame)
+	- [Rooms](#rooms)
 # Rest API HTTP Endpoints
 This section outlines the paths to HTTP endpoints and their expected data shapes, behaviour, parameters and responses.
 ## Users
@@ -276,139 +268,56 @@ Deletes the specified friend from the specified user's friend list.
 * Room object:
 ``` 
 {
-  id: int
-  roomName: string
-  users: <...user_object, readyToPlay: boolean>[]
-  status: "waiting" | "ready" | "playing"
-  game: "classic-pong" | "meta-pong"
-  created_at: datetime(iso 8601)
-  updated_at: datetime(iso 8601)
+	name: string
+	spectators: int
+	players: {
+		p1: None | {
+			position: int
+			points: int
+			paddle_height: int
+		}
+		p2: None | {
+			position: int
+			points: int
+			paddle_height: int
+		}
+	}
+	state: "waiting" | "ready" | "playing"
+	timer: float
 }
 ```
 
-## GET /rooms
+- **name**: This is the name of the room
 
-Returns all rooms.
+- **spectators**: This is the amount of spectators currently watching the game.
 
-- **URL Params**
-    None
-- **Data Params**  
-	None
-- **Headers**  
-    Content-Type: application/json
-- **Success Response:**
-	- **Code:** 200  
-		* ***Content:**
+- **players**: the `players` field contains 2 entries. One for each player. It will have the information about a player if they are present.
+Otherwise none will be present.
+
+- **state**: When a room is created it will be in `waiting` state. Once all player spots have been filled it will change to `ready`. Finally,
+when the game starts, it will change to `playing`.
+
+- **timer**: the timer server to represent how long a play has been on. Before the game starts it will have a negative value signifying how long it will be until the game starts. Once the game starts it will count how long the game has been on for.
+
+## GET /pong/get_rooms
+
+A list with [rooms](#rooms) will returned
+
+# Web Socket endpoints
+
+All game communication is done through websockets. They allow for a live connection to keep streaming data both ways and thus
+play the game. From the moment a player enters a room a websocket is created to handle all communication.
+
+Rooms are where player play the games. Players can join a room by creating a websocket and specifying the room they wish to connect to.
+The endpoint would be `/ws/pong/<room_name>`. If the room exists, the player will join it. If it doesn't one will be created.
+
+During the game, the room state will be constantly shared with all connected clients. All communication from spectators will be ignored. The
+players however can send movement instructions. For that a json with the following format should be sent through the websoket:
+
 ```
 {
-  rooms: [
-           {<room_object>},
-           {<room_object>},
-           {<room_object>}
-         ]
+	"move": int
 }
 ```
 
-
-## GET /rooms/:id
-
-Returns the specified room.
-
-- **URL Params**  
-    _Required:_ `id=[integer]`
-- **Data Params**  
-    None
-- **Headers**  
-    Content-Type: application/json  
-- **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <room_object> }`
-- **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "Room doesn't exist" }`  
-
-## **POST /rooms**
-
-Creates a new Room and returns the new object.
-
-- **URL Params**  
-    None
-- **Headers**  
-    Content-Type: application/json
-- **Data Params**
-
-```
-  {
-    <room_object>
-  }
-```
-
-- **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <room_object> }`
-- **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "Room doesn't exist" }`  
-
-## PATCH /rooms/:id
-
-Makes field changes to specified room and returns updated object. For example, it can be used to add and remove users from a room or change room status to "ready".
-
-- **URL Params**  
-    _Required:_ `id=[integer]`
-- **Data Params**
-	one or more user fields, for example:
-```
-  {
-  	users: [
-	  	<user_object>
-	  	<user_object>
-	  	<user_object>
-	  	...
-	  	]
-	status: "ready"
-  }
-```
-
-- **Headers**  
-    Content-Type: application/json  
-- **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <room_object> }`
-- **Error Response:**
-	- **Code:** 404  
-		- ***Content:** `{ error : "Room doesn't exist" }`  
-
-## DELETE /rooms/:id
-
-Deletes the specified room.
-
-- **URL Params**  
-    _Required:_ `id=[integer]`
-- **Data Params**  
-    None
-- **Headers**  
-    Content-Type: application/json  
-- **Success Response:**
-	- **Code:** 204
-- **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "Room doesn't exist" }`  
-
-
-# Web Socket Endpoints
-
-This section outlines the paths to Web Socket endpoints and their expected data shapes, behaviour, parameters and responses.
-
-## /ws/dashboard
-
-Gives back real time general dashboard data such as numbers of users logged in, open rooms, friends online, etc.
-
-## /ws/room
-
-Gives back `<room_object>` each time it changes.
-
-## /ws/game
-
-(Could be integrated into /ws/room-state?)
-Gives back `<game_object>`(or `<room_object>`?) each time it changes.
+- **move**: Move must be either `1` or `-1` that represent respectively up and down.
