@@ -2,6 +2,7 @@
 
 :root {
     --blue: #4988FF;
+    --dark-blue: #2E4257;
     --pink: #FF47AE;
     --light-pink: #F0EEF6;
 
@@ -10,8 +11,8 @@
     --accent-color: var(--pink);
 }
 body {
-    background-color: #49627C;
     background-color: var(--background-color);
+    background-color: #344C65;
     font-family: 'Orbitron', sans-serif;
     color: var(--accent-color);
     cursor: url('./icons8-cursor-48.png'), none;
@@ -57,9 +58,10 @@ h1.night-mode {
 
 h1 {
     color: var(--primary-color);
+    color: white;
     /* color: white; */
     font-size: 80px;
-    text-shadow: 2px 2px 4px var(--accent-color);
+    text-shadow: 2px 2px 4px var(--primary-color);
     }
 
 h3 {
@@ -77,6 +79,7 @@ h3 {
 }
 p {
     color: var(--accent-color);
+    color: white;
     margin-bottom: 0;
     }
     
@@ -163,3 +166,25 @@ p {
   .toast-container.toast-green, .toast-header.toast-green {
     color: green;
   }
+
+.nav-item {
+    color: white;
+    font-size: 14px;
+}
+
+.nav-item:hover {
+    opacity: 1;
+}
+
+.rooms-container {
+    background-color: var(--dark-blue);
+    /* make it a scrollable container with fixed height */
+
+}
+
+.rooms-rows-container {
+    max-height: 40vh;
+    overflow-y: scroll;
+    /* hide scrollbar */
+    scrollbar-width: none;
+}

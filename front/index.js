@@ -3,8 +3,12 @@ import LoginView from "./pages/Login/View.js";
 
 const switchRoute = (route) => {
   console.log("switching route to: ", route);
-  history.pushState({ route }, null, route);
-  console.log(history.state.route);
+
+  if (window.location.pathname === "/login") {
+    history.replaceState(null, "", "/");
+  } else {
+    history.pushState({ route }, null, route);
+  }
   if (route === "/") {
     new HomeView(switchRoute);
   } else if (route === "/login") {
@@ -17,12 +21,15 @@ const switchRoute = (route) => {
 window.onpopstate = (event) => {
   console.log("event: ", event);
   const route = event.state ? event.state.route : window.location.pathname;
-  switchRoute(route);
+
+  if (window.location.pathname !== "/login") {
+    switchRoute(route);
+  }
 };
 
 const initApp = () => {
   // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
-  let userId = "1234";
+  let userId = "123";
   if (userId === "123") {
     console.log("User is logged in. User ID:", userId);
     switchRoute("/");

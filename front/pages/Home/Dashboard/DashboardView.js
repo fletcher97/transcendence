@@ -9,6 +9,11 @@ export default class DashboardView {
       { name: "room1", numPlayers: 2, game: "classic pong" },
       { name: "room2", numPlayers: 3, game: "meta pong" },
       { name: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
+      { name: "room3", numPlayers: 4, game: "classic pong" },
     ];
   }
 
@@ -19,10 +24,10 @@ export default class DashboardView {
   };
 
   addEventListeners = async () => {
-    const roomsSeeAllBtn = document.getElementById("rooms-see-all-btn");
-    roomsSeeAllBtn.addEventListener("click", () => {
-      this.switchView("roomsView");
-    });
+    // const roomsSeeAllBtn = document.getElementById("rooms-see-all-btn");
+    // roomsSeeAllBtn.addEventListener("click", () => {
+    //   this.switchView("roomsView");
+    // });
   };
 
   getHtml = async () => {
@@ -43,16 +48,20 @@ export default class DashboardView {
       </div>
     </div>
     <div style="height:40px"></div>
+    <div class="d-flex gap-5 rooms-container">
+
+    <div style="height:40px"></div>
     <div class="d-flex justify-content-between">
-      <div class="card row justify-content-between" style="height: 25rem;background-color: ${backgroundAccentColor};width:25%">
-        <div class="row">
-          <h1 style="font-size: 42px" class="card-title">ROOMS</h1>
+    <div class="row justify-content-between" style="width:100%">
+    <h1 style="font-size: 42px" class="py-3">PLAY</h1>
+      <div class="d-flex">
+        <p>players</p>
+      </div>
+        <div class="row rooms-rows-container">
           ${this.rooms.map((room) => DashboardRoomBox({ room: room })).join("")}
         </div>
-        <h2 id="rooms-see-all-btn" href="#" class="btn text-right">SEE ALL</h2>
+      <p class="btn active" style="font-size: 26px">CREATE NEW ROOM</p>
       </div>
-      <div class="card" style="height: 25rem;background-color: ${backgroundAccentColor};width:25%"></div>
-      <div class="card" style="height: 25rem;background-color: ${backgroundAccentColor};width:25%"></div>
     </div>
     </div>`;
   };

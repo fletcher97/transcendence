@@ -68,7 +68,7 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    const roomsButton = document.querySelector("#rooms-button");
+    // const roomsButton = document.querySelector("#rooms-button");
     const logoutButton = document.querySelector("#log-out-btn");
     const profileButton = document.querySelector("#profile-button");
     // window.onload = async () => {
@@ -83,16 +83,20 @@ export default class HomeView {
       this.toggleTab(dashboardButton);
       this.render("dashboardView");
     });
-    roomsButton.addEventListener("click", () => {
-      this.toggleTab(roomsButton);
-      this.render("roomsView");
-    });
+    // roomsButton.addEventListener("click", () => {
+    //   this.toggleTab(roomsButton);
+    //   this.render("roomsView");
+    // });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
+      // push state to route == "/profile"
+      const route = "/profile";
+      history.pushState({ route }, null, route);
       this.render("profileView");
     });
     logoutButton.addEventListener("click", () => {
       localStorage.clear();
+      history.replaceState(null, "", "/");
       this.switchRoute("/login");
     });
   }
@@ -118,17 +122,21 @@ export default class HomeView {
                 "username"
               )}!</b></p>
               </div>
-            <p class="btn active" id="log-out-btn">log out</p>
+            
+          <div class="d-flex align-items-center">
+          <h2 id="dashboard-button" class="btn nav-item">DASHBOARD</h2>
+          <h2 class="mx-2 btn inactive nav-item">FRIENDS</h2>
+          <h2 id="profile-button" class="mx-2 btn inactive nav-item">MY PROFILE</h2>
+          <p class="btn active" id="log-out-btn">log out</p>
+          <div style="border-radius: 50%;overflow: hidden">
+            <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40" style="object-fit:cover"/>
           </div>
+          </div>
+          </div>  
           <div style="height:50px"></div>
           <div class="container row px-5">
           <div class="container row d-flex align-items-center">
-          <div class="d-flex align-items-center">
-          <h2 id="dashboard-button" class="btn" style="color: ${"black"}">DASHBOARD</h2>
-          <h2 id="rooms-button" class="mx-5 btn inactive" style="color: ${"black"}">ROOMS</h2>
-          <h2 class="mx-5 btn inactive" style="color: ${"black"}">FRIENDS</h2>
-          <h2 id="profile-button" class="mx-5 btn inactive" style="color: ${"black"}">MY PROFILE</h2>
-          </div>
+          
           <hr class="w-100 border-2" />
           <div id="home-container"></div> 
           </div>
