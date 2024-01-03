@@ -11,16 +11,30 @@ export const DashboardRoomBox = ({ room }) => {
   console.log("room count rectangles: ", roomCountRectangles);
 
   return `
-      <div class="py-3 rounded-lg d-flex justify-content-between align-items-center border">
-      <div class="d-flex align-items-center">
-      ${roomCountRectangles.map((fill) => RoomCountRectangle(fill))}
-      </div>
-        <p style="font-size: 15px;width: 30px">${room.game}</p>
-        <p style="font-size: 15px">${room.name}</p>
-        <p style="font-size: 15px">${room.numPlayers}</p>
-        <div class="d-flex align-items-center">
-          <a style="font-size: 15px" class="btn">WATCH</a>
-          <a style="font-size: 15px" class="btn active">JOIN</a>
+      <div class="py-2 rounded-lg d-flex justify-content-between align-items-center border">
+      <div class="container">
+      <div class="row align-items-center">
+        <div class="col-2">
+          <div class="d-flex align-items-center">
+            ${roomCountRectangles.map((fill) => RoomCountRectangle(fill))}
+          </div>
+        </div>
+          <div class="col-2">
+          <p style="font-size: 15px;width: 30px">${room.game}</p>
+          </div>
+          <div class="col-2">
+          <p style="font-size: 15px">${room.name}</p>
+          </div>
+          <div class="col-2">
+          <p style="font-size: 15px">${room.numPlayers}</p>
+          </div>
+          <div class="col-4">
+            <div class="d-flex align-items-center justify-content-end">
+              <a style="font-size: 15px" class="btn">WATCH</a>
+              <a style="font-size: 15px" class="btn active">JOIN</a>
+            </div>
+          </div>
+          </div>
         </div>
       </div>
       `;

@@ -57,6 +57,7 @@ h1.night-mode {
 
 
 h1 {
+    
     color: var(--primary-color);
     color: white;
     /* color: white; */
@@ -79,7 +80,7 @@ h3 {
 }
 p {
     color: var(--accent-color);
-    color: white;
+    color: rgb(236, 236, 236);
     margin-bottom: 0;
     }
     
@@ -178,6 +179,7 @@ p {
 
 .rooms-container {
     background-color: var(--dark-blue);
+    height: 60vh;
     /* make it a scrollable container with fixed height */
 
 }
@@ -186,5 +188,9 @@ p {
     max-height: 40vh;
     overflow-y: scroll;
     /* hide scrollbar */
-    scrollbar-width: none;
+    /* scrollbar-width: none; */
+}
+
+.modal-container {
+    background-color: var(--dark-blue);
 }
