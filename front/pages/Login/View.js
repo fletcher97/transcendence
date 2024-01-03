@@ -1,6 +1,6 @@
 import Toast from "../../../../components/Toast.js";
 import { GuestLoginView } from "./GuestLoginView.js";
-import { drawPongBackground } from "../../../../scripts/drawPongBackground.js";
+// import { drawPongBackground } from "../../../../scripts/drawPongBackground.js";
 import Spinner from "../../../../components/Spinner.js";
 import { SignInView } from "./SignInView.js";
 import { accentColor } from "../../../../assets/colors.js";

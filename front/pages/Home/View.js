@@ -7,16 +7,17 @@ import ProfileView from "./Profile/ProfileView.js";
 import { accentColor } from "../../../../assets/colors.js";
 
 export default class HomeView {
-  constructor(switchRoute) {
-    console.log("home view constructor");
+  constructor(switchRoute, room) {
     // super();
     this.initialRender();
+    this.room = room;
     this.activeTab = "dashboard-button";
     this.activeTabElement;
     this.switchRoute = switchRoute;
     this.dashboardViewInstance = new DashboardView(
       switchRoute,
-      this.render.bind(this)
+      this.render.bind(this),
+      this.room
     );
     this.roomsViewInstance = new RoomsView(switchRoute, this.render.bind(this));
     this.profileViewInstance = new ProfileView(

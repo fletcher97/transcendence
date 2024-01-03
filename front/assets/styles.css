@@ -18,6 +18,10 @@ body {
     cursor: url('./icons8-cursor-48.png'), none;
 }
 
+.game-bg {
+    background-color: var(--dark-blue);
+}
+
 .night-mode {
     background-color: #49627C;
 }

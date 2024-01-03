@@ -3,7 +3,8 @@ import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js"
 import FRONT_ENV from "../../../config.js";
 
 export default class DashboardView {
-  constructor(switchRoute, switchView) {
+  constructor(switchRoute, switchView, room) {
+    this.room = room;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
     this.rooms = [
@@ -41,6 +42,7 @@ export default class DashboardView {
       // For example, you can retrieve the input value and perform an action
       const gameName = document.getElementById("game-name").value;
       console.log("Game Name:", gameName);
+      this.room = { name: gameName };
 
       const socket = new WebSocket(
         `${FRONT_ENV.WEB_SOCKET_URL}/pong/room/${gameName}`
@@ -62,7 +64,7 @@ export default class DashboardView {
             modalBackdrop.parentNode.removeChild(modalBackdrop);
           }
         }
-        // this.switchRoute("/login");
+        this.switchRoute("/game");
       });
 
       // Close the modal if needed
