@@ -1,13 +1,15 @@
 // import AbstractView from "../AbstractView.js";
 
-import { playPong } from "/scripts/pongGame.js";
+import { drawPong } from "/scripts/drawPong.js";
+import FRONT_ENV from "../../config.js";
 
 export default class GameView {
   constructor(switchRoute, room) {
     // super();
     console.log("room in game view: ", room);
-    this.initialRender();
     this.room = room;
+    this.initialRender();
+    console.log("this.room: ", this.room);
     this.activeTab = "dashboard-button";
     this.activeTabElement;
     this.switchRoute = switchRoute;
@@ -15,12 +17,31 @@ export default class GameView {
 
   async render(view) {}
 
-  async addEventListeners() {
+  addEventListeners = async () => {
+    console.log("this.room in addEvent: ", this.room);
     // dom
-    document.addEventListener("DOMContentLoaded", () => {
-      playPong();
+    const socket = new WebSocket(
+      `${FRONT_ENV.WEB_SOCKET_URL}/pong/room/${this.room.name}`
+    );
+    socket.addEventListener("open", (event) => {
+      console.log("WebSocket connection opened");
+
+      // Example: Send a message to the server
+
+      const message = { room_name: this.room.name };
+      socket.send(JSON.stringify(message));
+
+      socket.addEventListener("message", (event) => {
+        const receivedMessage = JSON.parse(event.data);
+        console.log("Received message:", receivedMessage);
+        // Process the received message as needed
+        drawPong(receivedMessage);
+      });
     });
-  }
+    // document.addEventListener("DOMContentLoaded", () => {
+    //   playPong();
+    // });
+  };
 
   //   <audio controls autoplay style="display:none">
   //   <source src="/assets/lcd.mp3" type="audio/mp3">

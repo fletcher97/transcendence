@@ -1,6 +1,6 @@
 import { backgroundAccentColor } from "../../../../../assets/colors.js";
 import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js";
-import FRONT_ENV from "../../../config.js";
+
 
 export default class DashboardView {
   constructor(switchRoute, switchView, room) {
@@ -44,28 +44,18 @@ export default class DashboardView {
       console.log("Game Name:", gameName);
       this.room = { name: gameName };
 
-      const socket = new WebSocket(
-        `${FRONT_ENV.WEB_SOCKET_URL}/pong/room/${gameName}`
-      );
-      socket.addEventListener("open", (event) => {
-        console.log("WebSocket connection opened");
-
-        // Example: Send a message to the server
-        const message = { room_name: gameName };
-        socket.send(JSON.stringify(message));
-        const modal = document.getElementById("exampleModal2");
-        if (modal) {
-          modal.classList.remove("show");
-          modal.setAttribute("aria-hidden", "true");
-          modal.setAttribute("style", "display: none");
-          document.body.classList.remove("modal-open");
-          const modalBackdrop = document.querySelector(".modal-backdrop");
-          if (modalBackdrop) {
-            modalBackdrop.parentNode.removeChild(modalBackdrop);
-          }
+      const modal = document.getElementById("exampleModal2");
+      if (modal) {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+        modal.setAttribute("style", "display: none");
+        document.body.classList.remove("modal-open");
+        const modalBackdrop = document.querySelector(".modal-backdrop");
+        if (modalBackdrop) {
+          modalBackdrop.parentNode.removeChild(modalBackdrop);
         }
-        this.switchRoute("/game");
-      });
+      }
+      this.switchRoute("/game");
 
       // Close the modal if needed
       // modal.hide();

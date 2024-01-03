@@ -1,4 +1,5 @@
-export const playPong = () => {
+export const drawPong = (room) => {
+  console.log("room in drawPong: ", room);
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
 
@@ -90,7 +91,6 @@ export const playPong = () => {
   function gameLoop() {
     update();
     render();
-    requestAnimationFrame(gameLoop);
   }
 
   gameLoop();
