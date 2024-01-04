@@ -6,7 +6,6 @@ import FRONT_ENV from "../../config.js";
 export default class GameView {
   constructor(switchRoute, room) {
     // super();
-    console.log("room in game view: ", room);
     this.room = room;
     this.initialRender();
     console.log("this.room: ", this.room);
@@ -18,6 +17,8 @@ export default class GameView {
   async render(view) {}
 
   addEventListeners = async () => {
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
     console.log("this.room in addEvent: ", this.room);
     // dom
     const socket = new WebSocket(
@@ -27,15 +28,14 @@ export default class GameView {
       console.log("WebSocket connection opened");
 
       // Example: Send a message to the server
-
       const message = { room_name: this.room.name };
       socket.send(JSON.stringify(message));
 
       socket.addEventListener("message", (event) => {
         const receivedMessage = JSON.parse(event.data);
-        console.log("Received message:", receivedMessage);
+        console.log("Message from server ", receivedMessage);
         // Process the received message as needed
-        drawPong(receivedMessage);
+        drawPong(receivedMessage, canvas, ctx);
       });
     });
     // document.addEventListener("DOMContentLoaded", () => {
