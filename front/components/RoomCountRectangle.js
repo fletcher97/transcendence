@@ -19,7 +19,7 @@ export const RoomCountRectangle = (fill) => {
       <g
         id="DASHBOARD-DARK-2"
         transform="translate(-87.000000, -369.000000)"
-        fill=${fill ? "#E955AA" : "#FFFFFF"}
+        fill=${fill ? "#d73993" : "#FFFFFF"}
         stroke="#979797"
       >
         <g id="rooms-rectangle" transform="translate(52.000000, 186.000000)">

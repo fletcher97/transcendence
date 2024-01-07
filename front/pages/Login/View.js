@@ -63,7 +63,7 @@ export default class LoginView {
 
       <div class="container d-flex align-items-center justify-content-center" style="height: 95vh;">
         <div class="row justify-content-center">
-          <h1 class="hidden text-center">METAPONG</h1>
+          <h1 class="hidden text-center glow">42-PONG</h1>
           <div id="login-container" class="col-md-8 d-flex flex-column justify-content-center gap-2 align-items-center">
           </div>
         </div>

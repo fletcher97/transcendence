@@ -2,8 +2,9 @@
 
 :root {
     --blue: #4988FF;
+    --bg-blue: 344C65;
     --dark-blue: #2E4257;
-    --pink: #FF47AE;
+    --pink: #d73993;
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);
@@ -12,7 +13,9 @@
 }
 body {
     background-color: var(--background-color);
-    background-color: #344C65;
+    background-color:   var(--dark-blue);
+    background-color: rgb(20, 20, 30);
+    background-color: #1f2d3d;
     font-family: 'Orbitron', sans-serif;
     color: var(--accent-color);
     cursor: url('./icons8-cursor-48.png'), none;
@@ -61,13 +64,25 @@ h1.night-mode {
 
 
 h1 {
-    
     color: var(--primary-color);
     color: white;
     /* color: white; */
     font-size: 80px;
-    text-shadow: 2px 2px 4px var(--primary-color);
+    color: var(--primary-color);
+    color: rgb(0, 132, 255);
+    color: var(--accent-color);
+    text-shadow: 0px 0px 4px var(--accent-color);
     }
+
+.glow {
+    text-shadow:
+    /* 0 0 1px white, */
+    0 0 1px whitesmoke,
+    /* 0 0 2px whitesmoke, */
+    0 0 10px var(--accent-color),
+    0 0 21px var(--accent-color),
+    0 0 40px var(--accent-color);
+}
 
 h3 {
     color: var(--accent-color);
@@ -78,18 +93,28 @@ h3 {
     
     h4 {
         color: white;
-        color: var(--accent-color);
         font-size: 18px;
+        text-shadow: 1px 1px 4px rgb(0, 132, 255);
+        color: var(--accent-color);
+        color: rgb(0, 132, 255);
         text-shadow: 1px 1px 6px var(--accent-color);
 }
 p {
     color: var(--accent-color);
     color: rgb(236, 236, 236);
     margin-bottom: 0;
-    }
-    
-    a {
-        color: var(--accent-color);
+}
+
+a {
+    color: var(--accent-color);
+        color: rgb(236, 236, 236);
+        color: rgb(0, 132, 255);
+        text-shadow: 1px 1px 4px rgb(0, 132, 255);
+}
+
+b {
+    color: rgb(0, 132, 255);
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 /* #CLASSIC-PONG {
             /* color: var(--accent-color); */
@@ -182,8 +207,11 @@ p {
 }
 
 .rooms-container {
-    background-color: var(--dark-blue);
     height: 60vh;
+    box-shadow: 0px 0px 1px 1px var(--dark-blue);
+    background-color: #1c2835;
+    background-color: var(--dark-blue);
+    /* border: 10px solid var(--dark-blue); */
     /* make it a scrollable container with fixed height */
 
 }
@@ -197,4 +225,21 @@ p {
 
 .modal-container {
     background-color: var(--dark-blue);
+}
+
+.game-panel {
+    background-color: var(--dark-blue);
+    /* width: 20%; */
+}
+
+#game-canvas {
+    height: 100vh;
+    border: 1px solid var(--accent-color);
+    box-shadow: 1px 2px 3px var(--accent-color);
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* box-sizing: border-box; */
+    /* border box thing */
+    /* width: 80vw; */
 }

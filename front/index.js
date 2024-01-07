@@ -36,7 +36,7 @@ window.onpopstate = (event) => {
 
 const initApp = () => {
   // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
-  let userId = "12345";
+  let userId = "123";
   if (userId === "123") {
     console.log("User is logged in. User ID:", userId);
     switchRoute("/");

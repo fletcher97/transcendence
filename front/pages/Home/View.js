@@ -117,8 +117,8 @@ export default class HomeView {
         <div class="container row min-vw-100">
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
-              <div style="border-radius: 50%;overflow: hidden">
-                <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+            <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
+                <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
               <p class="ml-1">welcome back, <b>${localStorage.getItem(
                 "username"
@@ -130,8 +130,8 @@ export default class HomeView {
           <h2 class="mx-2 btn inactive nav-item">FRIENDS</h2>
           <h2 id="profile-button" class="mx-2 btn inactive nav-item">MY PROFILE</h2>
           <p class="btn active" id="log-out-btn">log out</p>
-          <div style="border-radius: 50%;overflow: hidden">
-            <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+          <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
+            <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
           </div>
           </div>
           </div>  

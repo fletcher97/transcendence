@@ -17,18 +17,18 @@ export default class GameView {
   async render(view) {}
 
   addEventListeners = async () => {
-    const canvas = document.getElementById("gameCanvas");
+    const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     console.log("this.room in addEvent: ", this.room);
+
     // dom
     const socket = new WebSocket(
       `${FRONT_ENV.WEB_SOCKET_URL}/pong/room/${this.room.name}`
     );
     socket.addEventListener("open", (event) => {
       console.log("WebSocket connection opened");
-
       // Example: Send a message to the server
-      const message = { room_name: this.room.name };
+      const message = { type: "connect", room_name: this.room.name };
       socket.send(JSON.stringify(message));
 
       socket.addEventListener("message", (event) => {
@@ -37,16 +37,20 @@ export default class GameView {
         // Process the received message as needed
         drawPong(receivedMessage, canvas, ctx);
       });
+      // send socket message on kew up or down
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          const key = event.key === "ArrowUp" ? 1 : -1;
+          const message = {
+            type: "movement",
+            key: key,
+          };
+          console.log("inside keydown");
+          socket.send(JSON.stringify(message));
+        }
+      });
     });
-    // document.addEventListener("DOMContentLoaded", () => {
-    //   playPong();
-    // });
   };
-
-  //   <audio controls autoplay style="display:none">
-  //   <source src="/assets/lcd.mp3" type="audio/mp3">
-  //   Your browser does not support the audio element.
-  // </audio>
 
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
@@ -55,7 +59,16 @@ export default class GameView {
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">
-        <canvas id="gameCanvas" width="800" height="800"></canvas>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="min-vh-100 container d-flex row justify-content-between game-panel">
+            <h2>${this.room.name}</h2>
+            <h2>yo</h2>
+            <button id="game-ready-btn" class="btn" style="background-color:#FF47AE">Ready?</button>
+          </div>
+          <div class="">
+            <canvas id="game-canvas" width="700" height="500"></canvas>
+          </div>
+        </div>
       </div>
           
           `;

@@ -1,5 +1,18 @@
+import { primaryColor, accentColor } from "../../../assets/colors.js";
+
 export const drawPong = (gameState, canvas, ctx) => {
   console.log("gameState in drawPong: ", gameState);
+
+  // Game variables
+  const paddleWidth = 10;
+  const paddleHeight = gameState.players.p1.paddle_height;
+  const ballSize = 10;
+  console.log("canvas: ", canvas.width);
+
+  let player1Y = gameState.players.p1.position - paddleHeight / 2;
+  let player2Y = gameState.players.p2.position - paddleHeight / 2;
+  let ballX = canvas.width / 2;
+  let ballY = canvas.height / 2;
 
   // Function to draw paddles
   function drawPaddle(x, y) {
@@ -16,7 +29,7 @@ export const drawPong = (gameState, canvas, ctx) => {
   }
 
   function drawBackground() {
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#344C65";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
@@ -28,20 +41,16 @@ export const drawPong = (gameState, canvas, ctx) => {
     // Draw paddles
     drawPaddle(0, player1Y);
     drawPaddle(canvas.width - paddleWidth, player2Y);
+    ctx.font = "10px Arial";
+    ctx.fillStyle = "pink";
+
+    // Draw text on the canvas
+    ctx.fillText("score: 1", 30, 20);
 
     // Draw the ball
     drawBall(ballX, ballY);
   }
 
-  // Game variables
-  const paddleWidth = 10;
-  const paddleHeight = gameState.players.p1.paddle_height;
-  const ballSize = 10;
-
-  let player1Y = canvas.height / 2 - paddleHeight / 2;
-  let player2Y = canvas.height / 2 - paddleHeight / 2;
-  let ballX = canvas.width / 2;
-  let ballY = canvas.height / 2;
   render();
 
   // Main game loop

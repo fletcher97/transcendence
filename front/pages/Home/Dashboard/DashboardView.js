@@ -82,7 +82,7 @@ export default class DashboardView {
           </div>
 
           <div class="modal-footer">
-            <button id="submit-btn" type="submit" class="btn btn-secondary">Create Game</button>
+            <button id="submit-btn" type="submit" class="btn btn-primary">Create Game</button>
           </div>
         </form>
           </div>
@@ -115,8 +115,8 @@ export default class DashboardView {
       <div class="d-flex m-0 p-0">
         <div class="row" style="">
           <div class="d-flex justify-content-between">
-            <h1 style="font-size: 42px" class="">PLAY</h1>
-            <button class="btn active btn-sm m-0" data-bs-toggle="modal" data-bs-target="#exampleModal2">CREATE GAME</button>
+            <h1 style="font-size: 42px" class="glow">PLAY</h1>
+            <button class="btn active btn-sm m-0 " data-bs-toggle="modal" data-bs-target="#exampleModal2">CREATE GAME</button>
           </div>
           <div class="container">
             <div class="row px-4">
