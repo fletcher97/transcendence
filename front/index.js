@@ -1,6 +1,7 @@
 import GameView from "./pages/Game/View.js";
 import HomeView from "./pages/Home/View.js";
 import LoginView from "./pages/Login/View.js";
+import DEV_ENV from "./config.js";
 
 let room = { name: "myRoom" };
 
@@ -36,15 +37,15 @@ window.onpopstate = (event) => {
 
 const initApp = () => {
   // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
-  let userId = "123";
-  if (userId === "123") {
-    console.log("User is logged in. User ID:", userId);
+  const id = DEV_ENV.USER_EXAMPLE.id;
+  if (id === "123") {
+    console.log("User is logged in. User ID:", id);
     switchRoute("/");
     // new DashboardView();
-  } else if (userId === "12345") {
+  } else if (id === "12345") {
     switchRoute("/game");
   } else {
-    console.log("User is not logged in. User ID:", userId);
+    console.log("User is not logged in. User ID:", id);
     switchRoute("/login");
     // new LoginView(switchRoute);
   }

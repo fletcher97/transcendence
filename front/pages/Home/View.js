@@ -126,13 +126,10 @@ export default class HomeView {
               </div>
             
           <div class="d-flex align-items-center">
-          <h2 id="dashboard-button" class="btn nav-item">DASHBOARD</h2>
-          <h2 class="mx-2 btn inactive nav-item">FRIENDS</h2>
-          <h2 id="profile-button" class="mx-2 btn inactive nav-item">MY PROFILE</h2>
+          <b><h2 id="dashboard-button" class="nav-item">DASHBOARD</h2></b>
+          <b><h2 class="mx-2 inactive nav-item">FRIENDS</h2></b>
+          <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
           <p class="btn active" id="log-out-btn">log out</p>
-          <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-            <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
-          </div>
           </div>
           </div>  
           <div style="height:50px"></div>

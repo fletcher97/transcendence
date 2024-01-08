@@ -69,9 +69,7 @@ export class GuestLoginView {
       template = `
       <h4 class="hidden">PLAY AS GUEST</h4>
         <input class="hidden" type="text" id="username" name="username" placeholder="Enter your username">
-          <div id="btn-container" class="row">
-            <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
-          </div>
+            <button id="play-btn" class="btn btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
           <div class="d-flex gap-2 hidden">
             <p><a class="hidden" id="sign-in-link" href="#">sign in</a></p>
             <p> | </p>

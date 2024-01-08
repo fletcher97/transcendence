@@ -16,10 +16,45 @@ export default class GameView {
 
   async render(view) {}
 
+  updateUi = (message) => {
+    // update ui based on message
+    // get button with #id score-player-one
+    // get button with #id score-player-two
+    // get button with #id game-ready-btn
+    // update the innerText of these buttons
+    console.log("inside updateUi with message: ", message);
+    const scorePlayerOne = document.getElementById("score-player-one");
+    const scorePlayerTwo = document.getElementById("score-player-two");
+    const roomNameHeader = document.getElementById("room-name-header");
+    scorePlayerOne.innerText = message.players.p1.points;
+    scorePlayerTwo.innerText = message.players.p2.points;
+    roomNameHeader.innerText = message.name;
+  };
+
   addEventListeners = async () => {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     console.log("this.room in addEvent: ", this.room);
+
+    // add event listener for ready-btn
+    const readyBtn = document.getElementById("game-ready-btn");
+    readyBtn.addEventListener("click", () => {
+      let message = {};
+      if (readyBtn.innerText === "Ready?") {
+        message = {
+          type: "status",
+          value: "ready",
+        };
+      } else {
+        message = {
+          type: "status",
+          value: "not ready",
+        };
+      }
+      readyBtn.innerText =
+        readyBtn.innerText === "Ready?" ? "Not Ready" : "Ready?";
+      socket.send(JSON.stringify(message));
+    });
 
     // dom
     const socket = new WebSocket(
@@ -35,6 +70,7 @@ export default class GameView {
         const receivedMessage = JSON.parse(event.data);
         console.log("Message from server ", receivedMessage);
         // Process the received message as needed
+        this.updateUi(receivedMessage);
         drawPong(receivedMessage, canvas, ctx);
       });
       // send socket message on kew up or down
@@ -59,18 +95,23 @@ export default class GameView {
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="min-vh-100 container d-flex row justify-content-between game-panel">
-            <h2>${this.room.name}</h2>
-            <h2>yo</h2>
-            <button id="game-ready-btn" class="btn" style="background-color:#FF47AE">Ready?</button>
+        <div class="d-flex justify-content-between">
+          <div class="min-vh-100 container d-flex row justify-content-between game-panel m-0 p-3">
+            <h2 id="room-name-header" class="glow">${this.room.name}</h2>
+            <div class="d-flex row align-items-end">
+            <button id="game-ready-btn" class="btn btn-sm" >Ready?</button>
+            </div>
           </div>
-          <div class="">
-            <canvas id="game-canvas" width="700" height="500"></canvas>
+          <div class="container row m-0 p-0">
+            <canvas id="game-canvas" height="300" width="800"></canvas>
+            <div class="d-flex justify-content-around gap-0">
+              <h1 id="score-player-one"></h1>
+              <h1>-</h1>
+              <h1 id="score-player-two"></h1>
+            </div>
           </div>
         </div>
       </div>
-          
           `;
       // await this.render("dashboardView");
       this.addEventListeners();
