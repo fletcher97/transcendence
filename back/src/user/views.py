@@ -86,26 +86,34 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     if user.is_authenticated:
         context["error"] = "You are already registered and logged in."
         return (HttpResponse(json.dumps(context), content_type="application/json"))
-    if request.POST:
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get("email").lower()
-            raw_password = form.cleaned_data.get("password1")
-            account = authenticate(email=email, password=raw_password)
-            login(request, account)
-            destination = get_redirect_if_exists(request)
-            if destination:
-                return (redirect(destination))
-            context = generate_response("201", user=account)
-            return (JsonResponse(context, encoder=DjangoJSONEncoder))
-            #return (redirect("index"))
-        else:
-            errors = {}
-            for field, field_errors in form.errors.items():
-                errors[field] = field_errors
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            data = json.loads(json_data)
+            form = RegistrationForm(data)
+            if form.is_valid():
+                form.save()
+                email = form.cleaned_data.get("email").lower()
+                raw_password = form.cleaned_data.get("password1")
+                account = authenticate(email=email, password=raw_password)
+                login(request, account)
+                destination = get_redirect_if_exists(request)
+                if destination:
+                    return (redirect(destination))
+                context = generate_response("201", user=account)
+                return (JsonResponse(context, encoder=DjangoJSONEncoder))
+                #return (redirect("index"))
+            else:
+                errors = {}
+                for field, field_errors in form.errors.items():
+                    errors[field] = field_errors
+                context = generate_response("401", error_message=errors)
+                return (JsonResponse(context, encoder=DjangoJSONEncoder))
+        except json.JSONDecodeError:
+            errors = {"JSONDecodeError": "Invalid JSON data."}
             context = generate_response("401", error_message=errors)
-            return (JsonResponse(context, encoder=DjangoJSONEncoder))
+
+    return (JsonResponse(context, encoder=DjangoJSONEncoder))
         #else:
             #context["registration_form"] = form
     #return (render(request, "user/register.html", context))
