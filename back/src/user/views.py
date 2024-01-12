@@ -39,26 +39,31 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     if user.is_authenticated:
         return (redirect("index"))
     destination = get_redirect_if_exists(request)
-    print(f"Destination: {destination}")
-    if request.POST:
-        form = UsersAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST["email"].lower()
-            password = request.POST["password"]
-            user = authenticate(email=email, password=password)
-            if user:
-                login(request, user)
-                context = generate_response("200", user=user)
-                if destination:
-                    return (redirect(destination))
-                return (JsonResponse(context, encoder=DjangoJSONEncoder))
-                #return (redirect("index"))
-        else:
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            data = json.loads(json_data)
+            form = UsersAuthenticationForm(data)
+            if form.is_valid():
+                email = json_data["email"].lower()
+                password = json_data["password"]
+                user = authenticate(email=email, password=password)
+                if user:
+                    login(request, user)
+                    context = generate_response("200", user=user)
+                    if destination:
+                        return (redirect(destination))
+                    return (JsonResponse(context, encoder=DjangoJSONEncoder))
+                    #return (redirect("index"))
+            else:
+                errors = {}
+                for field, field_errors in form.errors.items():
+                    errors[field] = field_errors
+        except json.JSONDecodeError:
             errors = {}
-            for field, field_errors in form.errors.items():
-                errors[field] = field_errors
+            errors["message"] = "Invalid JSON data."
         context = generate_response("401", error_message=errors)
-        return (JsonResponse(context, encoder=DjangoJSONEncoder))
+    return (JsonResponse(context, encoder=DjangoJSONEncoder))
 
 #        else:
 #            context["login_form"] = form
