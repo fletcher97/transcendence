@@ -1,3 +1,5 @@
+version: '3.0'
+
 services:
   front:
     container_name: front
@@ -33,7 +35,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "./db:/var/lib/postgresql/data:Z"
+      - database_volume:/var/lib/postgresql/data:Z
     networks:
       - transcendence-net
 
@@ -49,6 +51,7 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_DB
       - POSTGRES_PORT
+      - DBASE
 
     restart: always
     expose:
@@ -62,3 +65,11 @@ networks:
   transcendence-net:
     name: transcendence-net
     driver: bridge
+
+volumes:
+    database_volume:
+        driver: local
+        driver_opts:
+            type: none
+            o: "bind,auto,-o volname=.,nobrowse,metadata"
+            device: ./db

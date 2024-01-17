@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Check if the database is using PostgreSQL
+echo "Entro en script"
 if [ "$DBASE" = "postgreSQL" ]
 then
     # Wait for the database to be ready
@@ -12,6 +13,8 @@ then
     done;
     echo "Database ready"
 fi
+
+echo "despues de condition"
 
 # Apply database migrations
 python manage.py makemigrations
