@@ -1,13 +1,4 @@
-version: '3.0'
-
 services:
-  front:
-    container_name: front
-    build: ./front
-    restart: always
-    networks:
-      - transcendence-net
-
   nginx:
     build:
         context: nginx
@@ -15,12 +6,10 @@ services:
     restart: always
     ports:
       - "443:443"
-    volumes:
-      - ./front:/usr/share/nginx/html
-    depends_on:
-      - front
     networks:
         - transcendence-net
+    volumes:
+      - ./frontend:/usr/share/nginx/html
 
   db:
     image: postgres:16-alpine
@@ -35,9 +24,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - database_volume:/var/lib/postgresql/data:Z
+      - ./db:/var/lib/postgresql/data
     networks:
       - transcendence-net
+    stdin_open: true
+    tty: true
 
   back:
     container_name: back
@@ -52,7 +43,6 @@ services:
       - POSTGRES_DB
       - POSTGRES_PORT
       - DBASE
-
     restart: always
     expose:
       - "8000"
@@ -61,15 +51,18 @@ services:
     depends_on:
       - db
 
+  frontend:
+    image: nginx:alpine
+    container_name: frontend
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    networks:
+      - transcendence-net
+
 networks:
   transcendence-net:
     name: transcendence-net
     driver: bridge
-
-volumes:
-    database_volume:
-        driver: local
-        driver_opts:
-            type: none
-            o: "bind,auto,-o volname=.,nobrowse,metadata"
-            device: ./db
