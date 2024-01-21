@@ -77,7 +77,7 @@ export default class DashboardView {
           <div class="modal-body">
             <div class="mb-3">
               <label for="game-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="game-name" value="">
+              <input type="text" class="form-control input-box" id="game-name" value="">
             </div>
           </div>
 

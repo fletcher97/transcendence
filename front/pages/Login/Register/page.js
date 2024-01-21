@@ -1,6 +1,6 @@
 import Spinner from "../../../../components/Spinner.js";
 
-export class SignInView {
+export class RegisterPage {
   constructor(switchRoute, switchView) {
     this.firstRender = true;
     this.isLoading = true;
@@ -14,7 +14,7 @@ export class SignInView {
       <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username">
       <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
       <div id="btn-container" class="row">
-        <button id="sign-in-btn" type="button" class="btn btn-primary btn-lg"><span id="play-btn-content">Sign in</span></button>
+        <button id="register-btn" type="button" class="btn btn-primary btn-lg"><span id="register-btn-content">Register</span></button>
         <div class="d-flex gap-2 justify-content-center">
           <p><a id="return-link" href="#"><--</a></p>
         </div>
@@ -30,14 +30,14 @@ export class SignInView {
   };
 
   addEventListeners = async () => {
-    const usernameInput = document.querySelector("#sign-in-username");
-    const passwordInput = document.querySelector("#sign-in-password");
-    const signInButton = document.querySelector("#sign-in-btn");
+    const usernameInput = document.querySelector("#register-username");
+    const passwordInput = document.querySelector("#register-password");
+    const registerButton = document.querySelector("#register-btn");
     const returnLink = document.querySelector("#return-link");
-    signInButton.disabled = true;
+    registerButton.disabled = true;
 
     // ** SIGN IN CLICK LISTENER ** //
-    signInButton.addEventListener("click", async () => {
+    registerButton.addEventListener("click", async () => {
       localStorage.setItem("username", usernameInput.value);
       if (usernameInput.value === "taken") {
         const toastLiveExample = document.getElementById(
@@ -48,7 +48,7 @@ export class SignInView {
         toastBootstrap.show();
         usernameInput.value = "";
         passwordInput.value = "";
-        signInButton.disabled = true;
+        registerButton.disabled = true;
       } else {
         const toastLiveExample = document.getElementById(
           "successful-login-toast"
@@ -56,7 +56,7 @@ export class SignInView {
         const toastBootstrap =
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
-        signInButton.innerHTML = Spinner();
+        registerButton.innerHTML = Spinner();
         await new Promise((resolve) => setTimeout(resolve, 1500));
         this.switchRoute("/");
       }
@@ -68,14 +68,14 @@ export class SignInView {
         usernameInput.value.trim() !== "" &&
         passwordInput.value.trim() !== ""
       )
-        signInButton.disabled = false;
+        registerButton.disabled = false;
     });
     passwordInput.addEventListener("input", () => {
       if (
         usernameInput.value.trim() !== "" &&
         passwordInput.value.trim() !== ""
       )
-        signInButton.disabled = false;
+        registerButton.disabled = false;
     });
 
     // ** RETURN CLICK LISTENER ** //

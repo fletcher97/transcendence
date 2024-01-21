@@ -76,13 +76,7 @@ h1 {
     }
 
 .glow {
-    text-shadow:
-    /* 0 0 1px white, */
-    0 0 1px whitesmoke,
-    /* 0 0 2px whitesmoke, */
-    0 0 10px var(--accent-color),
-    0 0 21px var(--accent-color),
-    0 0 40px var(--accent-color);
+    animation: flicker .6s infinite alternate;
 }
 
 h3 {
@@ -203,10 +197,13 @@ b {
 .nav-item {
     color: white;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .nav-item:hover {
     opacity: 1;
+    cursor: pointer;
+    
 }
 
 .rooms-container {
@@ -214,6 +211,7 @@ b {
     box-shadow: 0px 0px 1px 1px var(--dark-blue);
     background-color: #1c2835;
     background-color: var(--dark-blue);
+    border-radius: 10px;
     /* border: 10px solid var(--dark-blue); */
     /* make it a scrollable container with fixed height */
 
@@ -227,7 +225,7 @@ b {
 }
 
 .modal-container {
-    background-color: var(--dark-blue);
+    background-color: var(--dark-bg);
 }
 
 .game-panel {
@@ -263,4 +261,50 @@ b {
 .btn:hover {
     color: var(--accent-color);
     background-color: #cd5197;
+}
+
+.input-box {
+    border-radius: 8px;
+    /* border: 1px solid var(--accent-color); */
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+    background-color: rgb(200, 200, 220);
+    color: var(--accent-color);
+    /* text-shadow: 1px 1px 4px var(--accent-color);     */
+}
+
+.input-box:active {
+    border: 1px solid var(--accent-color);
+}
+
+.dashboard-room-box {
+    border-radius: 10px;
+    border: 1px solid var(--blue);
+}
+
+.dashboard-room-box:hover {
+    background-color: var(--dark-bg);
+}
+
+
+@keyframes flicker {
+    0% {
+        text-shadow:
+        /* 0 0 1px white, */
+        0 0 1px whitesmoke,
+        /* 0 0 2px whitesmoke, */
+        0 0 10px var(--accent-color),
+        0 0 21px var(--accent-color),
+        0 0 25px var(--accent-color);
+
+    }
+    100% {
+        text-shadow:
+        /* 0 0 1px white, */
+        0 0 1px whitesmoke,
+        /* 0 0 2px whitesmoke, */
+        0 0 10px var(--accent-color),
+        0 0 21px var(--accent-color),
+        0 0 40px var(--accent-color);
+    }
 }

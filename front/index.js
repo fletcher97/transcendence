@@ -13,12 +13,13 @@ const switchRoute = (route) => {
   } else {
     history.pushState({ route }, null, route);
   }
-  if (route === "/") {
+  if (route === "/" || route === "/dashboard") {
     new HomeView(switchRoute, room);
-  } else if (route === "/login") {
-    if (history.state.route !== "/") {
-      new LoginView(switchRoute);
-    }
+  } else if (route === "/login" || route === "/register") {
+    // if (history.state.route !== "/") {
+    console.log("querying loginview");
+    new LoginView(switchRoute, route);
+    // }
   } else if (route === "/game") {
     if (history.state.route !== "/") {
       new GameView(switchRoute, room);
@@ -36,19 +37,25 @@ window.onpopstate = (event) => {
 };
 
 const initApp = () => {
-  // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
+  var url = new URL(window.location.href);
+  console.log("url: ", url);
   const id = DEV_ENV.USER_EXAMPLE.id;
-  if (id === "123") {
-    console.log("User is logged in. User ID:", id);
-    switchRoute("/");
-    // new DashboardView();
-  } else if (id === "12345") {
-    switchRoute("/game");
-  } else {
-    console.log("User is not logged in. User ID:", id);
+  if (url.pathname === "/" && id !== "123") switchRoute(url.pathname);
+  else {
     switchRoute("/login");
-    // new LoginView(switchRoute);
   }
+  // ** IF USER IS LOGGED IN GO DIRECTLY TO DASHBOARD **
+  // if (id === "123") {
+  //   console.log("User is logged in. User ID:", id);
+  //   switchRoute("/");
+  //   // new DashboardView();
+  // } else if (id === "12345") {
+  //   switchRoute("/game");
+  // } else {
+  //   console.log("User is not logged in. User ID:", id);
+  //   switchRoute("/login");
+  //   // new LoginView(switchRoute);
+  // }
 };
 
 document.addEventListener("DOMContentLoaded", () => {

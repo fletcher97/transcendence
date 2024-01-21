@@ -43,6 +43,12 @@ export class GuestLoginView {
       this.switchView("signInView");
     });
 
+    const registerLink = document.querySelector("#register-link");
+    registerLink.addEventListener("click", () => {
+      // SignInView();
+      this.switchRoute("/register");
+    });
+
     const hiddenElements = document.querySelectorAll(".hidden");
     let i = 1;
     hiddenElements.forEach((element) => {
@@ -68,12 +74,12 @@ export class GuestLoginView {
     if (this.firstRender) {
       template = `
       <h4 class="hidden">PLAY AS GUEST</h4>
-        <input class="hidden" type="text" id="username" name="username" placeholder="Enter your username">
+        <input class="hidden input-box" type="text" id="username" name="username"  placeholder="Enter your username">
             <button id="play-btn" class="btn btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
           <div class="d-flex gap-2 hidden">
             <p><a class="hidden" id="sign-in-link" href="#">sign in</a></p>
             <p> | </p>
-            <p><a id="sign-in-link" href="#">register</a></p>
+            <p><a id="register-link" href="#">register</a></p>
           </div>
           </div>
           <div>
@@ -83,14 +89,14 @@ export class GuestLoginView {
     } else {
       template = `
       <h4>PLAY AS GUEST</h4>
-        <input type="text" id="username" name="username" placeholder="Enter your username">
+        <input type="text" id="username" name="username" class="input-box" placeholder="Enter your username">
           <div id="btn-container" class="row">
             <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg"><span id="play-btn-content">PLAY</span></button>
           </div>
           <div class="d-flex gap-2">
             <p><a id="sign-in-link" href="#">sign in</a></p>
             <p> | </p>
-            <p><a id="sign-in-link" href="#">register</a></p>
+            <p><a id="register-link" href="#">register</a></p>
           </div>
           </div>
           <div>

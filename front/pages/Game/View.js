@@ -1,7 +1,7 @@
 // import AbstractView from "../AbstractView.js";
 
 import { drawPong } from "/scripts/drawPong.js";
-import FRONT_ENV from "../../config.js";
+import FRONT_DEV_ENV from "../../config.js";
 
 export default class GameView {
   constructor(switchRoute, room) {
@@ -36,6 +36,12 @@ export default class GameView {
     const ctx = canvas.getContext("2d");
     console.log("this.room in addEvent: ", this.room);
 
+    const exitRoomBtn = document.getElementById("room-log-out-btn");
+
+    exitRoomBtn.addEventListener("click", () => {
+      this.switchRoute("/dashboard");
+    });
+
     // add event listener for ready-btn
     const readyBtn = document.getElementById("game-ready-btn");
     readyBtn.addEventListener("click", () => {
@@ -58,7 +64,7 @@ export default class GameView {
 
     // dom
     const socket = new WebSocket(
-      `${FRONT_ENV.WEB_SOCKET_URL}/pong/room/${this.room.name}`
+      `${FRONT_DEV_ENV.WEB_SOCKET_URL}/pong/room/${this.room.name}`
     );
     socket.addEventListener("open", (event) => {
       console.log("WebSocket connection opened");
@@ -81,7 +87,6 @@ export default class GameView {
             type: "movement",
             key: key,
           };
-          console.log("inside keydown");
           socket.send(JSON.stringify(message));
         }
       });
@@ -98,6 +103,9 @@ export default class GameView {
         <div class="d-flex justify-content-between">
           <div class="min-vh-100 container d-flex row justify-content-between game-panel m-0 p-3">
             <h2 id="room-name-header" class="glow">${this.room.name}</h2>
+            <div id="room-log-out-btn">
+              <img src="/assets/log-out-icon.svg" alt="log out" width="30" height="30" />
+            </div>
             <div class="d-flex row align-items-end">
             <button id="game-ready-btn" class="btn btn-sm" >Ready?</button>
             </div>

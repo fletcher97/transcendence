@@ -4,11 +4,13 @@ import { GuestLoginView } from "./GuestLoginView.js";
 import Spinner from "../../../../components/Spinner.js";
 import { SignInView } from "./SignInView.js";
 import { accentColor } from "../../../../assets/colors.js";
+import { RegisterPage } from "./Register/page.js";
 
 // export const g_guestLoginViewInstance = new GuestLoginView(callback);
 
 export default class LoginView {
-  constructor(switchRoute) {
+  constructor(switchRoute, subPage) {
+    console.log("subPage in loginview: ", subPage);
     // super();
     this.guestLoginViewInstance = new GuestLoginView(
       switchRoute,
@@ -18,13 +20,15 @@ export default class LoginView {
       switchRoute,
       this.render.bind(this)
     );
+    this.registerPage = new RegisterPage(switchRoute, this.render.bind(this));
     this.initialRender();
-    // this.render = this.render.bind(this);
+    this.render = this.render.bind(this);
     // this.initialRender = this.initialRender.bind(this);
     // this.signInViewInstance = new SignInView();
   }
 
   async render(view) {
+    console.log("inside render with view: ", view);
     const loginContainer = document.getElementById("login-container");
     if (view === "guestView") {
       loginContainer.innerHTML = Spinner();
@@ -36,6 +40,11 @@ export default class LoginView {
       const content = await this.signInViewInstance.renderView();
       loginContainer.innerHTML = content;
       // this.signInViewInstance.addEventListeners();
+    } else if (view === "registerPage") {
+      loginContainer.innerHTML = Spinner();
+      const content = await this.registerPage.renderView();
+      loginContainer.innerHTML = content;
+      // this.signInViewInstance.addEventListeners();
     }
   }
 
@@ -44,13 +53,13 @@ export default class LoginView {
     await new Promise((resolve) => setTimeout(resolve, 50));
     await this.render("guestView");
     // };
-    const moonButton = document.getElementById("moon-button");
-    moonButton.addEventListener("click", () => {
-      document.body.classList.toggle("night-mode");
-      // put night mode on h1 too
-      const h1 = document.querySelector("h1");
-      h1.classList.toggle("night-mode");
-    });
+    // const moonButton = document.getElementById("moon-button");
+    // moonButton.addEventListener("click", () => {
+    //   document.body.classList.toggle("night-mode");
+    //   // put night mode on h1 too
+    //   const h1 = document.querySelector("h1");
+    //   h1.classList.toggle("night-mode");
+    // });
   }
 
   async initialRender() {
