@@ -1,2 +1,8 @@
-# OSX
+# OS generated
 db/._*
+.DS_Store
+.AppleDouble
+
+# Tmp files
+*.swp
+*.log
