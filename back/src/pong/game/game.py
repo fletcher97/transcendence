@@ -1,7 +1,7 @@
 from enum import Enum
 
 from django.utils.encoding import NoneType
-from player import Player
+from .player import Player
 from random import uniform
 
 
