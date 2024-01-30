@@ -1,11 +1,4 @@
 services:
-  front:
-    container_name: front
-    build: ./front
-    restart: always
-    networks:
-      - transcendence-net
-
   nginx:
     build:
         context: nginx
