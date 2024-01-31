@@ -45,6 +45,7 @@ export default class GameView {
     // add event listener for ready-btn
     const readyBtn = document.getElementById("game-ready-btn");
     readyBtn.addEventListener("click", () => {
+      // ** SEND STATUS MESSAGE TO SOCKET ** //
       let message = {};
       if (readyBtn.innerText === "Ready?") {
         message = {
@@ -68,7 +69,7 @@ export default class GameView {
     );
     socket.addEventListener("open", (event) => {
       console.log("WebSocket connection opened");
-      // Example: Send a message to the server
+      // ** SEND CONNECT MESSAGE TO SOCKET ** //
       const message = { type: "connect", room_name: this.room.name };
       socket.send(JSON.stringify(message));
 
@@ -81,6 +82,7 @@ export default class GameView {
       });
       // send socket message on kew up or down
       document.addEventListener("keydown", (event) => {
+        // ** SEND MOVEMENT MESSAGE TO SOCKET ** //
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           const key = event.key === "ArrowUp" ? 1 : -1;
           const message = {

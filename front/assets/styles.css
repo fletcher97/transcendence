@@ -280,6 +280,7 @@ b {
 .dashboard-room-box {
     border-radius: 10px;
     border: 1px solid var(--blue);
+    border: 1px solid rgba(33, 38, 60, 0.637);
 }
 
 .dashboard-room-box:hover {
