@@ -13,6 +13,7 @@ export class RegisterPage {
       <h4>SIGN IN</h4>
       <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username">
       <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
+      <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
       <div id="btn-container" class="row">
         <button id="register-btn" type="button" class="btn btn-primary btn-lg"><span id="register-btn-content">Register</span></button>
         <div class="d-flex gap-2 justify-content-center">

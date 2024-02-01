@@ -12,13 +12,9 @@ export class SignInView {
     let template = `
       <h4>SIGN IN</h4>
       <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username">
-      <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
-      <div id="btn-container" class="row">
-        <button id="sign-in-btn" type="button" class="btn btn-primary btn-lg"><span id="play-btn-content">Sign in</span></button>
-        <div class="d-flex gap-2 justify-content-center">
-          <p><a id="return-link" href="#"><--</a></p>
-        </div>
-      </div>
+      <input class="input-box" type="password" id="sign-in-password" name="username" placeholder="password">
+          <button id="sign-in-btn" class="btn btn-lg hidden"><span id="play-btn-content">SIGN IN</span></button>
+          <p class="blue-p">No account yet? <a id="return-link" href="#">Register</a></p>
     `;
     return template;
   };
@@ -34,6 +30,8 @@ export class SignInView {
     const passwordInput = document.querySelector("#sign-in-password");
     const signInButton = document.querySelector("#sign-in-btn");
     const returnLink = document.querySelector("#return-link");
+
+
     signInButton.disabled = true;
 
     // ** SIGN IN CLICK LISTENER ** //
@@ -60,6 +58,18 @@ export class SignInView {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         this.switchRoute("/");
       }
+    });
+
+    console.log("in add event listerners in signinview");
+    const hiddenElements = document.querySelectorAll(".hidden");
+    let i = 1;
+    hiddenElements.forEach((element) => {
+      console.log("element: ", element);
+      element.classList.add("child" + i);
+      i++;
+    });
+    hiddenElements.forEach((element) => {
+      element.classList.add("show");
     });
 
     // ** INPUT EVENT LISTENERS ** //

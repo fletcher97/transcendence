@@ -1,5 +1,3 @@
-// import AbstractView from "../AbstractView.js";
-
 import { drawPong } from "/scripts/drawPong.js";
 import FRONT_DEV_ENV from "../../config.js";
 

@@ -1,6 +1,6 @@
-import GameView from "./pages/Game/View.js";
-import HomeView from "./pages/Home/View.js";
-import LoginView from "./pages/Login/View.js";
+import GameView from "./app/(game)/layout.js";
+import HomeView from "./app/(home)/View.js";
+import LoginView from "./app/(login)/layout.js";
 import DEV_ENV from "./config.js";
 
 let room = { name: "myRoom" };
@@ -17,7 +17,6 @@ const switchRoute = (route) => {
     new HomeView(switchRoute, room);
   } else if (route === "/login" || route === "/register") {
     // if (history.state.route !== "/") {
-    console.log("querying loginview");
     new LoginView(switchRoute, route);
     // }
   } else if (route === "/game") {

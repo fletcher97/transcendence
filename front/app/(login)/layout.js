@@ -10,7 +10,6 @@ import { RegisterPage } from "./Register/page.js";
 
 export default class LoginView {
   constructor(switchRoute, subPage) {
-    console.log("subPage in loginview: ", subPage);
     // super();
     this.guestLoginViewInstance = new GuestLoginView(
       switchRoute,
@@ -39,6 +38,7 @@ export default class LoginView {
       loginContainer.innerHTML = Spinner();
       const content = await this.signInViewInstance.renderView();
       loginContainer.innerHTML = content;
+      await this.signInViewInstance.addEventListeners();
       // this.signInViewInstance.addEventListeners();
     } else if (view === "registerPage") {
       loginContainer.innerHTML = Spinner();
@@ -51,7 +51,7 @@ export default class LoginView {
   async addEventListeners() {
     // window.onload = async () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
-    await this.render("guestView");
+    await this.render("signInView");
     // };
     // const moonButton = document.getElementById("moon-button");
     // moonButton.addEventListener("click", () => {

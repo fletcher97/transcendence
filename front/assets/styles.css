@@ -41,6 +41,7 @@ h1.night-mode {
     border: 1px solid var(--accent-color);
     padding: 10px 20px 10px 20px;
     /* cursor: auto; */
+    background-color:#1f2d3d;
     color: var(--accent-color);
     }
 .my-btn:disabled {
@@ -308,4 +309,15 @@ b {
         0 0 21px var(--accent-color),
         0 0 40px var(--accent-color);
     }
+}
+
+.pink-p {
+    color: var(--accent-color);
+}
+
+.blue-p {
+    color: rgb(0, 132, 255);
+    /* text-shadow: 1px 1px 6px var(--accent-color); */
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
+    font-weight: 100;
 }
