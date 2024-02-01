@@ -1,8 +1,7 @@
-import Toast from "../../../../components/Toast.js";
-import { GuestLoginView } from "./GuestLoginView.js";
-// import { drawPongBackground } from "../../../../scripts/drawPongBackground.js";
+import LoginLayout from "../../../../components/layouts/LoginLayout.js";
+import { GuestLoginView } from "./GuestSignIn/GuestLoginView.js";
 import Spinner from "../../../../components/Spinner.js";
-import { SignInView } from "./SignInView.js";
+import { SignInView } from "./SignIn/SignInView.js";
 import { accentColor } from "../../../../assets/colors.js";
 import { RegisterPage } from "./Register/page.js";
 
@@ -10,7 +9,8 @@ import { RegisterPage } from "./Register/page.js";
 
 export default class LoginView {
   constructor(switchRoute, subPage) {
-    // super();
+    this.subPage = subPage;
+    console.log("subPage: ", subPage)
     this.guestLoginViewInstance = new GuestLoginView(
       switchRoute,
       this.render.bind(this)
@@ -22,75 +22,52 @@ export default class LoginView {
     this.registerPage = new RegisterPage(switchRoute, this.render.bind(this));
     this.initialRender();
     this.render = this.render.bind(this);
-    // this.initialRender = this.initialRender.bind(this);
-    // this.signInViewInstance = new SignInView();
   }
 
   async render(view) {
-    console.log("inside render with view: ", view);
     const loginContainer = document.getElementById("login-container");
     if (view === "guestView") {
       loginContainer.innerHTML = Spinner();
       const content = await this.guestLoginViewInstance.renderView();
       loginContainer.innerHTML = content;
       // this.guestLoginViewInstance.addEventListeners();
-    } else if (view === "signInView") {
+    } else if (view === "/login") {
       loginContainer.innerHTML = Spinner();
       const content = await this.signInViewInstance.renderView();
       loginContainer.innerHTML = content;
       await this.signInViewInstance.addEventListeners();
       // this.signInViewInstance.addEventListeners();
-    } else if (view === "registerPage") {
+    } else if (view === "/register") {
       loginContainer.innerHTML = Spinner();
       const content = await this.registerPage.renderView();
       loginContainer.innerHTML = content;
-      // this.signInViewInstance.addEventListeners();
+      await this.registerPage.addEventListeners();
     }
   }
 
   async addEventListeners() {
-    // window.onload = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    await this.render("signInView");
-    // };
-    // const moonButton = document.getElementById("moon-button");
-    // moonButton.addEventListener("click", () => {
-    //   document.body.classList.toggle("night-mode");
-    //   // put night mode on h1 too
-    //   const h1 = document.querySelector("h1");
-    //   h1.classList.toggle("night-mode");
-    // });
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      await this.render(this.subPage);
+      const hiddenElements = document.querySelectorAll(".hidden");
+      let i = 1;
+      hiddenElements.forEach((element) => {
+        console.log("element: ", element);
+        element.classList.add("child" + i);
+        i++;
+      });
+      hiddenElements.forEach((element) => {
+        element.classList.add("show");
+      });
+      document.title = this.subPage.substring(1) + " | 42-pong";
   }
 
   async initialRender() {
-    // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
-    const content = document.getElementById("content");
-
-    // animatePongBackground();
+    const content = document.getElementById("app");
     if (content) {
       content.innerHTML = `
-
-      <div class="container d-flex align-items-center justify-content-center" style="height: 95vh;">
-        <div class="row justify-content-center">
-          <h1 class="hidden text-center glow">42-PONG</h1>
-          <div id="login-container" class="col-md-8 d-flex flex-column justify-content-center gap-2 align-items-center">
-          </div>
-        </div>
-      </div>
-        <b>made by @fletcher97, @irifarac & @dbekic</b>
-        ${Toast("username already taken", "username-taken-toast", "red")}
-        ${Toast("succesfully logged in", "successful-login-toast", "green")}
+      ${LoginLayout()}
         `;
-      // this.addEventListeners();
     }
-    // moon button that puts night mode class on body
-    // <button id="moon-button" class="btn btn-primary">night mode</button>
-    // <button id="sun-button" class="btn btn-primary">day mode</button>
-
-    // <canvas id="pong-background"></canvas>
     this.addEventListeners();
-    // drawPongBackground();
-    // await this.render("guestView");
-    // await GuestLoginView(); // Update the content with new HTML
   }
 }

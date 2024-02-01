@@ -37,7 +37,7 @@ export class GuestLoginView {
       this.switchRoute("/");
     });
 
-    const signInLink = document.querySelector("#sign-in-link");
+    const signInLink = document.querySelector("#sign-in-linkkk");
     signInLink.addEventListener("click", () => {
       // SignInView();
       this.switchView("signInView");
@@ -77,7 +77,7 @@ export class GuestLoginView {
         <input class="hidden input-box" type="text" id="username" name="username"  placeholder="Enter your username">
             <button id="play-btn" class="btn btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
           <div class="d-flex gap-2 hidden">
-            <p><a class="hidden" id="sign-in-link" href="#">sign in</a></p>
+            <p><a class="hidden" id="sign-in-linkkk" href="#">sign in</a></p>
             <p> | </p>
             <p><a id="register-link" href="#">register</a></p>
           </div>
@@ -94,7 +94,7 @@ export class GuestLoginView {
             <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg"><span id="play-btn-content">PLAY</span></button>
           </div>
           <div class="d-flex gap-2">
-            <p><a id="sign-in-link" href="#">sign in</a></p>
+            <p><a id="sign-in-linkkk" href="#">sign in</a></p>
             <p> | </p>
             <p><a id="register-link" href="#">register</a></p>
           </div>

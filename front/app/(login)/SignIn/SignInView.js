@@ -9,14 +9,13 @@ export class SignInView {
   }
 
   getHtml = async () => {
-    let template = `
+    return `
       <h4>SIGN IN</h4>
-      <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username">
-      <input class="input-box" type="password" id="sign-in-password" name="username" placeholder="password">
+      <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username"></input>
+      <input class="input-box" type="password" id="sign-in-password" name="username" placeholder="password"></input>
           <button id="sign-in-btn" class="btn btn-lg hidden"><span id="play-btn-content">SIGN IN</span></button>
-          <p class="blue-p">No account yet? <a id="return-link" href="#">Register</a></p>
+          <p class="blue-p">No account yet? <a id="register-link" href="#">Register</a></p>
     `;
-    return template;
   };
 
   renderView = async () => {
@@ -29,7 +28,11 @@ export class SignInView {
     const usernameInput = document.querySelector("#sign-in-username");
     const passwordInput = document.querySelector("#sign-in-password");
     const signInButton = document.querySelector("#sign-in-btn");
-    const returnLink = document.querySelector("#return-link");
+    const registerLink = document.querySelector("#register-link");
+
+    registerLink.addEventListener("click", () => {
+      this.switchRoute("/register");
+    });
 
 
     signInButton.disabled = true;
@@ -61,16 +64,16 @@ export class SignInView {
     });
 
     console.log("in add event listerners in signinview");
-    const hiddenElements = document.querySelectorAll(".hidden");
-    let i = 1;
-    hiddenElements.forEach((element) => {
-      console.log("element: ", element);
-      element.classList.add("child" + i);
-      i++;
-    });
-    hiddenElements.forEach((element) => {
-      element.classList.add("show");
-    });
+    // const hiddenElements = document.querySelectorAll(".hidden");
+    // let i = 1;
+    // hiddenElements.forEach((element) => {
+    //   console.log("element: ", element);
+    //   element.classList.add("child" + i);
+    //   i++;
+    // });
+    // hiddenElements.forEach((element) => {
+    //   element.classList.add("show");
+    // });
 
     // ** INPUT EVENT LISTENERS ** //
     usernameInput.addEventListener("input", () => {
@@ -89,12 +92,6 @@ export class SignInView {
     });
 
     // ** RETURN CLICK LISTENER ** //
-    returnLink.addEventListener("click", async () => {
-      this.switchView("guestView");
-      // ;
-      // const content = await guestLoginViewInstance.getHtml();
-      // document.getElementById("login-container").innerHTML = content;
-    });
   };
 }
 

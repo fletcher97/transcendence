@@ -1,5 +1,5 @@
-import { backgroundAccentColor } from "../../../../../assets/colors.js";
 import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js";
+import { fetchData } from "./fetchData.js";
 
 
 export default class DashboardView {
@@ -20,7 +20,7 @@ export default class DashboardView {
   }
 
   renderView = async () => {
-    // this.fetchData();
+    console.log("fetched data in dashboard: ", await fetchData());
     history.pushState({ route: "/dashboard" }, null, "/dashboard");
     const content = await this.getHtml();
     return content;

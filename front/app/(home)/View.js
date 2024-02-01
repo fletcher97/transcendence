@@ -1,6 +1,6 @@
 // import AbstractView from "../AbstractView.js";
 
-import DashboardView from "./Dashboard/DashboardView.js";
+import DashboardView from "./Dashboard/page.js";
 import Spinner from "../../../../components/Spinner.js";
 import RoomsView from "./Rooms/RoomsView.js";
 import ProfileView from "./Profile/ProfileView.js";
@@ -110,7 +110,7 @@ export default class HomeView {
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
     console.log("initial render");
-    const content = document.getElementById("content");
+    const content = document.getElementById("app");
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">
@@ -139,7 +139,6 @@ export default class HomeView {
           <hr class="w-100 border-2" />
           <div id="home-container"></div> 
           </div>
-          
         </div>
           
           `;

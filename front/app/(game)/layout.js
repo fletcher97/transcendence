@@ -96,7 +96,7 @@ export default class GameView {
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
     console.log("initial render");
-    const content = document.getElementById("content");
+    const content = document.getElementById("app");
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">

@@ -1,4 +1,5 @@
 import Spinner from "../../../../components/Spinner.js";
+import registerUser from "../../../../services/api/registerUser.js";
 
 export class RegisterPage {
   constructor(switchRoute, switchView) {
@@ -10,16 +11,15 @@ export class RegisterPage {
 
   getHtml = async () => {
     let template = `
-      <h4>SIGN IN</h4>
-      <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username">
-      <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
-      <input class="input-box" type="text" id="sign-in-password" name="username" placeholder="password">
-      <div id="btn-container" class="row">
-        <button id="register-btn" type="button" class="btn btn-primary btn-lg"><span id="register-btn-content">Register</span></button>
+      <h4>REGISTER</h4>
+      <input class="input-box" type="text" id="register-username" name="username" placeholder="username">
+      <input class="input-box" type="text" id="register-email" name="email" placeholder="email">
+      <input class="input-box" type="password" id="register-password1" name="username" placeholder="password">
+      <input class="input-box" type="password" id="register-password2" name="username" placeholder="confirm password">
+        <button id="register-btn" class="btn btn-lg hidden"><span id="play-btn-content">REGISTER</span></button>
         <div class="d-flex gap-2 justify-content-center">
-          <p><a id="return-link" href="#"><--</a></p>
+          <p class="blue-p">Already have an account? <a id="sign-in-link" href="#">Sign in</a></p>
         </div>
-      </div>
     `;
     return template;
   };
@@ -32,12 +32,20 @@ export class RegisterPage {
 
   addEventListeners = async () => {
     const usernameInput = document.querySelector("#register-username");
-    const passwordInput = document.querySelector("#register-password");
+    const emailInput = document.querySelector("#register-email");
+    const passwordOneInput = document.querySelector("#register-password1");
+    const passwordTwoInput = document.querySelector("#register-password2");
     const registerButton = document.querySelector("#register-btn");
-    const returnLink = document.querySelector("#return-link");
+    const signInLink = document.querySelector("#sign-in-link");
     registerButton.disabled = true;
 
-    // ** SIGN IN CLICK LISTENER ** //
+    console.log("signinLinnk: ", signInLink);
+    signInLink.addEventListener("click", async () => {
+      console.log("sign in link clicked");
+      this.switchRoute("/login");
+    });
+
+    // ** REGISTER CLICK LISTENER ** //
     registerButton.addEventListener("click", async () => {
       localStorage.setItem("username", usernameInput.value);
       if (usernameInput.value === "taken") {
@@ -48,7 +56,7 @@ export class RegisterPage {
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
         usernameInput.value = "";
-        passwordInput.value = "";
+        passwordOneInput.value = "";
         registerButton.disabled = true;
       } else {
         const toastLiveExample = document.getElementById(
@@ -57,36 +65,58 @@ export class RegisterPage {
         const toastBootstrap =
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
+        const postData = {
+          username: usernameInput.value,
+          email: emailInput.value,
+          password1: passwordOneInput.value,
+          password2: passwordTwoInput.value,
+        }
+        await registerUser(postData);
         registerButton.innerHTML = Spinner();
         await new Promise((resolve) => setTimeout(resolve, 1500));
         this.switchRoute("/");
-      }
-    });
+      }});
+
 
     // ** INPUT EVENT LISTENERS ** //
     usernameInput.addEventListener("input", () => {
-      if (
+    if (
         usernameInput.value.trim() !== "" &&
-        passwordInput.value.trim() !== ""
+        emailInput.value.trim() !== "" &&
+        passwordOneInput.value.trim() !== "" &&
+        passwordTwoInput.value.trim() !== ""
       )
         registerButton.disabled = false;
     });
-    passwordInput.addEventListener("input", () => {
+    passwordOneInput.addEventListener("input", () => {
+    if (
+        usernameInput.value.trim() !== "" &&
+        emailInput.value.trim() !== "" &&
+        passwordOneInput.value.trim() !== "" &&
+        passwordTwoInput.value.trim() !== ""
+    )
+      registerButton.disabled = false;
+    });
+    emailInput.addEventListener("input", () => {
       if (
         usernameInput.value.trim() !== "" &&
-        passwordInput.value.trim() !== ""
+        emailInput.value.trim() !== "" &&
+        passwordOneInput.value.trim() !== "" &&
+        passwordTwoInput.value.trim() !== ""
       )
         registerButton.disabled = false;
+    });
+    passwordTwoInput.addEventListener("input", () => {
+    if (
+        usernameInput.value.trim() !== "" &&
+        emailInput.value.trim() !== "" &&
+        passwordOneInput.value.trim() !== "" &&
+        passwordTwoInput.value.trim() !== ""
+    )
+      registerButton.disabled = false;
     });
 
-    // ** RETURN CLICK LISTENER ** //
-    returnLink.addEventListener("click", async () => {
-      this.switchView("guestView");
-      // ;
-      // const content = await guestLoginViewInstance.getHtml();
-      // document.getElementById("login-container").innerHTML = content;
-    });
-  };
+};
 }
 
 // const addEventListeners = () => {
