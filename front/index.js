@@ -1,6 +1,6 @@
 import GameView from "./app/(game)/layout.js";
-import HomeView from "./app/(home)/View.js";
-import LoginView from "./app/(login)/layout.js";
+import HomeView from "./app/(home)/homeLayout.js";
+import LoginView from "./app/(login)/loginLayout.js";
 import DEV_ENV from "./config.js";
 import Toast from "./components/Toast.js";
 

@@ -1,16 +1,15 @@
 import LoginLayout from "../../../../components/layouts/LoginLayout.js";
 import { GuestLoginView } from "./GuestSignIn/GuestLoginView.js";
 import Spinner from "../../../../components/Spinner.js";
-import { SignInView } from "./SignIn/SignInView.js";
+import { SignInView } from "./SignIn/signInPage.js";
 import { accentColor } from "../../../../assets/colors.js";
-import { RegisterPage } from "./Register/page.js";
+import { RegisterPage } from "./Register/registerPage.js";
 
 // export const g_guestLoginViewInstance = new GuestLoginView(callback);
 
 export default class LoginView {
   constructor(switchRoute, subPage) {
     this.subPage = subPage;
-    console.log("subPage: ", subPage)
     this.guestLoginViewInstance = new GuestLoginView(
       switchRoute,
       this.render.bind(this)
