@@ -1,11 +1,4 @@
 services:
-  front:
-    container_name: front
-    build: ./front
-    restart: always
-    networks:
-      - transcendence-net
-
   nginx:
     build:
         context: nginx
@@ -14,9 +7,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./front:/usr/share/nginx/html
-    depends_on:
-      - front
+      - ./front:/usr/share/nginx/html:z
     networks:
         - transcendence-net
 
