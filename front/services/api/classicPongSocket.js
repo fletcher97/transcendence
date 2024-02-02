@@ -2,7 +2,7 @@ import FRONT_DEV_ENV from "../../config.js";
 
 export const newClassicPongSocket = (roomName) => {
   const socket = new WebSocket(
-    `${FRONT_DEV_ENV.WEB_SOCKET_URL}/ws/${roomName}`
+    `${FRONT_DEV_ENV.WEB_SOCKET_URL}/api/ws/${roomName}`
   );
 
   return socket;

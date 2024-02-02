@@ -1,5 +1,6 @@
 import { drawPong } from "/scripts/drawPong.js";
 import FRONT_DEV_ENV from "../../config.js";
+import { newClassicPongSocket } from "../../services/api/classicPongSocket.js";
 
 export default class GameView {
   constructor(switchRoute, room) {
@@ -62,9 +63,10 @@ export default class GameView {
     });
 
     // dom
-    const socket = new WebSocket(
-      `${FRONT_DEV_ENV.WEB_SOCKET_URL}/pong/room/${this.room.name}`
-    );
+    // const socket = new WebSocket(
+    //   `${FRONT_DEV_ENV.WEB_SOCKET_URL}/ws/${this.room.name}`
+    // );
+    const socket = newClassicPongSocket(this.room.name);
     socket.addEventListener("open", (event) => {
       console.log("WebSocket connection opened");
       // ** SEND CONNECT MESSAGE TO SOCKET ** //
