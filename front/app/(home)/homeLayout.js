@@ -1,21 +1,23 @@
 // import AbstractView from "../AbstractView.js";
 
-import DashboardView from "./Dashboard/DashboardView.js";
+import DashboardView from "./Dashboard/page.js";
 import Spinner from "../../../../components/Spinner.js";
 import RoomsView from "./Rooms/RoomsView.js";
 import ProfileView from "./Profile/ProfileView.js";
 import { accentColor } from "../../../../assets/colors.js";
 
 export default class HomeView {
-  constructor(switchRoute) {
+  constructor(switchRoute, room) {
     // super();
     this.initialRender();
+    this.room = room;
     this.activeTab = "dashboard-button";
     this.activeTabElement;
     this.switchRoute = switchRoute;
     this.dashboardViewInstance = new DashboardView(
       switchRoute,
-      this.render.bind(this)
+      this.render.bind(this),
+      this.room
     );
     this.roomsViewInstance = new RoomsView(switchRoute, this.render.bind(this));
     this.profileViewInstance = new ProfileView(
@@ -33,6 +35,10 @@ export default class HomeView {
 
   async render(view) {
     await new Promise((resolve) => setTimeout(resolve, 100));
+    if (view === this.activeTab.toLowerCase()) {
+      // View is already active, no need to re-render
+      return;
+    }
     const homeContainer = document.getElementById("home-container");
     if (view === "dashboardView") {
       homeContainer.innerHTML = Spinner();
@@ -63,14 +69,14 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    const roomsButton = document.querySelector("#rooms-button");
+    // const roomsButton = document.querySelector("#rooms-button");
     const logoutButton = document.querySelector("#log-out-btn");
     const profileButton = document.querySelector("#profile-button");
     // window.onload = async () => {
     // addEventListener("DOMContentLoaded", async (event) => {
     // });
     // };
-    await this.render("dashboardView");
+
     // await new Promise((resolve) => setTimeout(resolve, 200));
     this.activeTabElement = document.getElementById(this.activeTab);
     // Add click event listener
@@ -78,58 +84,65 @@ export default class HomeView {
       this.toggleTab(dashboardButton);
       this.render("dashboardView");
     });
-    roomsButton.addEventListener("click", () => {
-      this.toggleTab(roomsButton);
-      this.render("roomsView");
-    });
+    // roomsButton.addEventListener("click", () => {
+    //   this.toggleTab(roomsButton);
+    //   this.render("roomsView");
+    // });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
+      // push state to route == "/profile"
+      const route = "/profile";
+      history.pushState({ route }, null, route);
       this.render("profileView");
     });
     logoutButton.addEventListener("click", () => {
       localStorage.clear();
+      history.replaceState(null, "", "/");
       this.switchRoute("/login");
     });
   }
 
+  //   <audio controls autoplay style="display:none">
+  //   <source src="/assets/lcd.mp3" type="audio/mp3">
+  //   Your browser does not support the audio element.
+  // </audio>
+
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
-    const content = document.getElementById("content");
+    console.log("initial render");
+    const content = document.getElementById("app");
     if (content) {
       content.innerHTML = `
-      <audio controls autoplay style="display:none">
-        <source src="/assets/lcd.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
       <div class="min-vh-100">
         <div class="container row min-vw-100">
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
-              <div style="border-radius: 50%;overflow: hidden">
-                <img src="https://i.imgur.com/8QZqZ9t.png" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+            <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
+                <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
               <p class="ml-1">welcome back, <b>${localStorage.getItem(
                 "username"
               )}!</b></p>
               </div>
-            <p class="btn active" id="log-out-btn">log out</p>
+            
+          <div class="d-flex align-items-center">
+          <b><h2 id="dashboard-button" class="nav-item">DASHBOARD</h2></b>
+          <b><h2 class="mx-2 inactive nav-item">FRIENDS</h2></b>
+          <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
+          <p class="btn active" id="log-out-btn">log out</p>
           </div>
+          </div>  
           <div style="height:50px"></div>
           <div class="container row px-5">
           <div class="container row d-flex align-items-center">
-          <div class="d-flex align-items-center">
-          <h2 id="dashboard-button" class="btn" style="color: ${"black"}">DASHBOARD</h2>
-          <h2 id="rooms-button" class="mx-5 btn inactive" style="color: ${"black"}">ROOMS</h2>
-          <h2 class="mx-5 btn inactive" style="color: ${"black"}">FRIENDS</h2>
-          <h2 id="profile-button" class="mx-5 btn inactive" style="color: ${"black"}">MY PROFILE</h2>
-          </div>
+          
           <hr class="w-100 border-2" />
           <div id="home-container"></div> 
           </div>
-          
         </div>
           
           `;
+      await this.render("dashboardView");
       this.addEventListeners();
       // <canvas id="three-canvas"></canvas>
     }

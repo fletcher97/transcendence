@@ -15,7 +15,6 @@ export class GuestLoginView {
   };
 
   addEventListeners = async () => {
-    console.log("adding event listeners");
     await new Promise((resolve) => setTimeout(resolve, 100));
     // const audio = new Audio("assets/kick.wav");
     let playButton = document.querySelector("#play-btn");
@@ -35,17 +34,22 @@ export class GuestLoginView {
       audio.play();
       playButton.innerHTML = Spinner();
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      this.switchRoute("/home");
+      this.switchRoute("/");
     });
 
-    const signInLink = document.querySelector("#sign-in-link");
+    const signInLink = document.querySelector("#sign-in-linkkk");
     signInLink.addEventListener("click", () => {
       // SignInView();
       this.switchView("signInView");
     });
 
+    const registerLink = document.querySelector("#register-link");
+    registerLink.addEventListener("click", () => {
+      // SignInView();
+      this.switchRoute("/register");
+    });
+
     const hiddenElements = document.querySelectorAll(".hidden");
-    console.log(hiddenElements);
     let i = 1;
     hiddenElements.forEach((element) => {
       element.classList.add("child" + i);
@@ -66,19 +70,16 @@ export class GuestLoginView {
   };
 
   getHtml = async () => {
-    console.log("getting html");
     let template = "";
     if (this.firstRender) {
       template = `
       <h4 class="hidden">PLAY AS GUEST</h4>
-        <input class="hidden" type="text" id="username" name="username" placeholder="Enter your username">
-          <div id="btn-container" class="row">
-            <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
-          </div>
+        <input class="hidden input-box" type="text" id="username" name="username"  placeholder="Enter your username">
+            <button id="play-btn" class="btn btn-lg hidden"><span id="play-btn-content">PLAY</span></button>
           <div class="d-flex gap-2 hidden">
-            <p><a class="hidden" id="sign-in-link" href="#">sign in</a></p>
+            <p><a class="hidden" id="sign-in-linkkk" href="#">sign in</a></p>
             <p> | </p>
-            <p><a id="sign-in-link" href="#">register</a></p>
+            <p><a id="register-link" href="#">register</a></p>
           </div>
           </div>
           <div>
@@ -88,14 +89,14 @@ export class GuestLoginView {
     } else {
       template = `
       <h4>PLAY AS GUEST</h4>
-        <input type="text" id="username" name="username" placeholder="Enter your username">
+        <input type="text" id="username" name="username" class="input-box" placeholder="Enter your username">
           <div id="btn-container" class="row">
             <button id="play-btn" type="button" class="my-btn my-btn-primary btn-lg"><span id="play-btn-content">PLAY</span></button>
           </div>
           <div class="d-flex gap-2">
-            <p><a id="sign-in-link" href="#">sign in</a></p>
+            <p><a id="sign-in-linkkk" href="#">sign in</a></p>
             <p> | </p>
-            <p><a id="sign-in-link" href="#">register</a></p>
+            <p><a id="register-link" href="#">register</a></p>
           </div>
           </div>
           <div>

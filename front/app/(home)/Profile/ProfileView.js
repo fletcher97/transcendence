@@ -27,7 +27,7 @@ export default class ProfileView {
 
   editProfileModal = () => {
     return `
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-container" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color:#49627C">
           <div class="modal-body">
@@ -78,7 +78,7 @@ export default class ProfileView {
             )}
             </h1>
           </div>
-          <div class="card row justify-content-between" style="height: 25rem;background-color: ${backgroundAccentColor};width:100%">
+          <div class="row justify-content-between">
             <div>
               <p>username: ${localStorage.getItem("username")}</p>
               <p>email: ${localStorage.getItem("username")}</p>
