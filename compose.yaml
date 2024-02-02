@@ -27,16 +27,22 @@ services:
       - ./db:/var/lib/postgresql/data
     networks:
       - transcendence-net
+    stdin_open: true
+    tty: true
 
   back:
     container_name: back
     build:
       context: back
+    volumes:
+      - ./back/src:/srv:Z
     environment:
       - POSTGRES_HOST
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
+      - POSTGRES_PORT
+      - DBASE
     restart: always
     expose:
       - "8000"
@@ -44,6 +50,17 @@ services:
         - transcendence-net
     depends_on:
       - db
+
+  front:
+    image: nginx:alpine
+    container_name: front
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ./front:/usr/share/nginx/html
+    networks:
+      - transcendence-net
 
 networks:
   transcendence-net:

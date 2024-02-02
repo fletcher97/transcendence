@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import logging
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,12 +28,20 @@ SECRET_KEY = "django-insecure-^3mwpr*&go6+nh@jv-dtx)egg^ijuj*$8)4ry_&_3k)qxd61cx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
+
+AUTH_USER_MODEL = 'user.Users'
+AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.AllowAllUsersModelBackend',
+        ]
 ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "user",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -56,7 +66,8 @@ ROOT_URLCONF = "transcendance.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates"),
+                 os.path.join(BASE_DIR, "user", "templates"),],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,6 +98,32 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                },
+            },
+        'root': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            },
+}
+
+REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+            ],
+        }
+
+SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+        'SIGNING_KEY': SECRET_KEY,
+        'AUTH_HEADER_TYPES': ('Bearer',),
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,9 +159,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+        os.path.join(BASE_DIR, "media"),
+        ]
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "https://localhost:8080",
+                        "http://127.0.0.1:8080", "https://127.0.0.1:8080"]
+
+# Media settings
+STATIC_ROOT     = os.path.join(BASE_DIR, "static_cdn")
+MEDIA_ROOT      = os.path.join(BASE_DIR, "media_cdn")
+
+TEMP            = os.path.join(BASE_DIR, "media_cdn/temp")
+BASE_URL        = "https://127.0.0.1:8080"
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760 # 10MB
