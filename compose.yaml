@@ -1,6 +1,4 @@
 services:
-
-
   nginx:
     build:
         context: nginx
@@ -9,7 +7,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./front:/usr/share/nginx/html
+      - ./front:/usr/share/nginx/html:z
     networks:
         - transcendence-net
 
