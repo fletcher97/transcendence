@@ -2,7 +2,10 @@
 
 :root {
     --blue: #4988FF;
-    --pink: #FF47AE;
+    --bg-blue: 344C65;
+    --dark-blue: #2E4257;
+    --dark-bg: #1f2d3d;
+    --pink: #d73993;
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);
@@ -10,11 +13,17 @@
     --accent-color: var(--pink);
 }
 body {
-    background-color: #49627C;
     background-color: var(--background-color);
+    background-color:   var(--dark-blue);
+    background-color: rgb(20, 20, 30);
+    background-color: #1f2d3d;
     font-family: 'Orbitron', sans-serif;
     color: var(--accent-color);
     cursor: url('./icons8-cursor-48.png'), none;
+}
+
+.game-bg {
+    background-color: var(--dark-blue);
 }
 
 .night-mode {
@@ -32,6 +41,7 @@ h1.night-mode {
     border: 1px solid var(--accent-color);
     padding: 10px 20px 10px 20px;
     /* cursor: auto; */
+    background-color:#1f2d3d;
     color: var(--accent-color);
     }
 .my-btn:disabled {
@@ -57,10 +67,18 @@ h1.night-mode {
 
 h1 {
     color: var(--primary-color);
+    color: white;
     /* color: white; */
     font-size: 80px;
-    text-shadow: 2px 2px 4px var(--accent-color);
+    color: var(--primary-color);
+    color: rgb(0, 132, 255);
+    color: var(--accent-color);
+    text-shadow: 0px 0px 4px var(--accent-color);
     }
+
+.glow {
+    animation: flicker .6s infinite alternate;
+}
 
 h3 {
     color: var(--accent-color);
@@ -71,17 +89,30 @@ h3 {
     
     h4 {
         color: white;
-        color: var(--accent-color);
         font-size: 18px;
-        text-shadow: 1px 1px 6px var(--accent-color);
+        color: var(--accent-color);
+        color: rgb(0, 132, 255);
+        /* text-shadow: 1px 1px 6px var(--accent-color); */
+        text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 p {
     color: var(--accent-color);
+    color: rgb(240, 240, 240);
     margin-bottom: 0;
-    }
-    
-    a {
-        color: var(--accent-color);
+    /* color: rgb(0, 132, 255);
+    text-shadow: 1px 1px 4px rgb(0, 132, 255); */
+}
+
+a {
+    color: var(--accent-color);
+        color: rgb(240, 240, 240);
+        color: rgb(0, 132, 255);
+        text-shadow: 1px 1px 4px rgb(0, 132, 255);
+}
+
+b {
+    color: rgb(0, 132, 255);
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 /* #CLASSIC-PONG {
             /* color: var(--accent-color); */
@@ -163,3 +194,131 @@ p {
   .toast-container.toast-green, .toast-header.toast-green {
     color: green;
   }
+
+.nav-item {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    opacity: 1;
+    cursor: pointer;
+    
+}
+
+.rooms-container {
+    height: 60vh;
+    box-shadow: 0px 0px 1px 1px var(--dark-blue);
+    background-color: #1c2835;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    border: .1px solid rgb(89, 89, 89);
+    /* border: 10px solid var(--dark-blue); */
+    /* make it a scrollable container with fixed height */
+
+}
+
+.rooms-rows-container {
+    max-height: 40vh;
+    overflow-y: scroll;
+    /* hide scrollbar */
+    /* scrollbar-width: none; */
+}
+
+.modal-container {
+    background-color: var(--dark-bg);
+}
+
+.game-panel {
+    background-color: var(--dark-bg);
+    border-right: 1px solid var(--dark-blue);
+    width: 30%;
+}
+
+#game-canvas {
+    height: 80vh;
+    border: 1px solid var(--accent-color);
+    box-shadow: 1px 2px 3px var(--accent-color);
+    padding: 0;
+    /* width: 100%; */
+}
+
+.btn {
+    border-radius: 5px;
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px 10px 20px;
+    background-color: var(--accent-color);
+    color: rgb(200, 200, 220);
+    text-shadow: 1px 1px 4px rgb(200, 200, 220);    
+}
+
+#game-ready-btn-kuk {
+    font-size: 26px;
+    /* padding: 0;
+    margin: 0;  */
+    height: 50%;
+}
+
+.btn:hover {
+    color: var(--accent-color);
+    background-color: #cd5197;
+}
+
+.input-box {
+    border-radius: 8px;
+    /* border: 1px solid var(--accent-color); */
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+    background-color: rgb(200, 200, 220);
+    color: var(--accent-color);
+    /* text-shadow: 1px 1px 4px var(--accent-color);     */
+}
+
+.input-box:active {
+    border: 1px solid var(--accent-color);
+}
+
+.dashboard-room-box {
+    border-radius: 10px;
+    border: 1px solid var(--blue);
+    border: 1px solid rgba(33, 38, 60, 0.637);
+}
+
+.dashboard-room-box:hover {
+    background-color: var(--dark-bg);
+}
+
+
+@keyframes flicker {
+    0% {
+        text-shadow:
+        /* 0 0 1px white, */
+        0 0 1px whitesmoke,
+        /* 0 0 2px whitesmoke, */
+        0 0 10px var(--accent-color),
+        0 0 21px var(--accent-color),
+        0 0 25px var(--accent-color);
+
+    }
+    100% {
+        text-shadow:
+        /* 0 0 1px white, */
+        0 0 1px whitesmoke,
+        /* 0 0 2px whitesmoke, */
+        0 0 10px var(--accent-color),
+        0 0 21px var(--accent-color),
+        0 0 40px var(--accent-color);
+    }
+}
+
+.pink-p {
+    color: var(--accent-color);
+}
+
+.blue-p {
+    color: rgb(0, 132, 255);
+    /* text-shadow: 1px 1px 6px var(--accent-color); */
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
+    font-weight: 100;
+}

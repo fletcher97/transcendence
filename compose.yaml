@@ -6,10 +6,10 @@ services:
     restart: always
     ports:
       - "443:443"
+    volumes:
+      - ./front:/usr/share/nginx/html:z
     networks:
         - transcendence-net
-    volumes:
-      - ./front:/usr/share/nginx/html
 
   db:
     image: postgres:16-alpine
