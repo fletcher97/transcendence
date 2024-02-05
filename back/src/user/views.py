@@ -8,8 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
+
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
 import json
 import logging
 
@@ -49,7 +54,6 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
         try:
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data)
-            logging.debug("json_data is %s", json_data)
             form = UsersAuthenticationForm(json_data)
             if form.is_valid():
                 username = json_data["username"]
@@ -144,6 +148,7 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
                 if destination:
                     return (redirect(destination))
                 context = generate_response("201", user=account, tokens=tokens)
+                logging.debug("context on succes %s", context)
                 return (JsonResponse(context, encoder=DjangoJSONEncoder))
             else:
                 errors = {"error": form.errors}
@@ -227,6 +232,9 @@ def accept_friend_request(request, request_id):
 #        return (JsonResponse(data))
 
 
+@api_view(['GET', 'POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def account_view(request, *args, **kwargs):
     """
     Logic for viewing user account
@@ -242,7 +250,9 @@ def account_view(request, *args, **kwargs):
     try:
         account = Users.objects.get(pk=user_id)
     except Users.DoesNotExist:
-        return (HttpResponse("That user does not exist."))
+        context['error'] = "User not found."
+        return (JsonResponse(context, encoder=DjangoJSONEncoder))
+        # return (HttpResponse("That user does not exist."))
     # if user exists we check if they are a friend
     if account:
         context['id'] = account.id
@@ -257,7 +267,7 @@ def account_view(request, *args, **kwargs):
             friend_list = FriendList(user=account)
             friend_list.save()
         friends = friend_list.friends.all()
-        context['friends'] = friends
+        # context['friends'] = friends
         # Define template variables
         is_self = True
         is_friend = False
@@ -265,6 +275,8 @@ def account_view(request, *args, **kwargs):
         request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
         friend_requests = None
         # If user is authenticated we check if they are a friend
+        # If the user is authenticated and the user is not the same as the
+        # account
         if user.is_authenticated and user != account:
             is_self = False
             if friends.filter(pk=user.id):
@@ -296,8 +308,10 @@ def account_view(request, *args, **kwargs):
         context['is_friend'] = is_friend
         context['BASE_URL'] = settings.BASE_URL
         context['request_sent'] = request_sent
-        context['friend_requests'] = friend_requests
-    return (render(request, "user/account.html", context))
+        # context['friend_requests'] = friend_requests
+        logging.debug("context en es account view %s", context)
+    return (JsonResponse(context, encoder=DjangoJSONEncoder))
+    # return (render(request, "user/account.html", context))
 
 
 def account_search_view(request, *args, **kwargs):
