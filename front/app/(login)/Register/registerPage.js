@@ -11,7 +11,7 @@ export class RegisterPage {
 
   getHtml = async () => {
     let template = `
-      <h4>REGISTER</h4>
+      <h4>REGISTERRR</h4>
       <input class="input-box" type="text" id="register-username" name="username" placeholder="username">
       <input class="input-box" type="text" id="register-email" name="email" placeholder="email">
       <input class="input-box" type="password" id="register-password1" name="username" placeholder="password">
@@ -70,17 +70,23 @@ export class RegisterPage {
           email: emailInput.value,
           password1: passwordOneInput.value,
           password2: passwordTwoInput.value,
+        };
+        try {
+          const response = await registerUser(postData);
+          const data = await response.json();
+          console.log("data FROM registerPage: ", data);
+          registerButton.innerHTML = Spinner();
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          this.switchRoute("/");
+        } catch (error) {
+          console.log("error: ", error);
         }
-        await registerUser(postData);
-        registerButton.innerHTML = Spinner();
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        this.switchRoute("/");
-      }});
-
+      }
+    });
 
     // ** INPUT EVENT LISTENERS ** //
     usernameInput.addEventListener("input", () => {
-    if (
+      if (
         usernameInput.value.trim() !== "" &&
         emailInput.value.trim() !== "" &&
         passwordOneInput.value.trim() !== "" &&
@@ -89,13 +95,13 @@ export class RegisterPage {
         registerButton.disabled = false;
     });
     passwordOneInput.addEventListener("input", () => {
-    if (
+      if (
         usernameInput.value.trim() !== "" &&
         emailInput.value.trim() !== "" &&
         passwordOneInput.value.trim() !== "" &&
         passwordTwoInput.value.trim() !== ""
-    )
-      registerButton.disabled = false;
+      )
+        registerButton.disabled = false;
     });
     emailInput.addEventListener("input", () => {
       if (
@@ -107,69 +113,13 @@ export class RegisterPage {
         registerButton.disabled = false;
     });
     passwordTwoInput.addEventListener("input", () => {
-    if (
+      if (
         usernameInput.value.trim() !== "" &&
         emailInput.value.trim() !== "" &&
         passwordOneInput.value.trim() !== "" &&
         passwordTwoInput.value.trim() !== ""
-    )
-      registerButton.disabled = false;
+      )
+        registerButton.disabled = false;
     });
-
-};
+  };
 }
-
-// const addEventListeners = () => {
-//   const usernameInput = document.querySelector("#sign-in-username");
-//   const passwordInput = document.querySelector("#sign-in-password");
-//   const signInButton = document.querySelector("#sign-in-btn");
-//   const returnLink = document.querySelector("#return-link");
-//   signInButton.disabled = true;
-
-//   // ** SIGN IN CLICK LISTENER ** //
-//   signInButton.addEventListener("click", async () => {
-//     localStorage.setItem("username", usernameInput.value);
-//     if (usernameInput.value === "taken") {
-//       const toastLiveExample = document.getElementById("username-taken-toast");
-//       const toastBootstrap =
-//         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-//       toastBootstrap.show();
-//       usernameInput.value = "";
-//       passwordInput.value = "";
-//       signInButton.disabled = true;
-//     } else {
-//       const toastLiveExample = document.getElementById(
-//         "successful-login-toast"
-//       );
-//       const toastBootstrap =
-//         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-//       toastBootstrap.show();
-//       enterGame("#content");
-//     }
-//   });
-
-//   // ** INPUT EVENT LISTENERS ** //
-//   usernameInput.addEventListener("input", () => {
-//     if (usernameInput.value.trim() !== "" && passwordInput.value.trim() !== "")
-//       signInButton.disabled = false;
-//   });
-//   passwordInput.addEventListener("input", () => {
-//     if (usernameInput.value.trim() !== "" && passwordInput.value.trim() !== "")
-//       signInButton.disabled = false;
-//   });
-
-//   // ** RETURN CLICK LISTENER ** //
-//   returnLink.addEventListener("click", async () => {
-//     // ;
-//     // const content = await guestLoginViewInstance.getHtml();
-//     // document.getElementById("login-container").innerHTML = content;
-//   });
-// };
-
-// export const SignInView = () => {
-//   let content = document.getElementById("login-container");
-//   if (content) {
-//     content.innerHTML = getHtml();
-//     addEventListeners();
-//   }
-// };

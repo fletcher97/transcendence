@@ -1,4 +1,5 @@
 import Spinner from "../../../../components/Spinner.js";
+import signInUser from "../../../services/api/signInUser.js";
 
 export class SignInView {
   constructor(switchRoute, switchView) {
@@ -34,7 +35,6 @@ export class SignInView {
       this.switchRoute("/register");
     });
 
-
     signInButton.disabled = true;
 
     // ** SIGN IN CLICK LISTENER ** //
@@ -58,8 +58,20 @@ export class SignInView {
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
         signInButton.innerHTML = Spinner();
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        this.switchRoute("/");
+        const postData = {
+          username: usernameInput.value,
+          password: passwordInput.value,
+        };
+
+        try {
+          const response = signInUser(postData);
+          const data = await response.json();
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          console.log("data: ", data);
+          this.switchRoute("/");
+        } catch (error) {
+          console.log("error: ", error);
+        }
       }
     });
 
