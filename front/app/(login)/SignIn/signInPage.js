@@ -40,52 +40,40 @@ export class SignInView {
     // ** SIGN IN CLICK LISTENER ** //
     signInButton.addEventListener("click", async () => {
       localStorage.setItem("username", usernameInput.value);
-      if (usernameInput.value === "taken") {
+
+      signInButton.disabled = true;
+      signInButton.innerHTML = Spinner();
+      const postData = {
+        username: usernameInput.value,
+        password: passwordInput.value,
+      };
+
+      try {
+        const response = await signInUser(postData);
+        const data = await response.json();
+        console.log("data received in signInPage.js: ", data);
+        if (data.error) {
+          throw data.error.__all__;
+        }
+        localStorage.setItem("access_token", data.token_access);
+        localStorage.setItem("refresh_token", data.token_refresh);
+        localStorage.setItem("user_id", data.id);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        this.switchRoute("/");
+      } catch (error) {
         const toastLiveExample = document.getElementById(
           "username-taken-toast"
         );
+        document.querySelector("#toast-message-container").innerHTML = error[0];
         const toastBootstrap =
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
+
+        signInButton.innerHTML = "SIGN IN";
         usernameInput.value = "";
         passwordInput.value = "";
-        signInButton.disabled = true;
-      } else {
-        const toastLiveExample = document.getElementById(
-          "successful-login-toast"
-        );
-        const toastBootstrap =
-          bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-        toastBootstrap.show();
-        signInButton.innerHTML = Spinner();
-        const postData = {
-          username: usernameInput.value,
-          password: passwordInput.value,
-        };
-
-        try {
-          const response = signInUser(postData);
-          const data = await response.json();
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-          console.log("data: ", data);
-          this.switchRoute("/");
-        } catch (error) {
-          console.log("error: ", error);
-        }
       }
     });
-
-    console.log("in add event listerners in signinview");
-    // const hiddenElements = document.querySelectorAll(".hidden");
-    // let i = 1;
-    // hiddenElements.forEach((element) => {
-    //   console.log("element: ", element);
-    //   element.classList.add("child" + i);
-    //   i++;
-    // });
-    // hiddenElements.forEach((element) => {
-    //   element.classList.add("show");
-    // });
 
     // ** INPUT EVENT LISTENERS ** //
     usernameInput.addEventListener("input", () => {
@@ -102,62 +90,5 @@ export class SignInView {
       )
         signInButton.disabled = false;
     });
-
-    // ** RETURN CLICK LISTENER ** //
   };
 }
-
-// const addEventListeners = () => {
-//   const usernameInput = document.querySelector("#sign-in-username");
-//   const passwordInput = document.querySelector("#sign-in-password");
-//   const signInButton = document.querySelector("#sign-in-btn");
-//   const returnLink = document.querySelector("#return-link");
-//   signInButton.disabled = true;
-
-//   // ** SIGN IN CLICK LISTENER ** //
-//   signInButton.addEventListener("click", async () => {
-//     localStorage.setItem("username", usernameInput.value);
-//     if (usernameInput.value === "taken") {
-//       const toastLiveExample = document.getElementById("username-taken-toast");
-//       const toastBootstrap =
-//         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-//       toastBootstrap.show();
-//       usernameInput.value = "";
-//       passwordInput.value = "";
-//       signInButton.disabled = true;
-//     } else {
-//       const toastLiveExample = document.getElementById(
-//         "successful-login-toast"
-//       );
-//       const toastBootstrap =
-//         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-//       toastBootstrap.show();
-//       enterGame("#content");
-//     }
-//   });
-
-//   // ** INPUT EVENT LISTENERS ** //
-//   usernameInput.addEventListener("input", () => {
-//     if (usernameInput.value.trim() !== "" && passwordInput.value.trim() !== "")
-//       signInButton.disabled = false;
-//   });
-//   passwordInput.addEventListener("input", () => {
-//     if (usernameInput.value.trim() !== "" && passwordInput.value.trim() !== "")
-//       signInButton.disabled = false;
-//   });
-
-//   // ** RETURN CLICK LISTENER ** //
-//   returnLink.addEventListener("click", async () => {
-//     // ;
-//     // const content = await guestLoginViewInstance.getHtml();
-//     // document.getElementById("login-container").innerHTML = content;
-//   });
-// };
-
-// export const SignInView = () => {
-//   let content = document.getElementById("login-container");
-//   if (content) {
-//     content.innerHTML = getHtml();
-//     addEventListeners();
-//   }
-// };

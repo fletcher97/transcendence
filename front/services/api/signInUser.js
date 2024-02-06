@@ -10,15 +10,17 @@ const signInUser = async (user) => {
         Accept: "application/json",
       },
       body: JSON.stringify(user),
+      credentials: "include",
     });
-
-    console.log("response in signInUser: ", response);
+    // delay for 1s
 
     if (!response.ok) {
       // If the response status is not in the range 200-299
+      console.log("response is not ok");
       throw new Error(`Server responded with status: ${response.status}`);
     }
 
+    console.log("response in signInUser: ", response);
     return response;
   } catch (error) {
     // Handle any other errors that might occur during the fetch

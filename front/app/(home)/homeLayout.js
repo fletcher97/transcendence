@@ -5,6 +5,7 @@ import Spinner from "../../../../components/Spinner.js";
 import RoomsView from "./Rooms/RoomsView.js";
 import ProfileView from "./Profile/ProfileView.js";
 import { accentColor } from "../../../../assets/colors.js";
+import logoutUser from "../../services/api/logoutUser.js";
 
 export default class HomeView {
   constructor(switchRoute, room) {
@@ -24,6 +25,54 @@ export default class HomeView {
       switchRoute,
       this.render.bind(this)
     );
+    // fetch user data with local storage token_access
+
+    const accessToken = localStorage.getItem("access_token");
+    const userId = localStorage.getItem("user_id");
+
+    // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
+    // if (accessToken !== undefined) {
+    //   console.log("accessToken: ", accessToken);
+
+    //   const decodedToken = atob(accessToken.split(".")[1]);
+
+    //   // Parse the JSON-encoded payload
+    //   const payload = JSON.parse(decodedToken);
+
+    //   console.log("payload: ", payload);
+    // }
+
+    // // Check if the access token is present
+    // if (accessToken) {
+    //   // Make a request to fetch user data using the access token
+    //   fetch(`https://localhost/api/user/account/${userId}/`, {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //       // You may include other headers as needed
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (!response.ok) {
+    //         throw new Error(
+    //           `Failed to fetch user data. Status: ${response.status}`
+    //         );
+    //       }
+    //       return response.json();
+    //     })
+    //     .then((userData) => {
+    //       // Process the retrieved user data
+    //       console.log("User Data:", userData);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching user data:", error.message);
+    //     });
+    // } else {
+    //   console.error("Access token not found in localStorage");
+    //   // Handle the case where the access token is not available
+    // }
   }
 
   toggleTab = (button) => {
@@ -96,9 +145,14 @@ export default class HomeView {
       this.render("profileView");
     });
     logoutButton.addEventListener("click", () => {
-      localStorage.clear();
-      history.replaceState(null, "", "/");
-      this.switchRoute("/login");
+      try {
+        logoutUser();
+        localStorage.clear();
+        history.replaceState(null, "", "/");
+        this.switchRoute("/login");
+      } catch (error) {
+        console.error("Error logging out user:", error.message);
+      }
     });
   }
 

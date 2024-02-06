@@ -7,11 +7,13 @@ export class RegisterPage {
     this.isLoading = true;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
+    console.log("is logged in: ", document.cookie.includes("sessionid"));
+    console.log("document.cookie: ", document.cookie);
   }
 
   getHtml = async () => {
     let template = `
-      <h4>REGISTERRR</h4>
+      <h4>REGISTER</h4>
       <input class="input-box" type="text" id="register-username" name="username" placeholder="username">
       <input class="input-box" type="text" id="register-email" name="email" placeholder="email">
       <input class="input-box" type="password" id="register-password1" name="username" placeholder="password">
@@ -48,39 +50,44 @@ export class RegisterPage {
     // ** REGISTER CLICK LISTENER ** //
     registerButton.addEventListener("click", async () => {
       localStorage.setItem("username", usernameInput.value);
-      if (usernameInput.value === "taken") {
+      const postData = {
+        username: usernameInput.value,
+        email: emailInput.value,
+        password1: passwordOneInput.value,
+        password2: passwordTwoInput.value,
+      };
+      try {
+        const response = await registerUser(postData);
+        const data = await response.json();
+        if (data.error) {
+          throw data.error;
+        }
+        // store data in local storage
+        localStorage.setItem("access_token", data.token_access);
+        localStorage.setItem("refresh_token", data.token_refresh);
+        localStorage.setItem("user_id", data.id);
+        console.log("data FROM registerPage: ", data);
+        registerButton.innerHTML = Spinner();
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        this.switchRoute("/");
+      } catch (error) {
+        console.log("error: ", error);
         const toastLiveExample = document.getElementById(
           "username-taken-toast"
         );
+        // if (error.email)
+        document.querySelector("#toast-message-container").innerHTML =
+          "bad input";
+        // error[0];
         const toastBootstrap =
           bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        toastBootstrap.show();
+        bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
         usernameInput.value = "";
+        emailInput.value = "";
         passwordOneInput.value = "";
-        registerButton.disabled = true;
-      } else {
-        const toastLiveExample = document.getElementById(
-          "successful-login-toast"
-        );
-        const toastBootstrap =
-          bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-        toastBootstrap.show();
-        const postData = {
-          username: usernameInput.value,
-          email: emailInput.value,
-          password1: passwordOneInput.value,
-          password2: passwordTwoInput.value,
-        };
-        try {
-          const response = await registerUser(postData);
-          const data = await response.json();
-          console.log("data FROM registerPage: ", data);
-          registerButton.innerHTML = Spinner();
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-          this.switchRoute("/");
-        } catch (error) {
-          console.log("error: ", error);
-        }
+        passwordTwoInput.value = "";
       }
     });
 

@@ -3,7 +3,7 @@ import {
   accentColor,
   backgroundColor,
   primaryColor,
-} from "../assets/colors.js";
+} from "../../assets/colors.js";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
