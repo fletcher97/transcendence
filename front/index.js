@@ -8,7 +8,14 @@ let room = { name: "myRoom" };
 
 const switchRoute = (route) => {
   console.log("switching route to: ", route);
-  console
+  // get session id from cookies
+  // const sessionId = document.cookie.split("=")[1];
+  // console.log("access Token: ", accessToken);
+  // if (!accessToken) {
+  //   new LoginView(switchRoute, route);
+  //   history.pushState({ route }, null, route);
+  //   return;
+  // }
 
   history.pushState({ route }, null, route);
   if (route === "/" || route === "/dashboard") {
@@ -25,8 +32,6 @@ const switchRoute = (route) => {
 };
 
 window.onpopstate = (event) => {
-  // console.log("event: ", event);
-  // window.alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
   const route = event.state ? event.state.route : window.location.pathname;
   switchRoute(route);
 };
@@ -35,11 +40,18 @@ const initApp = () => {
   // add to app div container
   var url = new URL(window.location.href);
   console.log("url: ", url);
-  const id = DEV_ENV.USER_EXAMPLE.id;
-  if (id !== "123") {
-    switchRoute(url.pathname);
-  }
-  else {
+  const accessToken = localStorage.getItem("access_token");
+  const userId = localStorage.getItem("user_id");
+  console.log("accessToken: ", accessToken);
+  console.log("userId: ", userId);
+
+  if (accessToken) {
+    if (url.pathname !== "/login" && url.pathname !== "/register") {
+      switchRoute(url.pathname);
+    } else {
+      switchRoute("/");
+    }
+  } else {
     switchRoute("/login");
   }
 };

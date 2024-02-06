@@ -1,4 +1,4 @@
-import { drawPong } from "/scripts/drawPong.js";
+import { drawPong } from "/services/client/drawPong.js";
 import FRONT_DEV_ENV from "../../config.js";
 import { newClassicPongSocket } from "../../services/api/classicPongSocket.js";
 

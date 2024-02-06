@@ -6,8 +6,7 @@ const Toast = (message, id, color) => {
   <small>now</small>
   <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
-  <div class="toast-body">
-  ${message}
+  <div id="toast-message-container" class="toast-body">
   </div>
   </div>
   </div>`;

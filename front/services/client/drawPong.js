@@ -1,7 +1,6 @@
 import { primaryColor, accentColor } from "../../../assets/colors.js";
 
 export const drawPong = (gameState, canvas, ctx) => {
-  console.log("gameState in drawPong: ", gameState);
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
 
@@ -9,7 +8,6 @@ export const drawPong = (gameState, canvas, ctx) => {
   const paddleWidth = 10;
   const paddleHeight = gameState.players.p1.paddle_height;
   const ballSize = 10;
-  console.log("canvas: ", canvas.width);
 
   let player1Y = gameState.players.p1.position - paddleHeight / 2;
   let player2Y = gameState.players.p2.position - paddleHeight / 2;
