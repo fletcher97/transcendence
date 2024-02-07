@@ -1,10 +1,13 @@
 import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js";
+import getUser from "../../../services/api/getUser.js";
 import { fetchData } from "./fetchData.js";
 
 
 export default class DashboardView {
   constructor(switchRoute, switchView, room) {
     this.room = room;
+    this.userId = localStorage.getItem('user_id');
+    this.me = null;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
     this.rooms = [
@@ -21,7 +24,9 @@ export default class DashboardView {
 
   renderView = async () => {
     console.log("fetched data in dashboard: ", await fetchData());
-    history.pushState({ route: "/dashboard" }, null, "/dashboard");
+    this.me = await getUser(this.userId);
+    console.log("this.me: ", this.me);
+    // history.pushState({ route: "/dashboard" }, null, "/dashboard");
     const content = await this.getHtml();
     return content;
   };

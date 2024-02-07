@@ -1,6 +1,7 @@
 import Spinner from "../../../../components/Spinner.js";
 import signInUser from "../../../services/api/signInUser.js";
 
+
 export class SignInView {
   constructor(switchRoute, switchView) {
     this.firstRender = true;
@@ -58,6 +59,7 @@ export class SignInView {
         localStorage.setItem("access_token", data.token_access);
         localStorage.setItem("refresh_token", data.token_refresh);
         localStorage.setItem("user_id", data.id);
+        localStorage.setItem("username", data.username);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         this.switchRoute("/");
       } catch (error) {

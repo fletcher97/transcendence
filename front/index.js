@@ -38,6 +38,10 @@ window.onpopstate = (event) => {
 
 const initApp = () => {
   // add to app div container
+
+  fetch("/user/isAuth/")
+
+
   var url = new URL(window.location.href);
   console.log("url: ", url);
   const accessToken = localStorage.getItem("access_token");
