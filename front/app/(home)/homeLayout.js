@@ -6,10 +6,15 @@ import RoomsView from "./Rooms/RoomsView.js";
 import ProfileView from "./Profile/ProfileView.js";
 import { accentColor } from "../../../../assets/colors.js";
 import logoutUser from "../../services/api/logoutUser.js";
+import getUser from "../../../services/api/getUser.js";
+// import getUser
 
 export default class HomeView {
   constructor(switchRoute, room) {
     // super();
+    this.me = null;
+    this.userId = localStorage.getItem('user_id');
+    console.log("this.me: ", this.me);
     this.initialRender();
     this.room = room;
     this.activeTab = "dashboard-button";
@@ -30,6 +35,8 @@ export default class HomeView {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
+
+    
     // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
     // if (accessToken !== undefined) {
     //   console.log("accessToken: ", accessToken);
@@ -42,37 +49,14 @@ export default class HomeView {
     //   console.log("payload: ", payload);
     // }
 
-    // // Check if the access token is present
-    // if (accessToken) {
-    //   // Make a request to fetch user data using the access token
-    //   fetch(`https://localhost/api/user/account/${userId}/`, {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       // You may include other headers as needed
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (!response.ok) {
-    //         throw new Error(
-    //           `Failed to fetch user data. Status: ${response.status}`
-    //         );
-    //       }
-    //       return response.json();
-    //     })
-    //     .then((userData) => {
-    //       // Process the retrieved user data
-    //       console.log("User Data:", userData);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching user data:", error.message);
-    //     });
-    // } else {
-    //   console.error("Access token not found in localStorage");
-    //   // Handle the case where the access token is not available
-    // }
+    // Check if the access token is present
+
+
+    // console.log("me: ", me);
+  }
+
+  fetchData = async () => {
+    this.me = await getUser(this.userId);
   }
 
   toggleTab = (button) => {
@@ -163,6 +147,7 @@ export default class HomeView {
 
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
+    await this.fetchData();
     console.log("initial render");
     const content = document.getElementById("app");
     if (content) {
@@ -172,11 +157,9 @@ export default class HomeView {
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
             <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
-              <p class="ml-1">welcome back, <b>${localStorage.getItem(
-                "username"
-              )}!</b></p>
+              <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
               </div>
             
           <div class="d-flex align-items-center">

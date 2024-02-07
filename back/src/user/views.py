@@ -99,7 +99,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
-            token.blacklist()
+            # token.blacklist()
             context = {
                     "message": "Logout successful.",
                     "status": "success",
@@ -131,7 +131,7 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     user = request.user
     if user.is_authenticated:
         context["error"] = "You are already registered and logged in."
-        return (JsonResponse(context, encoder=DjangoJSONEncoder), status=400)
+        return (JsonResponse(context, encoder=DjangoJSONEncoder))
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")

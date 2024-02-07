@@ -1,8 +1,11 @@
 import { backgroundAccentColor } from "../../../../../assets/colors.js";
+import getUser from "../../../services/api/getUser.js";
 import { DashboardRoomBox } from "/components/DashboardRoomBox.js";
 
 export default class ProfileView {
   constructor(switchRoute, switchView) {
+    this.userId = localStorage.getItem('user_id');
+    this.me = null;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
     this.rooms = [
@@ -17,8 +20,12 @@ export default class ProfileView {
     ];
   }
 
+  fetchData = async () => {
+    this.me = await getUser(this.userId);
+  }
+
   renderView = async () => {
-    // this.fetchData();
+    await this.fetchData();
     const content = await this.getHtml();
     return content;
   };
@@ -32,6 +39,7 @@ export default class ProfileView {
         <div class="modal-content" style="background-color:#49627C">
           <div class="modal-body">
           <form>
+          <input></input>
           <div class="modal-header">
             <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -46,12 +54,7 @@ export default class ProfileView {
               <label for="email" class="col-form-label">Email:</label>
               <input type="text" class="form-control" id="email" value="email">
             </div>
-            <div class="mb-3">
-              <label for="confirmPassword" class="col-form-label">Confirm Password:</label>
-              <input type="text" class="form-control" id="confirmPassword" value="confirmPassword">
-            </div>
           </div>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <input type="submit" class="btn btn-primary" value="Save Changes">
@@ -71,7 +74,7 @@ export default class ProfileView {
         <div class="row justify-content-between gap-4" style="width:30%">
           <div class="d-flex align-items-center gap-4">  
             <div class="border rounded-circle border-primary border-3 style="border-radius: 50%;overflow: hidden">
-              <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="100" height="100" style="object-fit:cover"/>
+              <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="100" height="100" style="object-fit:cover"/>
             </div>
             <h1 style="font-size: 42px" class="">${localStorage.getItem(
               "username"
