@@ -55,7 +55,7 @@ export default class HomeView {
     // console.log("me: ", me);
   }
 
-  getUserHandler = async () => {
+  fetchData = async () => {
     this.me = await getUser(this.userId);
   }
 
@@ -147,7 +147,7 @@ export default class HomeView {
 
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
-    await this.getUserHandler();
+    await this.fetchData();
     console.log("initial render");
     const content = document.getElementById("app");
     if (content) {
@@ -157,7 +157,7 @@ export default class HomeView {
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
             <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="https://robohash.org/mail@ashallendesign.co.uk" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
               <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
               </div>
