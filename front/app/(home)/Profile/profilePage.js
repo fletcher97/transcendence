@@ -2,12 +2,12 @@ import { backgroundAccentColor } from "../../../../../assets/colors.js";
 import getUser from "../../../services/api/getUser.js";
 import { DashboardRoomBox } from "/components/DashboardRoomBox.js";
 
-export default class ProfileView {
-  constructor(switchRoute, switchView) {
+export default class ProfilePage {
+  constructor(switchRoute, switchPage) {
     this.userId = localStorage.getItem('user_id');
     this.me = null;
     this.switchRoute = switchRoute;
-    this.switchView = switchView;
+    this.switchPage = switchPage;
     this.rooms = [
       { name: "room1", numPlayers: 2, game: "classic pong" },
       { name: "room2", numPlayers: 3, game: "meta pong" },
@@ -42,7 +42,7 @@ export default class ProfileView {
           <input></input>
           <div class="modal-header">
             <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close dark-btn" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
           <div class="modal-body">
@@ -56,7 +56,7 @@ export default class ProfileView {
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary dark-btn" data-bs-dismiss="modal">Cancel</button>
             <input type="submit" class="btn btn-primary" value="Save Changes">
           </div>
         </form>
@@ -86,8 +86,8 @@ export default class ProfileView {
               <p>username: ${localStorage.getItem("username")}</p>
               <p>email: ${localStorage.getItem("username")}</p>
             </div>
-            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                EDIT PROFILE
+            <a type="button" class="btn btn-primary dark-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            EDIT PROFILE
             </a>
 
           </div>

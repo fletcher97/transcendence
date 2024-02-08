@@ -4,8 +4,7 @@ import { fetchData } from "./fetchData.js";
 
 
 export default class DashboardView {
-  constructor(switchRoute, switchView, room) {
-    this.room = room;
+  constructor(switchRoute, switchView) {
     this.userId = localStorage.getItem('user_id');
     this.me = null;
     this.switchRoute = switchRoute;
@@ -49,7 +48,7 @@ export default class DashboardView {
       console.log("Game Name:", gameName);
       this.room = { name: gameName };
 
-      const modal = document.getElementById("exampleModal2");
+      const modal = document.getElementById("createGameModal");
       if (modal) {
         modal.classList.remove("show");
         modal.setAttribute("aria-hidden", "true");
@@ -69,7 +68,7 @@ export default class DashboardView {
 
   createGameModal = () => {
     return `
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" >
           <div class="modal-container modal-body">
@@ -118,12 +117,13 @@ export default class DashboardView {
     <div style="height:35px"></div>
     <div class="d-flex row gap-5 rooms-container p-4">
       <div class="d-flex m-0 p-0">
-        <div class="row" style="">
+        <div class="row justify-content-between gap-1" style="">
+
           <div class="d-flex justify-content-between">
-            <div class="d-flex">
+            <div class="d-flex justify-content-between gap-4 align-items-center w-100">
               <h1 style="font-size: 42px" class="glow">PLAY</h1>
+              <img src="../../../assets/rooms-icon.svg" />
             </div>
-            <button class="btn btn-sm m-0 " data-bs-toggle="modal" data-bs-target="#exampleModal2">CREATE GAME</button>
           </div>
           <div class="container">
             <div class="row px-4">
@@ -140,13 +140,18 @@ export default class DashboardView {
                 <b>placeholder</b>
               </div>
               <div class="col-4"/>
-              </div>
             </div>
-              <div class="row rooms-rows-container m-0 mt-2 ">
-              ${this.rooms
-                .map((room) => DashboardRoomBox({ room: room }))
-                .join("")}
-                </div> 
+          </div>
+          
+            <div class="row rooms-rows-container m-0 mt-2 ">
+            ${this.rooms
+              .map((room) => DashboardRoomBox({ room: room }))
+              .join("")}
+              </div> 
+            </div>
+
+            <div class="mt-auto">
+              <button class="btn btn-sm m-0 dark-btn" data-bs-toggle="modal" data-bs-target="#createGameModal">CREATE GAME</button>
             </div>
         </div>
       </div>

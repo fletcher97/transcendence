@@ -10,6 +10,7 @@ import { RegisterPage } from "./Register/registerPage.js";
 export default class LoginView {
   constructor(switchRoute, subPage) {
     this.subPage = subPage;
+    console.log("this.subpage: ", this.subPage);
     this.userId = localStorage.getItem('user_id');
     this.me = null;
     this.guestLoginViewInstance = new GuestLoginView(

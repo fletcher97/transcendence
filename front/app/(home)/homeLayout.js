@@ -1,32 +1,35 @@
 // import AbstractView from "../AbstractView.js";
 
-import DashboardView from "./Dashboard/page.js";
+import DashboardView from "./Dashboard/dashboardPage.js";
 import Spinner from "../../../../components/Spinner.js";
-import RoomsView from "./Rooms/RoomsView.js";
-import ProfileView from "./Profile/ProfileView.js";
+import ProfilePage from "./Profile/profilePage.js";
 import { accentColor } from "../../../../assets/colors.js";
 import logoutUser from "../../services/api/logoutUser.js";
 import getUser from "../../../services/api/getUser.js";
+import FriendsPage from "./Friends/friendsPage.js";
 // import getUser
 
 export default class HomeView {
-  constructor(switchRoute, room) {
+  constructor(switchRoute, page) {
     // super();
     this.me = null;
     this.userId = localStorage.getItem('user_id');
     console.log("this.me: ", this.me);
     this.initialRender();
-    this.room = room;
+    this.page = page;
+    console.log("this.page in homeLayout: ", this.page);
     this.activeTab = "dashboard-button";
     this.activeTabElement;
     this.switchRoute = switchRoute;
     this.dashboardViewInstance = new DashboardView(
       switchRoute,
       this.render.bind(this),
-      this.room
     );
-    this.roomsViewInstance = new RoomsView(switchRoute, this.render.bind(this));
-    this.profileViewInstance = new ProfileView(
+    this.profilePageInstance = new ProfilePage(
+      switchRoute,
+      this.render.bind(this)
+    );
+    this.friendsPageInstance = new FriendsPage(
       switchRoute,
       this.render.bind(this)
     );
@@ -73,38 +76,36 @@ export default class HomeView {
       return;
     }
     const homeContainer = document.getElementById("home-container");
-    if (view === "dashboardView") {
+    if (view === "dashboard") {
       homeContainer.innerHTML = Spinner();
       const content = await this.dashboardViewInstance.renderView();
       homeContainer.innerHTML = content;
       const dashboardButton = document.querySelector("#dashboard-button");
       if (dashboardButton) {
-        console.log("dashboard button: ", dashboardButton);
         this.activeTabElement = document.getElementById(this.activeTab);
         this.toggleTab(document.querySelector("#dashboard-button"));
       }
       this.dashboardViewInstance.addEventListeners();
-    } else if (view === "roomsView") {
+    } else if (view === "profile") {
       homeContainer.innerHTML = Spinner();
-      const content = await this.roomsViewInstance.renderView();
-      homeContainer.innerHTML = content;
-      this.toggleTab(document.querySelector("#rooms-button"));
-      this.roomsViewInstance.addEventListeners();
-    } else if (view === "profileView") {
-      homeContainer.innerHTML = Spinner();
-      const content = await this.profileViewInstance.renderView();
+      const content = await this.profilePageInstance.renderView();
       homeContainer.innerHTML = content;
       this.toggleTab(document.querySelector("#profile-button"));
-      this.profileViewInstance.addEventListeners();
+      this.profilePageInstance.addEventListeners();
+    } else if (view === 'friends') {
+      homeContainer.innerHTML = Spinner();
+      const content = await this.friendsPageInstance.renderView();
+      homeContainer.innerHTML = content;
+      this.toggleTab(document.querySelector("#friends-button"));
     }
   }
 
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    // const roomsButton = document.querySelector("#rooms-button");
-    const logoutButton = document.querySelector("#log-out-btn");
+    const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
+    const logoutButton = document.querySelector("#log-out-btn");
     // window.onload = async () => {
     // addEventListener("DOMContentLoaded", async (event) => {
     // });
@@ -115,18 +116,22 @@ export default class HomeView {
     // Add click event listener
     dashboardButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);
-      this.render("dashboardView");
+      const route = "/dashboard";
+      history.pushState({ route }, null, route);
+      this.render("dashboard");
     });
-    // roomsButton.addEventListener("click", () => {
-    //   this.toggleTab(roomsButton);
-    //   this.render("roomsView");
-    // });
+    friendsbutton.addEventListener("click", () => {
+      this.toggleTab(friendsbutton);
+      const route = "/friends";
+      history.pushState({ route }, null, route);
+      this.render("friends");
+    });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
       // push state to route == "/profile"
       const route = "/profile";
       history.pushState({ route }, null, route);
-      this.render("profileView");
+      this.render("profile");
     });
     logoutButton.addEventListener("click", () => {
       try {
@@ -164,7 +169,7 @@ export default class HomeView {
             
           <div class="d-flex align-items-center">
           <b><h2 id="dashboard-button" class="nav-item">DASHBOARD</h2></b>
-          <b><h2 class="mx-2 inactive nav-item">FRIENDS</h2></b>
+          <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
           <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
           <p class="btn active" id="log-out-btn">log out</p>
           </div>
@@ -179,7 +184,7 @@ export default class HomeView {
         </div>
           
           `;
-      await this.render("dashboardView");
+      await this.render(this.page.substring(1));
       this.addEventListeners();
       // <canvas id="three-canvas"></canvas>
     }

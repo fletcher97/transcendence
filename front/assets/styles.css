@@ -322,3 +322,15 @@ b {
     text-shadow: 1px 1px 4px rgb(0, 132, 255);
     font-weight: 100;
 }
+
+.dark-btn {
+    background-color: #1c2835;
+    background-color: var(--dark-bg);
+    border: 0px;
+}
+
+.dark-btn:hover {
+    background-color: #546475;
+    color: #1c2835;
+    border: 0px;
+}
