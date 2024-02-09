@@ -48,7 +48,8 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
     user = request.user
     if user.is_authenticated:
-        return (redirect("index"))
+        context["error"] = "You are already logged in."
+        return (JsonResponse(context, encoder=DjangoJSONEncoder))
     destination = get_redirect_if_exists(request)
     if request.method == "POST":
         try:
@@ -58,13 +59,10 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
             if form.is_valid():
                 username = json_data["username"]
                 password = json_data["password"]
-                logging.debug("username is %s", username)
-                logging.debug("password is %s", password)
                 user = authenticate(username=username, password=password)
                 if user:
                     login(request, user)
                     tokens = create_jwt_pair_for_user(user)
-                    logging.debug("tokens %s", tokens)
                     context = generate_response(
                             "200", user=user, tokens=tokens)
                     if destination:
@@ -73,7 +71,6 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
                 else:
                     logging.debug("user is not valid")
             else:
-                logging.debug("form is not valid")
                 context["login_form"] = form
                 errors = {}
                 for field, field_errors in form.errors.items():
@@ -83,7 +80,6 @@ def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
             context = generate_response("401", error_message=errors)
             return (JsonResponse(context, encoder=DjangoJSONEncoder))
         context = generate_response("401", error_message=errors)
-    logging.debug("context es %s", context)
     return (JsonResponse(context, encoder=DjangoJSONEncoder))
 
 
@@ -99,7 +95,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
-            # token.blacklist()
+            token.blacklist()
             context = {
                     "message": "Logout successful.",
                     "status": "success",
@@ -121,7 +117,6 @@ def logout_view(request: HttpRequest) -> JsonResponse:
             "message": "Refresh token not provided.",
             "status": "error",
                 }
-        logging.debug("context is %s", context)
     return (JsonResponse(context, encoder=DjangoJSONEncoder, status=401))
 
 
@@ -131,7 +126,7 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     user = request.user
     if user.is_authenticated:
         context["error"] = "You are already registered and logged in."
-        return (JsonResponse(context, encoder=DjangoJSONEncoder))
+        return (JsonResponse(context, encoder=DjangoJSONEncoder), 400)
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
@@ -190,6 +185,7 @@ def account_view(request, *args, **kwargs):
         return (JsonResponse(context, encoder=DjangoJSONEncoder, status=404))
         # return (HttpResponse("That user does not exist."))
     # if user exists we check if they are a friend
+        logging.debug("files %s", request.FILES)
     if account:
         context['id'] = account.id
         context['username'] = account.username
@@ -219,7 +215,7 @@ def account_view(request, *args, **kwargs):
         user = request.user
         request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
         friend_requests = None
-        # If user is authenticated we check if they are a friend
+        # If user iso authenticated we check if they are a friend
         # If the user is authenticated and the user is not the same as the
         # account
         if user.is_authenticated and user != account:
@@ -258,9 +254,15 @@ def account_view(request, *args, **kwargs):
     # return (render(request, "user/account.html", context))
 
 
+@csrf_exempt
+@api_view(['GET', 'POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def edit_account_view(request, *arg, **kwargs):
     if not request.user.is_authenticated:
-        return (redirect("login"))
+        context = {"error": "You must be authenticated to edit your profile."}
+        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=403))
+        # return (redirect("login"))
     user_id = kwargs.get("user_id")
     context = {}
     try:
@@ -272,16 +274,20 @@ def edit_account_view(request, *arg, **kwargs):
         context['error'] = "You cannot edit someone elses profile."
         return (JsonResponse(context, encoder=DjangoJSONEncoder, status=400))
     if request.method == "POST":
-        form = UsersUpdateForm(
-                request.POST, request.FILES, instance=request.user)
+        json_data = request.body.decode("utf-8")
+        json_data = json.loads(json_data)
+        form = UsersUpdateForm(json_data, instance=request.user)
         if form.is_valid():
+            logging.debug("form is valid")
             # Delete the old profile image so the name is preserved
-            user.profile_image.delete()
+            # user.profile_image.delete()
             form.save()
             # We redirect to the same page to see the changes
-            return (redirect("view", user_id=user_id))
+            context['success'] = "Profile updated successfully."
+            return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
+            # return (redirect("view", user_id=user_id))
         else:
-            logging.debug("form is not valid.")
+            logging.debug("form is not valid")
             form = UsersUpdateForm(
                     request.POST, instance=request.user, initial={
                                       "id": user.pk,
@@ -290,9 +296,9 @@ def edit_account_view(request, *arg, **kwargs):
                                       "profile_image": user.profile_image,
                                       "hide_email": user.hide_email,
                                       })
-            context['form'] = form
+            context['errors'] = form.errors
     else:
-        logging.debug("Bad method.")
+        logging.debug("request method is not post")
         form = UsersUpdateForm(
                 initial={
                     "id": user.pk,
@@ -301,9 +307,11 @@ def edit_account_view(request, *arg, **kwargs):
                     "profile_image": user.profile_image,
                     "hide_email": user.hide_email,
                     })
-        context['form'] = form
+        context['errors'] = form.errors
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
-    return (render(request, "user/edit_account.html", context))
+    logging.debug("context leaving edit: %s", context)
+    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
+    # return (render(request, "user/edit_account.html", context))
 
 
 def account_search_view(request, *args, **kwargs):
