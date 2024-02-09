@@ -30,7 +30,8 @@ export const DashboardRoomBox = ({ room }) => {
               </div>
               <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end">
-                  <a style="font-size: 15px" class="btn">WATCH</a>
+                
+                  <a style="font-size: 15px" class="btn dark-btn">WATCH</a>
                   <a style="font-size: 15px" class="btn active">JOIN</a>
                 </div>
             </div>

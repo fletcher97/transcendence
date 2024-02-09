@@ -5,7 +5,7 @@
     --bg-blue: 344C65;
     --dark-blue: #2E4257;
     --dark-bg: #1f2d3d;
-    --pink: #d73993;
+    --pink: #db3593;
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);
@@ -65,16 +65,16 @@ h1.night-mode {
 }
 
 
-h1 {
-    color: var(--primary-color);
-    color: white;
-    /* color: white; */
-    font-size: 80px;
-    color: var(--primary-color);
-    color: rgb(0, 132, 255);
+h1{
+    font-size: 5rem;
     color: var(--accent-color);
     text-shadow: 0px 0px 4px var(--accent-color);
     }
+
+h5 {
+    color: rgb(0, 132, 255);
+    text-shadow: 0px 0px 4px rgb(0, 132, 255);
+}
 
 .glow {
     animation: flicker .6s infinite alternate;
@@ -199,6 +199,7 @@ b {
     color: white;
     font-size: 14px;
     cursor: pointer;
+    
 }
 
 .nav-item:hover {
@@ -213,10 +214,24 @@ b {
     background-color: #1c2835;
     background-color: var(--dark-blue);
     border-radius: 10px;
-    border: .1px solid rgb(89, 89, 89);
+    /* border: .1px solid rgb(89, 89, 89); */
     /* border: 10px solid var(--dark-blue); */
     /* make it a scrollable container with fixed height */
+}
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: 0px 0px 1px 1px var(--dark-blue);
+    padding: 30px;
+    background-color: #1c2835;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    /* border: .1px solid rgb(89, 89, 89); */
+    /* border: 10px solid var(--b); */
+    /* make it a scrollable container with fixed height */
 }
 
 .rooms-rows-container {
@@ -275,6 +290,8 @@ b {
     /* text-shadow: 1px 1px 4px var(--accent-color);     */
 }
 
+
+
 .input-box:active {
     border: 1px solid var(--accent-color);
 }
@@ -321,4 +338,24 @@ b {
     /* text-shadow: 1px 1px 6px var(--accent-color); */
     text-shadow: 1px 1px 4px rgb(0, 132, 255);
     font-weight: 100;
+}
+
+.dark-btn {
+    background-color: #1c2835;
+    background-color: var(--dark-bg);
+    color: rgb(0, 132, 255);
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
+    border: 0px;
+}
+
+.dark-btn:hover {
+    background-color: #546475;
+    color: #1c2835;
+    border: 0px;
+}
+
+.light-dark-btn {
+    background-color: #546475;
+    border: 0px;
+    
 }
