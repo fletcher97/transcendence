@@ -55,6 +55,8 @@ export default class ProfilePage {
     var file = fileInput.files[0];
     const reader = new FileReader();
     let base64Image;
+    
+    console.log("reader: ", reader);
 
     reader.onloadend = function () {
         // Log or process the base64-encoded image
@@ -92,24 +94,29 @@ export default class ProfilePage {
             </div>
 
             
-            <div class="modal-body">
-            <div class="mb-3">
-              <label for="formFile" class="form-label">Default file input example</label>
-              <input id="change-avatar-input" class="form-control" type="file" id="formFile" accept=".png">
+            <div class="modal-body gap-5">
+            <div class="d-flex gap-4">
+              <div class="border rounded-circle border-primary border-3 style="border-radius: 50%;overflow: hidden">
+                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="100" height="100" style="object-fit:cover"/>
               </div>
               <div class="mb-3">
-                <label for="username" class="col-form-label">Username:</label>
+                <label for="formFile" class="form-label p-blue"><p class="p-blue">Default file input example</p></label>
+                <input id="change-avatar-input" class="form-control" type="file" id="formFile" accept=".png">
+              </div>
+            </div>
+              <div class="mb-3">
+                <label for="username" class="col-form-label p-blue">Username:</label>
                 <input id="edit-profile-username" type="text" class="form-control input-box" id="username" value="">
               </div>
               <div class="mb-3">
-                <label for="email" class="col-form-label">Email:</label>
+                <label for="email" class="col-form-label p-blue">Email:</label>
                 <input id="edit-profile-email" type="text" class="form-control input-box" id="email" value="">
               </div>
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary dark-btn" data-bs-dismiss="modal">Cancel</button>
-              <button id="submit-btn" type="submit" class="btn btn-primary">Save Changes</button>
+              <button id="submit-btn" type="submit" class="btn btn-primary dark-btn" data-bs-dismiss="modal">Save Changes</button>
             </div>
            </form>
           </div>
@@ -129,7 +136,7 @@ export default class ProfilePage {
               <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="100" height="100" style="object-fit:cover"/>
             </div>
             
-            <h1 style="font-size: 42px" class="">${localStorage.getItem(
+            <h1 style="font-size: 42px" class="glow">${localStorage.getItem(
               "username"
             )}
             </h1>
@@ -147,7 +154,7 @@ export default class ProfilePage {
         </div>
 
         <div class="row justify-content-between mx-5" style="width:70%">
-          <h2>STATS</h2>
+          <h2 class="glow">STATS</h2>
         </div>
       </div>
       

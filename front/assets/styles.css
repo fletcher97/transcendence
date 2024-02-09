@@ -5,7 +5,7 @@
     --bg-blue: 344C65;
     --dark-blue: #2E4257;
     --dark-bg: #1f2d3d;
-    --pink: #d73993;
+    --pink: #db3593;
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);
@@ -65,10 +65,16 @@ h1.night-mode {
 }
 
 
-h1, h5 {
+h1{
+    font-size: 5rem;
     color: var(--accent-color);
     text-shadow: 0px 0px 4px var(--accent-color);
     }
+
+h5 {
+    color: rgb(0, 132, 255);
+    text-shadow: 0px 0px 4px rgb(0, 132, 255);
+}
 
 .glow {
     animation: flicker .6s infinite alternate;
@@ -193,6 +199,7 @@ b {
     color: white;
     font-size: 14px;
     cursor: pointer;
+    
 }
 
 .nav-item:hover {
@@ -336,6 +343,8 @@ b {
 .dark-btn {
     background-color: #1c2835;
     background-color: var(--dark-bg);
+    color: rgb(0, 132, 255);
+    text-shadow: 1px 1px 4px rgb(0, 132, 255);
     border: 0px;
 }
 
