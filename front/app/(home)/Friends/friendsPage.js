@@ -40,6 +40,7 @@ export default class FriendsPage {
                 <div class="modal-content" >
                 <div class="modal-container modal-body">
                 <form id="createGameForm">
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="editProfileModalLabel">Add Friend</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -53,7 +54,7 @@ export default class FriendsPage {
                 </div>
 
                 <div class="modal-footer">
-                    <button id="submit-btn" type="submit" class="btn btn-primary">Create Game</button>
+                    <button id="submit-btn" type="submit" class="btn btn-primary dark-btn">Create Game</button>
                 </div>
                 </form>
                 </div>

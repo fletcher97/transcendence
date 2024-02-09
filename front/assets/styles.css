@@ -65,13 +65,7 @@ h1.night-mode {
 }
 
 
-h1 {
-    color: var(--primary-color);
-    color: white;
-    /* color: white; */
-    font-size: 80px;
-    color: var(--primary-color);
-    color: rgb(0, 132, 255);
+h1, h5 {
     color: var(--accent-color);
     text-shadow: 0px 0px 4px var(--accent-color);
     }
@@ -213,10 +207,24 @@ b {
     background-color: #1c2835;
     background-color: var(--dark-blue);
     border-radius: 10px;
-    border: .1px solid rgb(89, 89, 89);
+    /* border: .1px solid rgb(89, 89, 89); */
     /* border: 10px solid var(--dark-blue); */
     /* make it a scrollable container with fixed height */
+}
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: 0px 0px 1px 1px var(--dark-blue);
+    padding: 30px;
+    background-color: #1c2835;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    /* border: .1px solid rgb(89, 89, 89); */
+    /* border: 10px solid var(--b); */
+    /* make it a scrollable container with fixed height */
 }
 
 .rooms-rows-container {
@@ -274,6 +282,8 @@ b {
     color: var(--accent-color);
     /* text-shadow: 1px 1px 4px var(--accent-color);     */
 }
+
+
 
 .input-box:active {
     border: 1px solid var(--accent-color);
@@ -333,4 +343,10 @@ b {
     background-color: #546475;
     color: #1c2835;
     border: 0px;
+}
+
+.light-dark-btn {
+    background-color: #546475;
+    border: 0px;
+    
 }

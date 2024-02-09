@@ -58,7 +58,7 @@ const initApp = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", (e) => {
-    e.preventDefault();
+    // e.preventDefault();
   });
 });
 

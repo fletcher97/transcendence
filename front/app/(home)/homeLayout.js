@@ -14,10 +14,8 @@ export default class HomeView {
     // super();
     this.me = null;
     this.userId = localStorage.getItem('user_id');
-    console.log("this.me: ", this.me);
     this.initialRender();
     this.page = page;
-    console.log("this.page in homeLayout: ", this.page);
     this.activeTab = "dashboard-button";
     this.activeTabElement;
     this.switchRoute = switchRoute;
