@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-    --blue: #4988FF;
+    --blue: rgb(0, 132, 255);
     --bg-blue: 344C65;
     --dark-blue: #2E4257;
     --dark-bg: #1f2d3d;
     --pink: #db3593;
+    --light-blue: rgb(112, 186, 255);
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);

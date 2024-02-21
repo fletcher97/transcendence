@@ -86,7 +86,7 @@ export default class DashboardView {
           </div>
 
           <div class="modal-footer">
-            <button id="submit-btn" type="submit" class="btn btn-primary">Create Game</button>
+            <button id="submit-btn" type="submit" class="btn  dark-btn">Create Game</button>
           </div>
         </form>
           </div>

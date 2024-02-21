@@ -18,7 +18,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#three-canvas"),
 });
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+renderer.setSize(window.innerWidth , window.innerHeight );
 document.body.appendChild(renderer.domElement);
 
 // Create a cube as the player

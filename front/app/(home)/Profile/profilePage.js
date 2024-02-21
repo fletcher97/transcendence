@@ -31,6 +31,46 @@ export default class ProfilePage {
     return content;
   };
 
+  handleEditProfileSubmit = async (event) => {
+      
+      let usernameInput = document.querySelector("#edit-profile-username").value;
+      let emailInput = document.querySelector("#edit-profile-email").value;
+
+      if (usernameInput.length <= 0)
+        usernameInput = this.me.username;
+      if (emailInput.length <= 0)
+        emailInput = this.me.email;
+
+      console.log("username: ", usernameInput);
+      console.log("email: ", emailInput);
+
+
+      // Your form handling logic goes here
+      var fileInput = document.getElementById('change-avatar-input');
+      var file = fileInput.files[0];
+      const reader = new FileReader();
+      let base64Image;
+      
+      console.log("reader: ", reader);
+
+      reader.onloadend = function () {
+        console.log("enter reader.onloadend");
+          // Log or process the base64-encoded image
+        base64Image = reader.result;
+        var startIndex = base64Image.indexOf(',') + 1;
+        var cleanedBase64 = base64Image.substring(startIndex);
+        editUser({username: usernameInput, email: emailInput, profile_image: cleanedBase64})
+        this.renderView();
+        return;
+        // Your form handling logic goes here
+      };
+      editUser({username: usernameInput, email: emailInput, profile_image: this.me.profile_image_base64})
+      this.renderView();
+      // Read the file as Data URL, which results in a base64-encoded string
+      // reader.readAsDataURL(file);
+
+  }
+
   addEventListeners = async () => {
 
     
@@ -39,43 +79,9 @@ export default class ProfilePage {
 
     var editProfileForm = document.getElementById('edit-profile-form');
     console.log("editProfileForm: ", editProfileForm);
-    editProfileForm.addEventListener('submit', function (event) {
-    event.preventDefault()
-
-    const usernameInput = document.querySelector("#edit-profile-username");
-    const emailInput = document.querySelector("#edit-profile-email");
-
-
-
-
-    console.log("target.value", event.target);
-
-    // Your form handling logic goes here
-    var fileInput = document.getElementById('change-avatar-input');
-    var file = fileInput.files[0];
-    const reader = new FileReader();
-    let base64Image;
-    
-    console.log("reader: ", reader);
-
-    reader.onloadend = function () {
-        // Log or process the base64-encoded image
-      base64Image = reader.result;
-      console.log("username: ", usernameInput.value);
-      console.log("email: ", emailInput.value);
-      console.log("base64Image: ", base64Image);
-      var startIndex = base64Image.indexOf(',') + 1;
-      var cleanedBase64 = base64Image.substring(startIndex);
-      editUser({username: usernameInput.value, email: emailInput.value, base64Image: cleanedBase64})
-        // Your form handling logic goes here
-    };
-
-
-
-
-    // Read the file as Data URL, which results in a base64-encoded string
-    reader.readAsDataURL(file);
-
+    editProfileForm.addEventListener('submit', async  (event) => {
+      event.preventDefault()
+      await this.handleEditProfileSubmit(event);
     });
   }
 
@@ -143,8 +149,8 @@ export default class ProfilePage {
           </div>
           <div class="row justify-content-between">
             <div>
-              <p>username: ${localStorage.getItem("username")}</p>
-              <p>email: ${localStorage.getItem("username")}</p>
+              <p>username: ${this.me.username}</p>
+              <p>email: ${this.me.email}</p>
             </div>
             </div>
             <a type="button" class="btn btn-primary dark-btn" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">
