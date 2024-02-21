@@ -1,27 +1,34 @@
 # API Contract
 
 #### Table of Contents
+
 - [Rest API HTTP Endpoints](#rest-api-http-endpoints)
-	- [Users](#users) 
-		- [GET /users](#get-users)
-		- [GET /users/:id](#get-usersid)
-		- [GET /users/:id/friends](#get-usersidfriends)
-		- [POST /users](#post-users)
-		- [POST /users/:id/friends](#post-usersidfriends)
-		- [POST /login](#post-login)
-		- [POST /register](#post-register)
-		- [POST /logout/:id](#post-logoutid)
-		- [PATCH /users/:id](#patch-usersid)
-		- [DELETE /users/:id](#delete-usersid)
-		- [DELETE /users/:id/friends/:friendId](#delete-usersidfriendsfriendId)
+  - [Users](#users)
+    - [GET /users](#get-users)
+    - [GET /users/:id](#get-usersid)
+    - [GET /users/:id/friends](#get-usersidfriends)
+    - [POST /users](#post-users)
+    - [POST /login](#post-login)
+    - [POST /register](#post-register)
+    - [POST /logout/:id](#post-logoutid)
+    - [PATCH /users/:id](#patch-usersid)
+    - [DELETE /users/:id](#delete-usersid)
+    - [DELETE /users/:id/friends/:friendId](#delete-usersidfriendsfriendId)
+  - [Friend Requests](#friend-requests)
+    - [GET /users/friend_requests](#get-usersfriend_requests)
+    - [POST /users/friend_requests](#post-usersfriend_requests)
 - [Web Socket endpoints](#web-socket-endpoints)
-	- [Rooms](#rooms)
+  - [Rooms](#rooms)
+
 # Rest API HTTP Endpoints
+
 This section outlines the paths to HTTP endpoints and their expected data shapes, behaviour, parameters and responses.
+
 ## Users
 
-* User object:
-``` 
+- User object:
+
+```
 {
   id: int
   username: string
@@ -32,19 +39,20 @@ This section outlines the paths to HTTP endpoints and their expected data shapes
 }
 ```
 
-## GET /users
+### GET /users
 
 Returns all users.
 
 - **URL Params**
-    None
+  None
 - **Data Params**  
-	None
+  None
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 200  
-		* ***Content:**
+  - **Code:** 200
+    - **\*Content:**
+
 ```
 {
   users: [
@@ -55,36 +63,37 @@ Returns all users.
 }
 ```
 
-## GET /users/:id
+### GET /users/:id
 
 Returns the specified user.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Data Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json  
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <user_object> }`
+  - **Code:** 200
+    - **Content:** `{ <user_object> }`
 - **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
 
-## **GET /users**/:id/friends
+### **GET /users**/:id/friends
 
 Returns all friends of specified user.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Data Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json  
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** 
+  - **Code:** 200
+    - **Content:**
+
 ```
 {
   friends: [
@@ -94,18 +103,19 @@ Returns all friends of specified user.
          ]
 }
 ```
-- **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "User doesn't exist" }`  
 
-## **POST /users**
+- **Error Response:**
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
+
+### **POST /users**
 
 Creates a new User and returns the new object.
 
 - **URL Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Data Params**
 
 ```
@@ -115,20 +125,20 @@ Creates a new User and returns the new object.
 ```
 
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <user_object> }`
+  - **Code:** 200
+    - **Content:** `{ <user_object> }`
 - **Error Response:**
-    - **Code:** 404  
-	    - **Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
 
-## **POST /users/:id/friends**
+### **POST /users/:id/friends**
 
 Adds a friend to user's friend list and returns the friend's user object.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Data Params**
 
 ```
@@ -138,17 +148,17 @@ Adds a friend to user's friend list and returns the friend's user object.
 ```
 
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <user_object> }`
+  - **Code:** 200
+    - **Content:** `{ <user_object> }`
 
-## **POST /login**
+### **POST /login**
 
 Logs in a User and returns the user object.
 
 - **URL Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Data Params**
 
 ```
@@ -159,20 +169,20 @@ Logs in a User and returns the user object.
 ```
 
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <user_object> }`
+  - **Code:** 200
+    - **Content:** `{ <user_object> }`
 - **Error Response:**
-	- **Code:** 401  
-		- **Content:** `{ error : "Invalid user or password" }`  
+  - **Code:** 401
+    - **Content:** `{ error : "Invalid user or password" }`
 
-## **POST /register**
+### **POST /register**
 
 Logs in a User and returns the user object.
 
 - **URL Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Data Params**
 
 ```
@@ -183,38 +193,39 @@ Logs in a User and returns the user object.
 ```
 
 - **Success Response:**
-	- **Code:** 201  
-	- **Content:** `{ <user_object> }`
+  - **Code:** 201
+  - **Content:** `{ <user_object> }`
 - **Error Response:**
-	- **Code:** 409  
-		- **Content:** `{ error : "Username already exists" }`  
-	- **Code:** 422  
-		- **Content:** `{ error : "Password doesn't meet requirements" }`  
+  - **Code:** 409
+    - **Content:** `{ error : "Username already exists" }`
+  - **Code:** 422
+    - **Content:** `{ error : "Password doesn't meet requirements" }`
 
-## **POST /logout/:id**
+### **POST /logout/:id**
 
 Logs out specified user.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Headers**  
-    Content-Type: application/json
+   Content-Type: application/json
 - **Data Params**
-	None
+  None
 - **Success Response:**
-	- **Code:** 204
+  - **Code:** 204
 - **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
 
-## **PATCH /users/:id**
+### **PATCH /users/:id**
 
 Updates fields on the specified user and returns the updated object.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Data Params**
-	one or more user fields, for example:
+  one or more user fields, for example:
+
 ```
   {
   	username: string
@@ -223,50 +234,156 @@ Updates fields on the specified user and returns the updated object.
 ```
 
 - **Headers**  
-    Content-Type: application/json  
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 200  
-		- **Content:** `{ <user_object> }`
+  - **Code:** 200
+    - **Content:** `{ <user_object> }`
 - **Error Response:**
-	- **Code:** 404  
-		- ***Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **\*Content:** `{ error : "User doesn't exist" }`
 
-## **DELETE /users/:id**
+### **DELETE /users/:id**
 
 Deletes the specified user.
 
 - **URL Params**  
-    _Required:_ `id=[integer]`
+   *Required:* `id=[integer]`
 - **Data Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json  
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 204
+  - **Code:** 204
 - **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
 
-## DELETE /users/:id/friends/:friendId
+## Friends
 
-Deletes the specified friend from the specified user's friend list.
+- Friend object:
+
+```
+{
+  id: int
+  user1: user_object
+  user2: user_object
+  createdAt: timestamp
+}
+```
+
+### **GET /users/friends**
+
+Get all friend requests issued to authenticated user
+
+- **Headers**  
+   Content-Type: application/json
+
+- **Success Response:**
+
+  - **Code:** 200
+    - **Content:**
+    ```
+      [
+        <friend__object>,
+        <friend__object>,
+        ...
+      ]
+    ```
+
+### **POST /users/friends**
+
+Create friend
+
+- **Headers**  
+   Content-Type: application/json
+
+- **Success Response:**
+
+  - **Code:** 200
+    - **Content:**
+      `<friend__object>,`
+
+### **DELETE /users/friends/:friendId**
+
+Deletes the specified friend from the authorised user's friend list.
 
 - **URL Params**  
-    _Required:_ `id=[integer], friendId=[integer]`
+   *Required:* `friendId=[integer]`
 - **Data Params**  
-    None
+   None
 - **Headers**  
-    Content-Type: application/json  
+   Content-Type: application/json
 - **Success Response:**
-	- **Code:** 204
+  - **Code:** 204
 - **Error Response:**
-	- **Code:** 404  
-		- **Content:** `{ error : "User doesn't exist" }`  
+  - **Code:** 404
+    - **Content:** `{ error : "User doesn't exist" }`
+
+## Friend Requests
+
+```
+{
+  id: int
+  user: user_object
+}
+```
+
+### **GET /users/friend_requests**
+
+Get all friend requests issued to authenticated user
+
+- **Headers**  
+   Content-Type: application/json
+
+- **Success Response:**
+
+  - **Code:** 200
+    - **Content:**
+    ```
+      [
+        <friend_request_object>,
+        <friend_request_object>,
+        ...
+      ]
+    ```
+
+### **POST /users/friend_requests**
+
+Sends a friend request to user(username) specified in body
+
+- **Headers**  
+   Content-Type: application/json
+
+- **Data Params**
+
+```
+  {
+    <username>
+  }
+```
+
+- **Success Response:**
+  - **Code:** 200
+    - **Content:** `{ <friend_request_object> }`
+
+### **DELETE /users/friend_requests/:friendRequestId**
+
+Removes the specified friend request from the authorised user's friend requests.
+
+- **URL Params**  
+   *Required:* `friendRequestId=[integer]`
+- **Data Params**  
+   None
+- **Headers**  
+   Content-Type: application/json
+- **Success Response:**
+  - **Code:** 204
 
 ## Rooms
 
-* Room object:
-``` 
+- Room object:
+
+```
 {
 	name: string
 	spectators: int
@@ -292,14 +409,14 @@ Deletes the specified friend from the specified user's friend list.
 - **spectators**: This is the amount of spectators currently watching the game.
 
 - **players**: the `players` field contains 2 entries. One for each player. It will have the information about a player if they are present.
-Otherwise none will be present.
+  Otherwise none will be present.
 
 - **state**: When a room is created it will be in `waiting` state. Once all player spots have been filled it will change to `ready`. Finally,
-when the game starts, it will change to `playing`.
+  when the game starts, it will change to `playing`.
 
 - **timer**: the timer server to represent how long a play has been on. Before the game starts it will have a negative value signifying how long it will be until the game starts. Once the game starts it will count how long the game has been on for.
 
-## GET /pong/rooms
+### GET /pong/rooms
 
 A list with [rooms](#rooms) will returned
 
