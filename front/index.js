@@ -4,7 +4,7 @@ import LoginView from "./app/(login)/loginLayout.js";
 import DEV_ENV from "./config.js";
 import Toast from "./components/Toast.js";
 
-let room = { name: "myRoom" };
+const room = {name: "lol"}
 
 const switchRoute = (route) => {
   console.log("switching route to: ", route);
@@ -17,9 +17,11 @@ const switchRoute = (route) => {
   //   return;
   // }
 
-  history.pushState({ route }, null, route);
-  if (route === "/" || route === "/dashboard") {
-    new HomeView(switchRoute, room);
+  if (route === "/" || route === "/dashboard" || route == "/friends" || route == "/profile") {
+    if (route === "/")
+    route = "/dashboard"
+    history.pushState({ route }, null, route);
+    new HomeView(switchRoute, route);
   } else if (route === "/login" || route === "/register") {
     // if (history.state.route !== "/") {
     new LoginView(switchRoute, route);
@@ -37,13 +39,7 @@ window.onpopstate = (event) => {
 };
 
 const initApp = () => {
-  // add to app div container
-
-  fetch("/user/isAuth/")
-
-
   var url = new URL(window.location.href);
-  console.log("url: ", url);
   const accessToken = localStorage.getItem("access_token");
   const userId = localStorage.getItem("user_id");
   console.log("accessToken: ", accessToken);
@@ -62,7 +58,7 @@ const initApp = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", (e) => {
-    e.preventDefault();
+    // e.preventDefault();
   });
 });
 

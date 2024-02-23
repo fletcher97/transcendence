@@ -1,7 +1,5 @@
 const registerUser = async (user) => {
   try {
-    console.log("user: ", user);
-
     // make post request to server with user fields
     const response = await fetch("https://localhost:443/api/user/register/", {
       method: "POST",
