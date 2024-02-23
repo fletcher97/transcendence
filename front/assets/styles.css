@@ -186,7 +186,24 @@ b {
     /* z-index: 2; */
     height: 100px;
     width: 100px;
-  }
+    
+}
+
+#local-pong-canvas {
+        /* height: 80vh; */
+        /* width: 80vw;
+            /* 80% of viewport width */
+        /* height: 50vh;  */
+        /* 50% of viewport height */
+        /* border: 1px solid var(--accent-color); */
+        /* box-shadow: 1px 2px 3px var(--accent-color); */
+        padding: 0;
+        /* width: 1000px; */
+            /* 1000px of viewport width */
+        /* height: 1000px; */
+            /* 50% of viewport height */
+        
+}
 
   .toast-container.toast-red, .toast-header.toast-red {
     color: red;

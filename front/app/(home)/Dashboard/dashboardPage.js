@@ -2,10 +2,9 @@ import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js"
 import getUser from "../../../services/api/getUser.js";
 import { fetchData } from "./fetchData.js";
 
-
 export default class DashboardView {
   constructor(switchRoute, switchView) {
-    this.userId = localStorage.getItem('user_id');
+    this.userId = localStorage.getItem("user_id");
     this.me = null;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
@@ -41,7 +40,7 @@ export default class DashboardView {
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.addEventListener("click", (event) => {
       event.preventDefault();
-      console.log("input: ", event.target.value)
+      console.log("input: ", event.target.value);
       // Your custom logic for handling the form submission
       // For example, you can retrieve the input value and perform an action
       const gameName = document.getElementById("game-name").value;
