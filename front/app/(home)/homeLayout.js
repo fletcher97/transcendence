@@ -13,7 +13,7 @@ export default class HomeView {
   constructor(switchRoute, page) {
     // super();
     this.me = null;
-    this.userId = localStorage.getItem('user_id');
+    this.userId = localStorage.getItem("user_id");
     this.initialRender();
     this.page = page;
     this.activeTab = "dashboard-button";
@@ -21,7 +21,7 @@ export default class HomeView {
     this.switchRoute = switchRoute;
     this.dashboardViewInstance = new DashboardView(
       switchRoute,
-      this.render.bind(this),
+      this.render.bind(this)
     );
     this.profilePageInstance = new ProfilePage(
       switchRoute,
@@ -36,8 +36,6 @@ export default class HomeView {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
-
-    
     // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
     // if (accessToken !== undefined) {
     //   console.log("accessToken: ", accessToken);
@@ -52,13 +50,12 @@ export default class HomeView {
 
     // Check if the access token is present
 
-
     // console.log("me: ", me);
   }
 
   fetchData = async () => {
     this.me = await getUser(this.userId);
-  }
+  };
 
   toggleTab = (button) => {
     if (this.activeTabElement === button) return;
@@ -90,10 +87,11 @@ export default class HomeView {
       homeContainer.innerHTML = content;
       this.toggleTab(document.querySelector("#profile-button"));
       this.profilePageInstance.addEventListeners();
-    } else if (view === 'friends') {
+    } else if (view === "friends") {
       homeContainer.innerHTML = Spinner();
       const content = await this.friendsPageInstance.renderView();
       homeContainer.innerHTML = content;
+      this.friendsPageInstance.addEventListeners();
       this.toggleTab(document.querySelector("#friends-button"));
     }
   }
@@ -160,7 +158,9 @@ export default class HomeView {
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
             <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+                <img src="${
+                  "data:image/png;base64," + this.me.profile_image_base64
+                }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
               <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
               </div>

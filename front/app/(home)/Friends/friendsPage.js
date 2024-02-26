@@ -1,45 +1,77 @@
 import { DashboardRoomBox } from "../../../components/DashboardRoomBox.js";
 import { FriendBox } from "../../../components/FriendBox.js";
+import { FriendRequestBox } from "../../../components/FriendRequestBox.js";
 import getUser from "../../../services/api/getUser.js";
+import getFriendRequests from "../../../services/api/getFriendRequests.js";
+import createFriendRequest from "../../../services/api/createFriendRequest.js";
+import acceptFriendRequest from "../../../services/api/acceptFriendRequest.js";
+import getFriends from "../../../services/api/getFriends.js";
 
 export default class FriendsPage {
-    constructor(switchRoute, switchView, room) {
-        this.room = room;
-        this.userId = localStorage.getItem('user_id');
-        this.me = null;
-        this.switchRoute = switchRoute;
-        this.switchView = switchView;
-        this.friends = [
-        { name: "friend1", status: 1},
-        { name: "friend2", status: 1},
-        { name: "friend3", status: 1},
-        { name: "friend3", status: 1},
-        { name: "friend3", status: 1},
-        { name: "friend3", status: 0},
-        { name: "friend3", status: 0},
-        { name: "friend3", status: 0},
-        ];
-    }
+  constructor(switchRoute, switchView, room) {
+    this.room = room;
+    this.userId = localStorage.getItem("user_id");
+    this.me = null;
+    this.friendRequests = [];
+    this.switchRoute = switchRoute;
+    this.switchView = switchView;
+    this.friends = [
+      { name: "friend1", status: 1 },
+      { name: "friend2", status: 1 },
+      { name: "friend3", status: 1 },
+      { name: "friend3", status: 1 },
+      { name: "friend3", status: 1 },
+      { name: "friend3", status: 0 },
+      { name: "friend3", status: 0 },
+      { name: "friend3", status: 0 },
+    ];
+  }
 
-    fetchData = async () => {
-        this.me = await getUser(this.userId);
-    }
+  fetchData = async () => {
+    this.me = await getUser(this.userId);
+    const friendRequests = await getFriendRequests(this.userId);
+    this.friendRequests = friendRequests.friend_requests;
+    this.friends = await getFriends(this.userId);
+  };
 
-    renderView = async () => {
-        await this.fetchData();
-        const content = await this.getHtml();
-        return content;
-    };
+  renderView = async () => {
+    await this.fetchData();
+    console.log("friend requests: ", this.friendRequests);
+    const content = await this.getHtml();
+    return content;
+  };
 
-    addEventListeners = async () => {};
+  addEventListeners = async () => {
+    const friendRequestForm = document.getElementById("friend-request-form");
+    friendRequestForm.addEventListener("submit", async (event) => {
+      console.log("submitting");
+      event.preventDefault();
+      let usernameInput = document.querySelector(
+        "#request-username-input"
+      ).value;
+      createFriendRequest(usernameInput);
+    });
 
-    addFriendModal = () => {
-        return `
+    this.friendRequests.map((request) => {
+      console.log("request in eventlistener map: ", request);
+
+      const acceptFriendRequestBtn = document.getElementById(
+        `accept-friend-request-btn-${request.pk}`
+      );
+      acceptFriendRequestBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        acceptFriendRequest(request.pk);
+      });
+    });
+  };
+
+  addFriendModal = () => {
+    return `
             <div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" >
                 <div class="modal-container modal-body">
-                <form id="createGameForm">
+                <form id="friend-request-form">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="editProfileModalLabel">Add Friend</h5>
@@ -48,8 +80,8 @@ export default class FriendsPage {
 
                 <div class="modal-body">
                     <div class="mb-3">
-                    <label for="game-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control input-box" id="game-name" value="">
+                    <label for="request-username-input" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control input-box" id="request-username-input" value="">
                     </div>
                 </div>
 
@@ -61,11 +93,39 @@ export default class FriendsPage {
                 </div>
             </div>
             </div>`;
-    };
+  };
 
-    getHtml = async () => {
-        return `
+  friendRequestsModal = () => {
+    return `
+            <div class="modal fade" id="friendRequestsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" >
+                    <div class="modal-container modal-body">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileModalLabel">Friend requests</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                             ${this.friendRequests
+                               .map((request) => `${FriendRequestBox(request)}`)
+                               .join("")}
+                            
+                        </div>
+                    </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>`;
+  };
+
+  getHtml = async () => {
+    return `
         ${this.addFriendModal()}
+        ${this.friendRequestsModal()}
         <div class="d-flex gap-5">
         </div>
         <div style="height:35px"></div>
@@ -82,21 +142,19 @@ export default class FriendsPage {
     
         
             <div class="row rooms-rows-container m-0 mt-2 ">
-            ${this.friends
-            .map((friend) => FriendBox(friend ))
-            .join("")}
+            ${this.friends.map((friend) => FriendBox(friend)).join("")}
             </div> 
             <div class="d-flex gap-4">
                 <div class="mt-auto">
                     <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
                 </div>
                 <div class="mt-auto">
-                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">Friend Requests (2)</button>
+                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (2)</button>
                 </div>
             </div>
             </div>
             </div>
         </div>
         </div>`;
-    };
+  };
 }
