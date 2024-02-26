@@ -54,7 +54,7 @@ export default class FriendsPage {
                 </div>
 
                 <div class="modal-footer">
-                    <button id="submit-btn" type="submit" class="btn btn-primary dark-btn">Create Game</button>
+                    <button id="submit-btn" type="submit" class="btn btn-primary dark-btn">Add Friend</button>
                 </div>
                 </form>
                 </div>
@@ -86,10 +86,14 @@ export default class FriendsPage {
             .map((friend) => FriendBox(friend ))
             .join("")}
             </div> 
-            
+            <div class="d-flex gap-4">
                 <div class="mt-auto">
-                <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
+                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
                 </div>
+                <div class="mt-auto">
+                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">Friend Requests (2)</button>
+                </div>
+            </div>
             </div>
             </div>
         </div>

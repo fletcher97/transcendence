@@ -11,8 +11,8 @@ export const DashboardRoomBox = ({ room }) => {
   console.log("room count rectangles: ", roomCountRectangles);
 
   return `
-      <div class="dashboard-room-box py-2 rounded-lg d-flex justify-content-between align-items-center">
-        <div class="container">
+      <div class="dashboard-room-box py-2 mx-0 rounded-lg d-flex justify-content-between align-items-center">
+        <div class="container mx-0">
           <div class="row align-items-center">
             <div class="col-2">
               <div class="d-flex align-items-center">

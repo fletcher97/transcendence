@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-    --blue: #4988FF;
+    --blue: rgb(0, 132, 255);
     --bg-blue: 344C65;
     --dark-blue: #2E4257;
     --dark-bg: #1f2d3d;
     --pink: #db3593;
+    --light-blue: rgb(112, 186, 255);
     --light-pink: #F0EEF6;
 
     --primary-color: var(--blue);
@@ -185,7 +186,24 @@ b {
     /* z-index: 2; */
     height: 100px;
     width: 100px;
-  }
+    
+}
+
+#local-pong-canvas {
+        /* height: 80vh; */
+        /* width: 80vw;
+            /* 80% of viewport width */
+        /* height: 50vh;  */
+        /* 50% of viewport height */
+        /* border: 1px solid var(--accent-color); */
+        /* box-shadow: 1px 2px 3px var(--accent-color); */
+        padding: 0;
+        /* width: 1000px; */
+            /* 1000px of viewport width */
+        /* height: 1000px; */
+            /* 50% of viewport height */
+        
+}
 
   .toast-container.toast-red, .toast-header.toast-red {
     color: red;

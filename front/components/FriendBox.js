@@ -28,6 +28,7 @@ export const FriendBox = (friend) => {
               </div>
               <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end">
+                <button id="rm-friend-btn" class="btn btn-sm dark-btn">X</button>
                 </div>
             </div>
           </div>
