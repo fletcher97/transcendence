@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
+from django.db.models.fields.files import FieldFile
 
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -600,7 +601,11 @@ def friend_list_view(request, *args, **kwargs):
         if user_id:
             try:
                 this_user = Users.objects.get(pk=user_id)
-                context['this_user'] = this_user
+                this_user_dict = {}
+                for field in this_user._meta.fields:
+                    if not isinstance(getattr(this_user, field.name), FieldFile):
+                        this_user_dict[field.name] = getattr(this_user, field.name)
+                context['this_user'] = this_user_dict
             except Users.DoesNotExist:
                 context['error'] = "That user does not exist."
             try:
