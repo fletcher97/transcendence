@@ -31,7 +31,9 @@ export default class FriendsPage {
     this.me = await getUser(this.userId);
     const friendRequests = await getFriendRequests(this.userId);
     this.friendRequests = friendRequests.friend_requests;
-    this.friends = await getFriends(this.userId);
+    const friends = await getFriends(this.userId);
+    this.friends = friends.friends;
+    console.log("friends: ", this.friends);
   };
 
   renderView = async () => {
@@ -133,12 +135,12 @@ export default class FriendsPage {
         <div class="d-flex m-0 p-0">
             <div class="row justify-content-between gap-1" style="">
 
-            <div class="d-flex justify-content-between">
-                <div class="d-flex justify-content-between gap-4 align-items-center w-100">
-                <h1 style="font-size: 42px" class="glow">FRIENDS</h1>
-                <img src="../../../assets/rooms-icon.svg" />
-                </div>
-            </div>
+              <div class="d-flex justify-content-between">
+                  <div class="d-flex justify-content-between gap-4 align-items-center w-100">
+                    <h1 style="font-size: 42px" class="glow">FRIENDS</h1>
+                    <img src="../../../assets/rooms-icon.svg" />
+                  </div>
+              </div>
     
         
             <div class="row rooms-rows-container m-0 mt-2 ">

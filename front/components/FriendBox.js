@@ -2,6 +2,7 @@ import { RoomCountRectangle } from "./RoomCountRectangle.js";
 
 export const FriendBox = (friend) => {
   const roomCountRectangles = [];
+  console.log("friend: ", friend);
 
   // for (let i = 0; i < 4; i++) {
   //   // console.log("i: ", i);
@@ -9,7 +10,7 @@ export const FriendBox = (friend) => {
   //   else roomCountRectangles.push(false);
   // }
 
-  const onlineStatus = friend.status ? "online" : "offline"
+  const onlineStatus = friend.status ? "online" : "offline";
 
   return `
       <div class="dashboard-room-box py-2 rounded-lg d-flex justify-content-between align-items-center">
@@ -19,7 +20,7 @@ export const FriendBox = (friend) => {
               <img src="https://avatar.iran.liara.run/public/boy?username=Ash" width="30" height="30" />
             </div>
               <div class="col-2">
-              <p style="font-size: 15px;width: 30px">${friend.name}</p>
+              <p style="font-size: 15px;width: 30px">${friend.friend}</p>
               </div>
               <div class="col-2">
               <p style="font-size: 15px">${onlineStatus}</p>

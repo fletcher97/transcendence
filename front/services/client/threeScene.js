@@ -159,6 +159,17 @@ function animate() {
     console.log("Hit the ball!");
     tweenColor(paddleMaterial, 0xff0000); // Change to your desired color
 
+    const paddleIntersection = getMouseIntersection(paddle);
+
+    const normal = paddleIntersection.face.normal.clone();
+    const incident = new THREE.Vector3(ballSpeedX, ballSpeedY, ballSpeedZ);
+    // const reflection = new THREE.Vector3().reflect(incident, normal);
+    // console.log("reflection: ", reflection);
+
+    ballSpeedX += 0.1;
+    ballSpeedY += 0.1;
+    ballSpeedZ += 0.1;
+
     // Handle scoring or other actions here
   }
 

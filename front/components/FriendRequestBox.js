@@ -7,7 +7,9 @@ export const FriendRequestBox = (request) => {
         <div class="container">
           <div class="row align-items-center">
             <div class="col-2">
-              <img src="https://avatar.iran.liara.run/public/boy?username=Ash" width="30" height="30" />
+              <img src="${
+                "data:image/png;base64," + request.sender_profile_image
+              }" width="30" height="30" />
             </div>
               <div class="col-2">
               <p style="font-size: 15px;width: 30px">${request.sender}</p>
@@ -19,7 +21,9 @@ export const FriendRequestBox = (request) => {
               </div>
               <div class="col-4 d-flex">
                 <div class="d-flex align-items-center justify-content-end">
-                  <button id="accept-friend-request-btn-${request.pk}" class="btn btn-sm dark-btn">✓</button>
+                  <button id="accept-friend-request-btn-${
+                    request.pk
+                  }" class="btn btn-sm dark-btn">✓</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
                   <button id="rm-request-btn" class="btn btn-sm dark-btn">X</button>
