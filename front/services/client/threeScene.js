@@ -1,6 +1,8 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 // import { Tween, Easing } from "three/addons/loaders/Tween.js";
 // import * as TWEEN from "tween.js";
+// import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import {
   accentColor,
   backgroundColor,
@@ -115,6 +117,21 @@ scene.add(ball);
 
 // Set the initial position of the ball
 ball.position.set(0, 7.6, 3);
+const loader = new GLTFLoader();
+let frame;
+
+loader.load("/assets/frame.glb", (gltf) => {
+  frame = gltf.scene;
+  scene.add(frame);
+
+  // Set the initial position of the frame
+  // frame.position.y = ball.position.y;
+  frame.position.x = -10;
+  frame.position.y = 0;
+  frame.position.z = 0;
+  frame.rotation.set(0, Math.PI / 2, 0);
+  frame.scale.set(10, 10, 10);
+});
 
 // Set up a Box3 for camera collision
 const cameraBoundingBox = new THREE.Box3().setFromObject(camera);
@@ -149,6 +166,12 @@ function animate() {
     ballSpeedZ = -ballSpeedZ;
   }
 
+  if (frame) {
+    frame.position.z = ball.position.z;
+  }
+
+  // innerFrame.position.z = ball.position.z;
+
   // Check if the ball intersects with the camera
   const ballBoundingBox = new THREE.Box3().setFromObject(ball);
   const paddleBoundingBox = new THREE.Box3().setFromObject(paddle);
@@ -159,18 +182,29 @@ function animate() {
     console.log("Hit the ball!");
     tweenColor(paddleMaterial, 0xff0000); // Change to your desired color
 
-    const paddleIntersection = getMouseIntersection(paddle);
+    const intersectionPoint = ball.position.clone();
+    paddle.worldToLocal(intersectionPoint);
 
-    const normal = paddleIntersection.face.normal.clone();
-    const incident = new THREE.Vector3(ballSpeedX, ballSpeedY, ballSpeedZ);
-    // const reflection = new THREE.Vector3().reflect(incident, normal);
-    // console.log("reflection: ", reflection);
+    // Normalize the intersection point to be in the range [-0.5, 0.5]
+    intersectionPoint.x /= paddle.geometry.parameters.width;
+    intersectionPoint.y /= paddle.geometry.parameters.height;
 
-    ballSpeedX += 0.1;
-    ballSpeedY += 0.1;
-    ballSpeedZ += 0.1;
+    // Calculate the normal vector at the point of contact on the paddle
+    const normalVector = new THREE.Vector3(0, 0, 1); // Assuming the paddle is aligned with the Z-axis
+    normalVector.applyQuaternion(paddle.quaternion);
 
-    // Handle scoring or other actions here
+    // Reflect the ball's velocity vector across the normal vector
+    const incidentVector = new THREE.Vector3(
+      ballSpeedX,
+      ballSpeedY,
+      ballSpeedZ
+    );
+    const reflectedVector = incidentVector.reflect(normalVector);
+
+    // Update the ball's speed based on the reflected vector
+    ballSpeedX = reflectedVector.x;
+    ballSpeedY = reflectedVector.y;
+    ballSpeedZ = reflectedVector.z;
   }
 
   // Move the room based on arrow keys

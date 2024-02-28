@@ -1,6 +1,5 @@
 import Spinner from "../../../../components/Spinner.js";
-import signInUser from "../../../services/api/signInUser.js";
-
+import signInUser from "../../../services/api/users/signInUser.js";
 
 export class SignInView {
   constructor(switchRoute, switchView) {
@@ -32,7 +31,8 @@ export class SignInView {
     const signInButton = document.querySelector("#sign-in-btn");
     const registerLink = document.querySelector("#register-link");
 
-    registerLink.addEventListener("click", () => {
+    registerLink.addEventListener("click", (event) => {
+      event.preventDefault();
       this.switchRoute("/register");
     });
 

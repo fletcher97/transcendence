@@ -13,7 +13,7 @@ export const FriendBox = (friend) => {
   const onlineStatus = friend.status ? "online" : "offline";
 
   return `
-      <div class="dashboard-room-box py-2 rounded-lg d-flex justify-content-between align-items-center">
+      <div class="dashboard-room-box py-2 rounded-lg d-flex justify-content-between align-items-center flex-start">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-2">
@@ -29,7 +29,7 @@ export const FriendBox = (friend) => {
               </div>
               <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end">
-                <button id="rm-friend-btn" class="btn btn-sm dark-btn">X</button>
+                <button id="remove-friend-btn-${friend.id}"class="btn btn-sm dark-btn">X</button>
                 </div>
             </div>
           </div>

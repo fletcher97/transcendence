@@ -1,5 +1,5 @@
 import Spinner from "../../../../components/Spinner.js";
-import registerUser from "../../../../services/api/registerUser.js";
+import registerUser from "../../../../services/api/users/registerUser.js";
 
 export class RegisterPage {
   constructor(switchRoute, switchView) {

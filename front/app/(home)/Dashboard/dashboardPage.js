@@ -1,5 +1,5 @@
 import { DashboardRoomBox } from "../../../../../components/DashboardRoomBox.js";
-import getUser from "../../../services/api/getUser.js";
+import getUser from "../../../services/api/users/getUser.js";
 import { fetchData } from "./fetchData.js";
 
 export default class DashboardView {
@@ -99,17 +99,17 @@ export default class DashboardView {
     ${this.createGameModal()}
     <div class="d-flex gap-5">
       <div class="text-center">
-        <h1 style="font-size:42px">19</h1>
+        <h4 style="font-size:42px">19</h4>
         <p>PLAYERS ONLINE</p>
       </div>
       <div class="vr"></div>
       <div class="text-center">
-        <h1 style="font-size:42px">2</h1>
+        <h4 style="font-size:42px">2</h4>
         <p>ACTIVE ROOMS</p>
       </div>
       <div class="vr"></div>
       <div class="text-center">
-        <h1 style="font-size:42px">4</h1> 
+        <h4 style="font-size:42px">4</h4> 
         <p>FRIENDS ONLINE</p>
       </div>
     </div>

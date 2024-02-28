@@ -10,6 +10,8 @@ export const DashboardRoomBox = ({ room }) => {
   }
   console.log("room count rectangles: ", roomCountRectangles);
 
+  // <button style="font-size: 15px" class="btn dark-btn">👀</button>
+
   return `
       <div class="dashboard-room-box py-2 mx-0 rounded-lg d-flex justify-content-between align-items-center">
         <div class="container mx-0">
@@ -29,10 +31,10 @@ export const DashboardRoomBox = ({ room }) => {
               <p style="font-size: 15px">${room.numPlayers}</p>
               </div>
               <div class="col-4">
-                <div class="d-flex align-items-center justify-content-end">
+                <div class="d-flex align-items-center justify-content-end gap-3">
                 
-                  <a style="font-size: 15px" class="btn dark-btn">WATCH</a>
-                  <a style="font-size: 15px" class="btn active">JOIN</a>
+                  
+                  <a style="font-size: 15px" class="btn dark-btn">JOIN</a>
                 </div>
             </div>
           </div>

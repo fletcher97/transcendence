@@ -1,11 +1,13 @@
 import { DashboardRoomBox } from "../../../components/DashboardRoomBox.js";
 import { FriendBox } from "../../../components/FriendBox.js";
 import { FriendRequestBox } from "../../../components/FriendRequestBox.js";
-import getUser from "../../../services/api/getUser.js";
-import getFriendRequests from "../../../services/api/getFriendRequests.js";
-import createFriendRequest from "../../../services/api/createFriendRequest.js";
-import acceptFriendRequest from "../../../services/api/acceptFriendRequest.js";
-import getFriends from "../../../services/api/getFriends.js";
+import getUser from "../../../services/api/users/getUser.js";
+import getFriendRequests from "../../../services/api/friends/getFriendRequests.js";
+import createFriendRequest from "../../../services/api/friends/createFriendRequest.js";
+import acceptFriendRequest from "../../../services/api/friends/acceptFriendRequest.js";
+import declineFriendRequest from "../../../services/api/friends/declineFriendRequest.js";
+import getFriends from "../../../services/api/friends/getFriends.js";
+import removeFriend from "../../../services/api/friends/removeFriend.js";
 
 export default class FriendsPage {
   constructor(switchRoute, switchView, room) {
@@ -32,6 +34,7 @@ export default class FriendsPage {
     const friendRequests = await getFriendRequests(this.userId);
     this.friendRequests = friendRequests.friend_requests;
     const friends = await getFriends(this.userId);
+    console.log("Friends initial: ", friends);
     this.friends = friends.friends;
     console.log("friends: ", this.friends);
   };
@@ -51,8 +54,31 @@ export default class FriendsPage {
       let usernameInput = document.querySelector(
         "#request-username-input"
       ).value;
-      createFriendRequest(usernameInput);
+      try {
+        await createFriendRequest(usernameInput);
+        const myModalEl = document.getElementById("addFriendModal");
+        const modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+      } catch (error) {
+        console.log("error: ", error);
+      }
     });
+
+    // ** FRIENDS EVENT LISTENER **//
+
+    this.friends.map((friend) => {
+      const removeFriendBtn = document.getElementById(
+        `remove-friend-btn-${friend.id}`
+      );
+      console.log("removeFriendBtn: ", removeFriendBtn);
+      removeFriendBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        removeFriend(friend.id);
+        this.switchRoute("/friends");
+      });
+    });
+
+    // ** FRIEND REQUEST EVENT LISTENERS **//
 
     this.friendRequests.map((request) => {
       console.log("request in eventlistener map: ", request);
@@ -60,9 +86,19 @@ export default class FriendsPage {
       const acceptFriendRequestBtn = document.getElementById(
         `accept-friend-request-btn-${request.pk}`
       );
+      const declineFriendRequestBtn = document.getElementById(
+        `decline-friend-request-btn-${request.pk}`
+      );
+      console.log("decline-friend-request-btn: ", declineFriendRequestBtn);
       acceptFriendRequestBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         acceptFriendRequest(request.pk);
+        this.switchRoute("/friends");
+      });
+      declineFriendRequestBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        declineFriendRequest(request.pk);
+        this.switchRoute("/friends");
       });
     });
   };
@@ -132,7 +168,7 @@ export default class FriendsPage {
         </div>
         <div style="height:35px"></div>
         <div class="d-flex row gap-5 rooms-container p-4">
-        <div class="d-flex m-0 p-0">
+        <div class="row justify-content-between m-0 p-0">
             <div class="row justify-content-between gap-1" style="">
 
               <div class="d-flex justify-content-between">
@@ -141,17 +177,17 @@ export default class FriendsPage {
                     <img src="../../../assets/rooms-icon.svg" />
                   </div>
               </div>
-    
-        
-            <div class="row rooms-rows-container m-0 mt-2 ">
-            ${this.friends.map((friend) => FriendBox(friend)).join("")}
+            <div class="row rooms-rows-container m-0 mt-2">
+              ${this.friends.map((friend) => FriendBox(friend)).join("")}
             </div> 
             <div class="d-flex gap-4">
                 <div class="mt-auto">
                     <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
                 </div>
                 <div class="mt-auto">
-                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (2)</button>
+                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (${
+                      this.friendRequests.length
+                    })</button>
                 </div>
             </div>
             </div>

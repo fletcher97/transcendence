@@ -1,4 +1,4 @@
-import acceptFriendRequest from "../services/api/acceptFriendRequest.js";
+import acceptFriendRequest from "../services/api/friends/acceptFriendRequest.js";
 import { RoomCountRectangle } from "./RoomCountRectangle.js";
 
 export const FriendRequestBox = (request) => {
@@ -21,12 +21,14 @@ export const FriendRequestBox = (request) => {
               </div>
               <div class="col-4 d-flex">
                 <div class="d-flex align-items-center justify-content-end">
-                  <button id="accept-friend-request-btn-${
+                  <button data-bs-dismiss="modal" id="accept-friend-request-btn-${
                     request.pk
                   }" class="btn btn-sm dark-btn">✓</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
-                  <button id="rm-request-btn" class="btn btn-sm dark-btn">X</button>
+                  <button id="decline-friend-request-btn-${
+                    request.pk
+                  }"  data-bs-dismiss="modal" class="btn btn-sm dark-btn">X</button>
                 </div>
               </div>
           </div>
