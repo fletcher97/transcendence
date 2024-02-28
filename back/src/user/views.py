@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from django.db.models.fields.files import FieldFile
+from django.middleware.csrf import get_token
 
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -53,7 +54,14 @@ def get_redirect_if_exists(request):
     return (redirect)
 
 
-@csrf_exempt
+def get_csrf_token(request):
+    """ This function returns the csrf token. """
+    token = get_token(request)
+    logging.debug("token csrf is %s", token)
+    return (JsonResponse({"csrf_token": token}))
+
+
+# @csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
     user = request.user
@@ -583,7 +591,11 @@ def cancel_friend_request(request, *args, **kwargs):
         user_id = body_data.get("receiver_user_id")
         if user_id:
             receiver = Users.objects.get(pk=user_id)
-            try:
+            try:                # for account in search_results:
+                    # accounts.append((account,
+                                    # auth_user_friend_list.is_mutual_friend(account)))
+                    # context['accounts'] = accounts
+
                 friend_requests = FriendRequest.objects.filter(sender=user,
                                                             receiver=receiver,
                                                               is_active=True)
@@ -617,10 +629,35 @@ def friend_list_view(request, *args, **kwargs):
         if user_id:
             try:
                 this_user = Users.objects.get(pk=user_id)
-                this_user_dict = {}
+                this_user_dict = []
                 for field in this_user._meta.fields:
-                    if not isinstance(getattr(this_user, field.name), FieldFile):
-                        this_user_dict[field.name] = getattr(this_user, field.name)
+                    username = this_user.username
+                    email = this_user.email
+
+                    if this_user.profile_image:
+                        image_path = os.path.join(
+                                settings.MEDIA_ROOT, str(this_user.profile_image))
+                        encoded_string = get_image_as_base64(image_path)
+                        if encoded_string:
+                            this_user_dict = {
+                                "username": username,
+                                "email": email,
+                                "profile_image": encoded_string,
+                            }
+                        else:
+                            this_user_dict = {
+                                "username": username,
+                                "email": email,
+                                "profile_image": None,
+                            }
+                    else:
+                        this_user_dict = {
+                            "username": username,
+                            "email": email,
+                            "profile_image": None,
+                        }
+                    # if not isinstance(getattr(this_user, field.name), FieldFile):
+                        # this_user_dict[field.name] = getattr(this_user, field.name)
                 context['this_user'] = this_user_dict
             except Users.DoesNotExist:
                 context['error'] = "That user does not exist."
