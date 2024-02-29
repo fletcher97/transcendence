@@ -139,37 +139,40 @@ export default class ProfilePage {
     return `
     ${this.editProfileModal()}
     <div style="height:20px"></div>
-      <div class="d-flex gap-5">
-        <div class="profile-container" style="width:30%">
-          <div class="d-flex align-items-center gap-4">  
-            <div class="border rounded-circle border-primary border-3 style="border-radius: 50%;overflow: hidden">
-              <img src="${
-                "data:image/png;base64," + this.me.profile_image_base64
-              }" alt="avatar" width="100" height="100" style="object-fit:cover"/>
+    <div class="container">
+      <div class="row gap-5">
+        <div class="col-md-4">
+          <div class="profile-container">
+            <div class="d-flex align-items-center gap-4">  
+              <div class="border rounded-circle border-primary border-3 style="border-radius: 50%">
+                <img src="${
+                  "data:image/png;base64," + this.me.profile_image_base64
+                }" alt="avatar" width="80" height="80" style="object-fit: cover"/>
+              </div>
+              <div>
+                <h1 style="font-size: 32px" class="glow">${localStorage.getItem(
+                  "username"
+                )}</h1>
+                <p style="font-size:12px;">${this.me.email}</p>
+              </div>
             </div>
-            
-            <h1 style="font-size: 42px" class="glow">${localStorage.getItem(
-              "username"
-            )}
-            </h1>
+            <div class="row justify-content-between">
+              <div class="col">
+                <!-- Empty column to align content -->
+              </div>
+              <div class="col-12">
+                <a type="button" class="btn btn-block btn-primary dark-btn w-100" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">EDIT PROFILE</a>
+              </div>
+            </div>
           </div>
-          <div class="row justify-content-between">
-            <div>
-              <p>username: ${this.me.username}</p>
-              <p>email: ${this.me.email}</p>
-            </div>
-            </div>
-            <a type="button" class="btn btn-primary dark-btn" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">
-            EDIT PROFILE
-            </a>
-
         </div>
-
-        <div class="row justify-content-between mx-5" style="width:70%">
-          <h2 class="glow">STATS</h2>
+        <div class="col-md-6 mt-3 mt-md-0">
+          <div class="flex-start">
+            <h2 class="glow">GAME HISTORY</h2>
+            <p>No games played yet</p>
+          </div>
         </div>
       </div>
-      
-      `;
+    </div>`;
   };
 }

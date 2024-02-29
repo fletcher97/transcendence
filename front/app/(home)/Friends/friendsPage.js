@@ -8,6 +8,7 @@ import acceptFriendRequest from "../../../services/api/friends/acceptFriendReque
 import declineFriendRequest from "../../../services/api/friends/declineFriendRequest.js";
 import getFriends from "../../../services/api/friends/getFriends.js";
 import removeFriend from "../../../services/api/friends/removeFriend.js";
+import { showMultipleToasts } from "../../../services/client/utils.js";
 
 export default class FriendsPage {
   constructor(switchRoute, switchView, room) {
@@ -47,6 +48,13 @@ export default class FriendsPage {
   };
 
   addEventListeners = async () => {
+    // Example: Call the showMultipleToasts function with an array of messages
+    var messages = [
+      "See? Just like this.",
+      "Heads up, toasts will stack automatically",
+    ];
+    // showMultipleToasts(messages, "Error");
+
     const friendRequestForm = document.getElementById("friend-request-form");
     friendRequestForm.addEventListener("submit", async (event) => {
       console.log("submitting");
@@ -55,10 +63,17 @@ export default class FriendsPage {
         "#request-username-input"
       ).value;
       try {
-        await createFriendRequest(usernameInput);
+        const data = await createFriendRequest(usernameInput);
+        const response = await data.json();
+        console.log("Response: ", response);
         const myModalEl = document.getElementById("addFriendModal");
         const modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
+        if (!response.error) {
+          showMultipleToasts(["Request sent!"], "Success");
+          modal.hide();
+        } else {
+          showMultipleToasts([response.error], "Error");
+        }
       } catch (error) {
         console.log("error: ", error);
       }
@@ -74,6 +89,7 @@ export default class FriendsPage {
       removeFriendBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         removeFriend(friend.id);
+        showMultipleToasts(["Friend removed"], "Success");
         this.switchRoute("/friends");
       });
     });
@@ -92,12 +108,14 @@ export default class FriendsPage {
       console.log("decline-friend-request-btn: ", declineFriendRequestBtn);
       acceptFriendRequestBtn.addEventListener("click", async (event) => {
         event.preventDefault();
+        showMultipleToasts(["Friend request accepted"], "Success");
         acceptFriendRequest(request.pk);
         this.switchRoute("/friends");
       });
       declineFriendRequestBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         declineFriendRequest(request.pk);
+        showMultipleToasts(["Friend request declined"], "Success");
         this.switchRoute("/friends");
       });
     });
@@ -167,32 +185,30 @@ export default class FriendsPage {
         <div class="d-flex gap-5">
         </div>
         <div style="height:35px"></div>
+        <div class="d-flex justify-content-between gap-4 align-items-center w-100">
+          <h1 style="font-size: 42px" class="glow">FRIENDS</h1>
+          <img src="../../../assets/rooms-icon.svg" />
+        </div>
         <div class="d-flex row gap-5 rooms-container p-4">
-        <div class="row justify-content-between m-0 p-0">
-            <div class="row justify-content-between gap-1" style="">
+          <div class="row justify-content-between m-0 p-0">
+              <div class="row justify-content-between gap-1" style="">
 
-              <div class="d-flex justify-content-between">
-                  <div class="d-flex justify-content-between gap-4 align-items-center w-100">
-                    <h1 style="font-size: 42px" class="glow">FRIENDS</h1>
-                    <img src="../../../assets/rooms-icon.svg" />
+              <div class="row rooms-rows-container m-0 mt-2">
+                ${this.friends.map((friend) => FriendBox(friend)).join("")}
+              </div> 
+              <div class="d-flex gap-4">
+                  <div class="mt-auto">
+                      <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
+                  </div>
+                  <div class="mt-auto">
+                      <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (${
+                        this.friendRequests.length
+                      })</button>
                   </div>
               </div>
-            <div class="row rooms-rows-container m-0 mt-2">
-              ${this.friends.map((friend) => FriendBox(friend)).join("")}
-            </div> 
-            <div class="d-flex gap-4">
-                <div class="mt-auto">
-                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
-                </div>
-                <div class="mt-auto">
-                    <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (${
-                      this.friendRequests.length
-                    })</button>
-                </div>
-            </div>
-            </div>
-            </div>
-        </div>
+              </div>
+              </div>
+          </div>
         </div>`;
   };
 }

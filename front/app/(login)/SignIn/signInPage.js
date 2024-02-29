@@ -1,5 +1,6 @@
 import Spinner from "../../../../components/Spinner.js";
 import signInUser from "../../../services/api/users/signInUser.js";
+import { showMultipleToasts } from "../../../services/client/utils.js";
 
 export class SignInView {
   constructor(switchRoute, switchView) {
@@ -8,16 +9,6 @@ export class SignInView {
     this.switchRoute = switchRoute;
     this.switchView = switchView;
   }
-
-  getHtml = async () => {
-    return `
-      <h4>SIGN IN</h4>
-      <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username"></input>
-      <input class="input-box" type="password" id="sign-in-password" name="username" placeholder="password"></input>
-          <button id="sign-in-btn" class="btn btn-lg hidden"><span id="play-btn-content">SIGN IN</span></button>
-          <p class="blue-p">No account yet? <a id="register-link" href="#">Register</a></p>
-    `;
-  };
 
   renderView = async () => {
     // this.fetchData();
@@ -56,6 +47,7 @@ export class SignInView {
         if (data.error) {
           throw data.error.__all__;
         }
+        showMultipleToasts(["Login successful"], "Success");
         localStorage.setItem("access_token", data.token_access);
         localStorage.setItem("refresh_token", data.token_refresh);
         localStorage.setItem("user_id", data.id);
@@ -63,13 +55,8 @@ export class SignInView {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         this.switchRoute("/");
       } catch (error) {
-        const toastLiveExample = document.getElementById(
-          "username-taken-toast"
-        );
-        document.querySelector("#toast-message-container").innerHTML = error[0];
-        const toastBootstrap =
-          bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-        toastBootstrap.show();
+        console.log("Error: ", error);
+        showMultipleToasts([error[0]], "Error");
 
         signInButton.innerHTML = "SIGN IN";
         usernameInput.value = "";
@@ -92,5 +79,15 @@ export class SignInView {
       )
         signInButton.disabled = false;
     });
+  };
+
+  getHtml = async () => {
+    return `
+      <h4>SIGN IN</h4>
+      <input class="input-box" type="text" id="sign-in-username" name="username" placeholder="username"></input>
+      <input class="input-box" type="password" id="sign-in-password" name="username" placeholder="password"></input>
+          <button id="sign-in-btn" class="btn btn-lg hidden"><span id="play-btn-content">SIGN IN</span></button>
+          <p class="blue-p">No account yet? <a id="register-link" href="#">Register</a></p>
+    `;
   };
 }
