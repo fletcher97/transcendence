@@ -1,5 +1,6 @@
 import Spinner from "../../../../components/Spinner.js";
-import registerUser from "../../../../services/api/registerUser.js";
+import registerUser from "../../../../services/api/users/registerUser.js";
+import { showMultipleToasts } from "../../../services/client/utils.js";
 
 export class RegisterPage {
   constructor(switchRoute, switchView) {
@@ -60,30 +61,19 @@ export class RegisterPage {
         const response = await registerUser(postData);
         const data = await response.json();
         if (data.error) {
-          throw data.error;
+          throw data;
         }
         // store data in local storage
         localStorage.setItem("access_token", data.token_access);
         localStorage.setItem("refresh_token", data.token_refresh);
         localStorage.setItem("user_id", data.id);
-        console.log("data FROM registerPage: ", data);
+        showMultipleToasts(["Register success"], "Success");
         registerButton.innerHTML = Spinner();
         await new Promise((resolve) => setTimeout(resolve, 1500));
         this.switchRoute("/");
       } catch (error) {
         console.log("error: ", error);
-        const toastLiveExample = document.getElementById(
-          "username-taken-toast"
-        );
-        // if (error.email)
-        document.querySelector("#toast-message-container").innerHTML =
-          "bad input";
-        // error[0];
-        const toastBootstrap =
-          bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-        toastBootstrap.show();
-        bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-        toastBootstrap.show();
+        showMultipleToasts(error.error.password2, "Error");
         usernameInput.value = "";
         emailInput.value = "";
         passwordOneInput.value = "";

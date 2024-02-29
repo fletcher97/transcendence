@@ -61,6 +61,7 @@ def get_csrf_token(request):
     return (JsonResponse({"csrf_token": token}))
 
 
+
 @csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
@@ -591,7 +592,11 @@ def cancel_friend_request(request, *args, **kwargs):
         user_id = body_data.get("receiver_user_id")
         if user_id:
             receiver = Users.objects.get(pk=user_id)
-            try:
+            try:                # for account in search_results:
+                    # accounts.append((account,
+                                    # auth_user_friend_list.is_mutual_friend(account)))
+                    # context['accounts'] = accounts
+
                 friend_requests = FriendRequest.objects.filter(sender=user,
                                                             receiver=receiver,
                                                               is_active=True)

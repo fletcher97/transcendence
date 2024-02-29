@@ -12,10 +12,10 @@ const registerUser = async (user) => {
 
     console.log("response in registerUser: ", response);
 
-    if (!response.ok) {
-      // If the response status is not OK (2xx), throw an error
-      throw new Error(`Failed to register user. Status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   // If the response status is not OK (2xx), throw an error
+    //   throw new Error(`Failed to register user. Status: ${response.status}`);
+    // }
 
     return response;
   } catch (error) {

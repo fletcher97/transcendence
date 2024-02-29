@@ -1,11 +1,11 @@
 import { backgroundAccentColor } from "../../../../../assets/colors.js";
-import editUser from "../../../services/api/editUser.js";
-import getUser from "../../../services/api/getUser.js";
+import editUser from "../../../services/api/users/editUser.js";
+import getUser from "../../../services/api/users/getUser.js";
 import { DashboardRoomBox } from "/components/DashboardRoomBox.js";
 
 export default class ProfilePage {
   constructor(switchRoute, switchPage) {
-    this.userId = localStorage.getItem('user_id');
+    this.userId = localStorage.getItem("user_id");
     this.me = null;
     this.switchRoute = switchRoute;
     this.switchPage = switchPage;
@@ -23,7 +23,7 @@ export default class ProfilePage {
 
   fetchData = async () => {
     this.me = await getUser(this.userId);
-  }
+  };
 
   renderView = async () => {
     await this.fetchData();
@@ -32,59 +32,61 @@ export default class ProfilePage {
   };
 
   handleEditProfileSubmit = async (event) => {
-      
-      let usernameInput = document.querySelector("#edit-profile-username").value;
-      let emailInput = document.querySelector("#edit-profile-email").value;
+    let usernameInput = document.querySelector("#edit-profile-username").value;
+    let emailInput = document.querySelector("#edit-profile-email").value;
 
-      if (usernameInput.length <= 0)
-        usernameInput = this.me.username;
-      if (emailInput.length <= 0)
-        emailInput = this.me.email;
+    if (usernameInput.length <= 0) usernameInput = this.me.username;
+    if (emailInput.length <= 0) emailInput = this.me.email;
 
-      console.log("username: ", usernameInput);
-      console.log("email: ", emailInput);
+    console.log("username: ", usernameInput);
+    console.log("email: ", emailInput);
 
+    // Your form handling logic goes here
+    var fileInput = document.getElementById("change-avatar-input");
+    var file = fileInput.files[0];
+    const reader = new FileReader();
+    let base64Image;
 
-      // Your form handling logic goes here
-      var fileInput = document.getElementById('change-avatar-input');
-      var file = fileInput.files[0];
-      const reader = new FileReader();
-      let base64Image;
-      
-      console.log("reader: ", reader);
+    console.log("reader: ", reader);
 
-      reader.onloadend = function () {
-        console.log("enter reader.onloadend");
-          // Log or process the base64-encoded image
-        base64Image = reader.result;
-        var startIndex = base64Image.indexOf(',') + 1;
-        var cleanedBase64 = base64Image.substring(startIndex);
-        editUser({username: usernameInput, email: emailInput, profile_image: cleanedBase64})
-        this.renderView();
-        return;
-        // Your form handling logic goes here
-      };
-      editUser({username: usernameInput, email: emailInput, profile_image: this.me.profile_image_base64})
+    reader.onloadend = function () {
+      console.log("enter reader.onloadend");
+      // Log or process the base64-encoded image
+      base64Image = reader.result;
+      var startIndex = base64Image.indexOf(",") + 1;
+      var cleanedBase64 = base64Image.substring(startIndex);
+      const formData = new FormData();
+      formData.append("email", emailInput);
+      formData.append("username", usernameInput);
+      formData.append("profile_image", cleanedBase64);
+      editUser(formData, this.userId);
       this.renderView();
-      // Read the file as Data URL, which results in a base64-encoded string
-      // reader.readAsDataURL(file);
-
-  }
+      return;
+      // Your form handling logic goes here
+    };
+    editUser(
+      {
+        username: usernameInput,
+        email: emailInput,
+        profile_image: this.me.profile_image_base64,
+      },
+      this.userId
+    );
+    this.renderView();
+    // Read the file as Data URL, which results in a base64-encoded string
+    // reader.readAsDataURL(file);
+  };
 
   addEventListeners = async () => {
+    var submitButton = document.getElementById("submit-btn");
 
-    
-    
-    var submitButton = document.getElementById('submit-btn');
-
-    var editProfileForm = document.getElementById('edit-profile-form');
+    var editProfileForm = document.getElementById("edit-profile-form");
     console.log("editProfileForm: ", editProfileForm);
-    editProfileForm.addEventListener('submit', async  (event) => {
-      event.preventDefault()
+    editProfileForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
       await this.handleEditProfileSubmit(event);
     });
-  }
-
+  };
 
   editProfileModal = () => {
     return `
@@ -103,7 +105,9 @@ export default class ProfilePage {
             <div class="modal-body gap-5">
             <div class="d-flex gap-4">
               <div class="border rounded-circle border-primary border-3 style="border-radius: 50%;overflow: hidden">
-                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="100" height="100" style="object-fit:cover"/>
+                <img src="${
+                  "data:image/png;base64," + this.me.profile_image_base64
+                }" alt="avatar" width="100" height="100" style="object-fit:cover"/>
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label p-blue"><p class="p-blue">Default file input example</p></label>
@@ -135,35 +139,40 @@ export default class ProfilePage {
     return `
     ${this.editProfileModal()}
     <div style="height:20px"></div>
-      <div class="d-flex gap-5">
-        <div class="profile-container" style="width:30%">
-          <div class="d-flex align-items-center gap-4">  
-            <div class="border rounded-circle border-primary border-3 style="border-radius: 50%;overflow: hidden">
-              <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="100" height="100" style="object-fit:cover"/>
+    <div class="container">
+      <div class="row gap-5">
+        <div class="col-md-4">
+          <div class="profile-container">
+            <div class="d-flex align-items-center gap-4">  
+              <div class="border rounded-circle border-primary border-3 style="border-radius: 50%">
+                <img src="${
+                  "data:image/png;base64," + this.me.profile_image_base64
+                }" alt="avatar" width="80" height="80" style="object-fit: cover"/>
+              </div>
+              <div>
+                <h1 style="font-size: 32px" class="glow">${localStorage.getItem(
+                  "username"
+                )}</h1>
+                <p style="font-size:12px;">${this.me.email}</p>
+              </div>
             </div>
-            
-            <h1 style="font-size: 42px" class="glow">${localStorage.getItem(
-              "username"
-            )}
-            </h1>
+            <div class="row justify-content-between">
+              <div class="col">
+                <!-- Empty column to align content -->
+              </div>
+              <div class="col-12">
+                <a type="button" class="btn btn-block btn-primary dark-btn w-100" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">EDIT PROFILE</a>
+              </div>
+            </div>
           </div>
-          <div class="row justify-content-between">
-            <div>
-              <p>username: ${this.me.username}</p>
-              <p>email: ${this.me.email}</p>
-            </div>
-            </div>
-            <a type="button" class="btn btn-primary dark-btn" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">
-            EDIT PROFILE
-            </a>
-
         </div>
-
-        <div class="row justify-content-between mx-5" style="width:70%">
-          <h2 class="glow">STATS</h2>
+        <div class="col-md-6 mt-3 mt-md-0">
+          <div class="flex-start">
+            <h2 class="glow">GAME HISTORY</h2>
+            <p>No games played yet</p>
+          </div>
         </div>
       </div>
-      
-      `;
+    </div>`;
   };
 }
