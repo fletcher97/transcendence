@@ -61,7 +61,7 @@ def get_csrf_token(request):
     return (JsonResponse({"csrf_token": token}))
 
 
-# @csrf_exempt
+@csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
     user = request.user
@@ -144,7 +144,7 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     user = request.user
     if user.is_authenticated:
         context["error"] = "You are already registered and logged in."
-        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=400)) 
+        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=400))
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
@@ -167,7 +167,6 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
                 return (JsonResponse(
                     context, encoder=DjangoJSONEncoder, status=201))
             else:
-                errors = {"error": form.errors}
                 context = generate_response("401", error_message=form.errors)
         except json.JSONDecodeError:
             errors = {"JSONDecodeError": "Please provide a valid JSON."}
@@ -176,9 +175,9 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
             return (JsonResponse(
                 context, encoder=DjangoJSONEncoder, status=401))
     else:
-        context = {"error": "Method not allowed."}
+        context['error'] = "Method not allowed."
     logging.debug("context before is %s", context)
-    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=400))
+    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=422))
 
 
 @permission_classes([IsAuthenticated])
@@ -194,7 +193,6 @@ def account_view(request, *args, **kwargs):
             1: YOU_SENT_TO_THEM
     """
 
-    logging.debug("entro en account_view")
     context = {}
     user_id = kwargs.get("user_id")
     # if user does not exist we return a 404
@@ -319,7 +317,6 @@ def edit_account_view(request, *arg, **kwargs):
             # We redirect to the same page to see the changes
             context['success'] = "Profile updated successfully."
             return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
-            # return (redirect("view", user_id=user_id))
         else:
             logging.debug("form is not valid")
             form = UsersUpdateForm(
@@ -328,7 +325,6 @@ def edit_account_view(request, *arg, **kwargs):
                                       "email": user.email,
                                       "username": user.username,
                                       "profile_image": user.profile_image,
-                                      "hide_email": user.hide_email,
                                       })
             context['error'] = form.errors
     else:
@@ -339,7 +335,6 @@ def edit_account_view(request, *arg, **kwargs):
                     "email": user.email,
                     "username": user.username,
                     "profile_image": user.profile_image,
-                    "hide_email": user.hide_email,
                     })
         context['error'] = form.errors
     context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
@@ -411,10 +406,15 @@ def send_friend_request(request, *args, **kwargs):
         if user_id or username:
             try:
                 if username:
-                    logging.debug("using username")
                     receiver = Users.objects.get(username=username)
                 else:
                     receiver = Users.objects.get(pk=user_id)
+
+                # Check if sender is not the same as receiver
+                if user == receiver:
+                    payload['error'] = "Cannot send friend request to yourself."
+                    return (JsonResponse(payload, encoder=DjangoJSONEncoder,
+                                         status=200))
                 try:
                     # Get any friend requests (active and not-active)
                     friend_requests = FriendRequest.objects.filter(
@@ -431,7 +431,7 @@ def send_friend_request(request, *args, **kwargs):
                         friend_request.save()
                         payload['response'] = "Friend request sent."
                     except Exception as e:
-                        payload['response'] = str(e)
+                        payload['error'] = str(e)
                 except FriendRequest.DoesNotExist:
                     # There are no friend requests so create one.
                     friend_request = FriendRequest(sender=user, receiver=receiver)
@@ -591,11 +591,7 @@ def cancel_friend_request(request, *args, **kwargs):
         user_id = body_data.get("receiver_user_id")
         if user_id:
             receiver = Users.objects.get(pk=user_id)
-            try:                # for account in search_results:
-                    # accounts.append((account,
-                                    # auth_user_friend_list.is_mutual_friend(account)))
-                    # context['accounts'] = accounts
-
+            try:
                 friend_requests = FriendRequest.objects.filter(sender=user,
                                                             receiver=receiver,
                                                               is_active=True)
@@ -629,36 +625,7 @@ def friend_list_view(request, *args, **kwargs):
         if user_id:
             try:
                 this_user = Users.objects.get(pk=user_id)
-                this_user_dict = []
-                for field in this_user._meta.fields:
-                    username = this_user.username
-                    email = this_user.email
-
-                    if this_user.profile_image:
-                        image_path = os.path.join(
-                                settings.MEDIA_ROOT, str(this_user.profile_image))
-                        encoded_string = get_image_as_base64(image_path)
-                        if encoded_string:
-                            this_user_dict = {
-                                "username": username,
-                                "email": email,
-                                "profile_image": encoded_string,
-                            }
-                        else:
-                            this_user_dict = {
-                                "username": username,
-                                "email": email,
-                                "profile_image": None,
-                            }
-                    else:
-                        this_user_dict = {
-                            "username": username,
-                            "email": email,
-                            "profile_image": None,
-                        }
-                    # if not isinstance(getattr(this_user, field.name), FieldFile):
-                        # this_user_dict[field.name] = getattr(this_user, field.name)
-                context['this_user'] = this_user_dict
+                context['this_user'] = this_user.username
             except Users.DoesNotExist:
                 context['error'] = "That user does not exist."
             try:
@@ -670,12 +637,25 @@ def friend_list_view(request, *args, **kwargs):
             if user != this_user:
                 if not user in friend_list.friends.all():
                     context['error'] = "You must be friends to view their friends list."
+                    return JsonResponse(context, encoder=DjangoJSONEncoder,
+                                        status=200)
 
             friends = []  # [(friend1, True), (friend2, False), ...]
+            image_base64 = None
             auth_user_friend_list = FriendList.objects.get(user=user)
             for friend in friend_list.friends.all():
-                friends.append(({'friend': friend.username,
-                                 'is_friend:':
+                if friend.profile_image:
+                    image_path = os.path.join(
+                            settings.MEDIA_ROOT, str(friend.profile_image))
+                    encoded_string = get_image_as_base64(image_path)
+                    if encoded_string:
+                        image_base64 = encoded_string
+                    else:
+                        image_base64 = None
+                friends.append(({'friend_id': friend.id,
+                                 'friend': friend.username,
+                                 'profile_image': image_base64,
+                                 'is_friend':
                                  auth_user_friend_list.is_mutual_friend(friend)}))
             context['friends'] = friends
         else:
