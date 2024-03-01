@@ -83,12 +83,12 @@ export default class FriendsPage {
 
     this.friends.map((friend) => {
       const removeFriendBtn = document.getElementById(
-        `remove-friend-btn-${friend.id}`
+        `remove-friend-btn-${friend.friend_id}`
       );
       console.log("removeFriendBtn: ", removeFriendBtn);
       removeFriendBtn.addEventListener("click", async (event) => {
         event.preventDefault();
-        removeFriend(friend.id);
+        removeFriend(friend.friend_id);
         showMultipleToasts(["Friend removed"], "Success");
         this.switchRoute("/friends");
       });
