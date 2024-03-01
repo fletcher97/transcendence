@@ -10,11 +10,8 @@ const editUser = async (user, userId) => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
-        credentials: "include",
+        body: user,
       }
     );
 

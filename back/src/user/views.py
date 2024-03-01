@@ -67,7 +67,6 @@ def get_is_auth(request, *args, **kwargs: HttpRequest) -> JsonResponse:
         response_data['status'] = "Offline"
     return (JsonResponse(response_data, encoder=DjangoJSONEncoder))
 
-
 @csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
@@ -120,7 +119,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
-            token.blacklist()
+            # token.blacklist()
             context = {
                     "message": "Logout successful.",
                     "status": "success",
@@ -131,7 +130,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
         except TokenError as e:
             context = {
                     "message": "Logout failed.",
-                    "status": "failed",
+                    "status": "failed", 
                     "error": str(e),
                     }
             logging.debug("context is %s", context)
@@ -327,8 +326,10 @@ def edit_account_view(request, *arg, **kwargs):
             form.save()
             # We redirect to the same page to see the changes
             context['success'] = "Profile updated successfully."
+
             return (JsonResponse(
                 context, encoder=DjangoJSONEncoder, status=200))
+
         else:
             logging.debug("form is not valid")
             form = UsersUpdateForm(

@@ -45,6 +45,7 @@ export default class ProfilePage {
     var fileInput = document.getElementById("change-avatar-input");
     var file = fileInput.files[0];
     const reader = new FileReader();
+    console.log("reader: ", reader);
     let base64Image;
 
     console.log("reader: ", reader);
