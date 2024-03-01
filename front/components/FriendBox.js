@@ -17,7 +17,9 @@ export const FriendBox = (friend) => {
         <div class="container">
           <div class="row align-items-center">
             <div class="col-2">
-              <img src="https://avatar.iran.liara.run/public/boy?username=Ash" width="30" height="30" />
+               <img src="${
+                 "data:image/png;base64," + friend.profile_image
+               }" width="30" height="30" />
             </div>
               <div class="col-2">
               <p style="font-size: 15px;width: 30px">${friend.friend}</p>
@@ -29,7 +31,9 @@ export const FriendBox = (friend) => {
               </div>
               <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end">
-                <button id="remove-friend-btn-${friend.id}"class="btn btn-sm dark-btn">X</button>
+                <button id="remove-friend-btn-${
+                  friend.friend_id
+                }"class="btn btn-sm dark-btn">X</button>
                 </div>
             </div>
           </div>
