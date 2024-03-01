@@ -9,7 +9,6 @@ import {
   primaryColor,
 } from "../../assets/colors.js";
 
-console.log("yo frmo three canvas");
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   100,
@@ -18,13 +17,13 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 const moveSpeed = 0.4;
-camera.position.set(0, 1.6, 22);
+camera.position.set(0, 1.6, 19);
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#three-canvas"),
 });
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
 document.body.appendChild(renderer.domElement);
 
 // Create a cube as the room

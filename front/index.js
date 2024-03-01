@@ -1,9 +1,8 @@
 import GameView from "./app/(game)/gameLayout.js";
 import HomeView from "./app/(home)/homeLayout.js";
 import LoginView from "./app/(login)/loginLayout.js";
-import DEV_ENV from "./config.js";
-import Toast from "./components/Toast.js";
 import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
+import MetaPongPage from "./app/(game)/metaPong.js/metaPong.js";
 
 const room = { name: "lol" };
 const checkAuth = async () => {
@@ -66,7 +65,9 @@ const switchRoute = (route, popstate = false) => {
       new GameView(switchRoute, room);
     }
   } else if (route === "/game/local-pong") {
-    new LocalPongPage(switchRoute, room);
+    new LocalPongPage(switchRoute);
+  } else if (route === "/game/meta-pong") {
+    new MetaPongPage(switchRoute);
   }
   if (!popstate) {
     console.log(`pushing ${route} to history`);
