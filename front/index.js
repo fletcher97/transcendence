@@ -3,6 +3,7 @@ import HomeView from "./app/(home)/homeLayout.js";
 import LoginView from "./app/(login)/loginLayout.js";
 import DEV_ENV from "./config.js";
 import Toast from "./components/Toast.js";
+import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
 
 const room = { name: "lol" };
 const checkAuth = async () => {
@@ -64,6 +65,8 @@ const switchRoute = (route, popstate = false) => {
     if (history.state.route !== "/") {
       new GameView(switchRoute, room);
     }
+  } else if (route === "/game/local-pong") {
+    new LocalPongPage(switchRoute, room);
   }
   if (!popstate) {
     console.log(`pushing ${route} to history`);

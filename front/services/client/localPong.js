@@ -1,4 +1,5 @@
 const canvas = document.getElementById("local-pong-canvas");
+console.log("inside localPong.js");
 const ctx = canvas.getContext("2d");
 const blue = "rgb(0, 132, 255)";
 const pink = "#db3593";
@@ -11,7 +12,7 @@ let paddle2Y = canvas.height / 2 - paddleHeight / 2;
 const paddleSpeed = 12;
 createReplayButton();
 
-const ballSize = 10;
+const ballSize = 15;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
 let ballSpeedX = 0;
@@ -31,18 +32,16 @@ function draw() {
   ctx.fillRect(0, paddle1Y, paddleWidth, paddleHeight);
   ctx.fillRect(canvas.width - paddleWidth, paddle2Y, paddleWidth, paddleHeight);
 
-  // Draw ball
+  // Draw ball as square
   ctx.fillStyle = mainColour;
   ctx.shadowColor = mainColour;
   ctx.shadowBlur = 40;
-  ctx.beginPath();
-  ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.closePath();
+  ctx.fillRect(ballX - ballSize / 2, ballY - ballSize / 2, ballSize, ballSize);
+  ctx.shadowBlur = 0; // Reset shadow
 
   // Draw scores
-  ctx.fillStyle = pink;
-  ctx.shadowColor = pink;
+  ctx.fillStyle = mainColour;
+  ctx.shadowColor = mainColour;
   ctx.fillText("Player 1: " + player1Score, 100, 50);
   ctx.font = "bold 28px Orbitron";
   ctx.fillText("Player 2: " + player2Score, canvas.width - 250, 50);
@@ -117,21 +116,36 @@ function update() {
       player1Score++;
       resetBall();
     }
+
+    if (player1Score === 5 || player2Score === 5) {
+      endGame();
+    }
   }
 }
 
 function resetBall() {
-  ballX = canvas.width / 2;
+  ballX = ballSpeedX < 0 ? canvas.width / 4 : canvas.width / 1.5;
   ballY = canvas.height / 2;
-  ballSpeedX = 0;
-  ballSpeedY = 0;
-  gameState = "paused"; // Pause the game when the ball is reset
+  // ballSpeedX = 0;
+  // ballSpeedY = 0;
+  ballSpeedX = -ballSpeedX;
+  // gameState = "paused"; // Pause the game when the ball is reset
 }
 
 function startGame() {
   ballSpeedX = 7; // Set initial ball speed
   ballSpeedY = 7;
   gameState = "playing"; // Start the game
+}
+
+function endGame() {
+  gameState = "paused";
+  player1Score = 0;
+  player2Score = 0;
+  ballX = canvas.width / 2;
+  const replayButton = document.getElementById("local-pong-replay-btn");
+  replayButton.textContent = "REPLAY";
+  replayButton.style.display = "block";
 }
 
 function gameLoop() {
@@ -183,16 +197,30 @@ document.addEventListener("keyup", function (event) {
 // Start the game loop
 gameLoop();
 
+function handleReplayClick(replayButton) {
+  console.log("handleReplayClick");
+  startGame();
+  replayButton.style.display = "none";
+}
+
 function createReplayButton() {
   const replayButton = document.createElement("button");
-  replayButton.textContent = "REPLAY";
+  replayButton.textContent = "START GAME";
+  replayButton.id = "local-pong-replay-btn";
+  replayButton.style.display = "block";
+  replayButton.classList.add("btn");
+  replayButton.classList.add("btn-active");
+  replayButton.classList.add("dark-btn");
+  replayButton.style.opacity = "80%";
   replayButton.style.position = "absolute";
   replayButton.style.top = "50%";
   replayButton.style.left = "50%";
   replayButton.style.transform = "translate(-50%, -50%)";
-  replayButton.style.padding = "10px";
+  replayButton.style.padding = "30px";
+  replayButton.style.border = "3px dashed blue";
+  replayButton.style.borderRadius = "10px";
   replayButton.style.fontSize = "16px";
   replayButton.style.cursor = "pointer";
-  // replayButton.addEventListener("click", handleReplayClick);
+  replayButton.addEventListener("click", () => handleReplayClick(replayButton));
   document.body.appendChild(replayButton);
 }
