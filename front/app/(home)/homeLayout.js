@@ -4,8 +4,8 @@ import DashboardView from "./Dashboard/dashboardPage.js";
 import Spinner from "../../../../components/Spinner.js";
 import ProfilePage from "./Profile/profilePage.js";
 import { accentColor } from "../../../../assets/colors.js";
-import logoutUser from "../../services/api/logoutUser.js";
-import getUser from "../../../services/api/getUser.js";
+import logoutUser from "../../services/api/users/logoutUser.js";
+import getUser from "../../../services/api/users/getUser.js";
 import FriendsPage from "./Friends/friendsPage.js";
 // import getUser
 
@@ -13,15 +13,15 @@ export default class HomeView {
   constructor(switchRoute, page) {
     // super();
     this.me = null;
-    this.userId = localStorage.getItem('user_id');
+    this.userId = localStorage.getItem("user_id");
     this.initialRender();
     this.page = page;
-    this.activeTab = "dashboard-button";
+    this.activeTab = `${page.substring(1)}-button`;
     this.activeTabElement;
     this.switchRoute = switchRoute;
     this.dashboardViewInstance = new DashboardView(
       switchRoute,
-      this.render.bind(this),
+      this.render.bind(this)
     );
     this.profilePageInstance = new ProfilePage(
       switchRoute,
@@ -36,8 +36,6 @@ export default class HomeView {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
-
-    
     // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
     // if (accessToken !== undefined) {
     //   console.log("accessToken: ", accessToken);
@@ -52,22 +50,27 @@ export default class HomeView {
 
     // Check if the access token is present
 
-
     // console.log("me: ", me);
   }
 
   fetchData = async () => {
     this.me = await getUser(this.userId);
-  }
+  };
 
   toggleTab = (button) => {
-    if (this.activeTabElement === button) return;
+    console.log("button: ", button);
+    // if (this.activeTabElement === button) return;
+    console.log("this.activeTab: ", this.activeTab);
+    console.log("this.activeTabElement: ", this.activeTabElement);
     this.activeTabElement.classList.add("inactive");
     button.classList.remove("inactive");
     this.activeTabElement = button;
   };
 
   async render(view) {
+    console.log("view: ", view);
+    this.activeTabElement = document.getElementById(this.activeTab);
+    this.toggleTab(document.querySelector(`#${view}-button`));
     await new Promise((resolve) => setTimeout(resolve, 100));
     if (view === this.activeTab.toLowerCase()) {
       // View is already active, no need to re-render
@@ -81,20 +84,21 @@ export default class HomeView {
       const dashboardButton = document.querySelector("#dashboard-button");
       if (dashboardButton) {
         this.activeTabElement = document.getElementById(this.activeTab);
-        this.toggleTab(document.querySelector("#dashboard-button"));
+        // this.toggleTab(document.querySelector("#dashboard-button"));
       }
       this.dashboardViewInstance.addEventListeners();
     } else if (view === "profile") {
+      // this.toggleTab(document.querySelector("#profile-button"));
       homeContainer.innerHTML = Spinner();
       const content = await this.profilePageInstance.renderView();
       homeContainer.innerHTML = content;
-      this.toggleTab(document.querySelector("#profile-button"));
       this.profilePageInstance.addEventListeners();
-    } else if (view === 'friends') {
+    } else if (view === "friends") {
+      // this.toggleTab(document.querySelector("#friends-button"));
       homeContainer.innerHTML = Spinner();
       const content = await this.friendsPageInstance.renderView();
       homeContainer.innerHTML = content;
-      this.toggleTab(document.querySelector("#friends-button"));
+      this.friendsPageInstance.addEventListeners();
     }
   }
 
@@ -115,27 +119,30 @@ export default class HomeView {
     dashboardButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);
       const route = "/dashboard";
-      history.pushState({ route }, null, route);
-      this.render("dashboard");
+      // history.pushState({ route }, null, route);
+      // this.render("dashboard");
+      this.switchRoute("/dashboard");
     });
     friendsbutton.addEventListener("click", () => {
       this.toggleTab(friendsbutton);
-      const route = "/friends";
-      history.pushState({ route }, null, route);
-      this.render("friends");
+      // const route = "/friends";
+      // history.pushState({ route }, null, route);
+      this.switchRoute("/friends");
+      // this.render("friends");
     });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
       // push state to route == "/profile"
       const route = "/profile";
-      history.pushState({ route }, null, route);
-      this.render("profile");
+      this.switchRoute("/profile");
+      // history.pushState({ route }, null, route);
+      // this.render("profile");
     });
     logoutButton.addEventListener("click", () => {
       try {
         logoutUser();
         localStorage.clear();
-        history.replaceState(null, "", "/");
+        // history.replaceState(null, "", "/");
         this.switchRoute("/login");
       } catch (error) {
         console.error("Error logging out user:", error.message);
@@ -160,13 +167,15 @@ export default class HomeView {
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
             <div class="d-flex align-items-center">
             <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="${"data:image/png;base64,"+this.me.profile_image_base64}" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+                <img src="${
+                  "data:image/png;base64," + this.me.profile_image_base64
+                }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
               </div>
               <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
               </div>
             
           <div class="d-flex align-items-center">
-          <b><h2 id="dashboard-button" class="nav-item">DASHBOARD</h2></b>
+          <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
           <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
           <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
           <p class="btn active" id="log-out-btn">log out</p>

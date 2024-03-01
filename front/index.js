@@ -4,9 +4,10 @@ import LoginView from "./app/(login)/loginLayout.js";
 import DEV_ENV from "./config.js";
 import Toast from "./components/Toast.js";
 
-const room = {name: "lol"}
+const room = { name: "lol" };
 
-const switchRoute = (route) => {
+const switchRoute = (route, popstate = false) => {
+  console.log("popstate: ", popstate);
   console.log("switching route to: ", route);
   // get session id from cookies
   // const sessionId = document.cookie.split("=")[1];
@@ -17,10 +18,15 @@ const switchRoute = (route) => {
   //   return;
   // }
 
-  if (route === "/" || route === "/dashboard" || route == "/friends" || route == "/profile") {
-    if (route === "/")
-    route = "/dashboard"
-    history.pushState({ route }, null, route);
+  if (
+    route === "/" ||
+    route === "/dashboard" ||
+    route == "/friends" ||
+    route == "/profile"
+  ) {
+    if (route === "/") {
+      route = "/dashboard";
+    }
     new HomeView(switchRoute, route);
   } else if (route === "/login" || route === "/register") {
     // if (history.state.route !== "/") {
@@ -31,19 +37,23 @@ const switchRoute = (route) => {
       new GameView(switchRoute, room);
     }
   }
+  if (!popstate) {
+    console.log(`pushing ${route} to history`);
+    history.pushState({ route }, "null", route);
+  }
 };
 
 window.onpopstate = (event) => {
   const route = event.state ? event.state.route : window.location.pathname;
-  switchRoute(route);
+  console.log("route in onpopstate: ", route);
+  switchRoute(route, true);
 };
 
 const initApp = () => {
   var url = new URL(window.location.href);
+  console.log("url: ", url.pathname);
   const accessToken = localStorage.getItem("access_token");
   const userId = localStorage.getItem("user_id");
-  console.log("accessToken: ", accessToken);
-  console.log("userId: ", userId);
 
   if (accessToken) {
     if (url.pathname !== "/login" && url.pathname !== "/register") {

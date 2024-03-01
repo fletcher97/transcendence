@@ -213,6 +213,14 @@ b {
     color: green;
   }
 
+  .toast-success-bg {
+    background-color: rgb(150, 255, 152);
+  }
+
+  .toast-error-bg {
+    background-color: rgb(255, 150, 150);
+  }
+
 .nav-item {
     color: white;
     font-size: 14px;
@@ -316,6 +324,7 @@ b {
 
 .dashboard-room-box {
     border-radius: 10px;
+    max-height: 10vh;
     border: 1px solid var(--blue);
     border: 1px solid rgba(33, 38, 60, 0.637);
 }

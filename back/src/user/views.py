@@ -65,6 +65,7 @@ def get_is_auth(request, *args, **kwargs: HttpRequest) -> JsonResponse:
         response_data['status'] = "Offline"
     return (JsonResponse(response_data, encoder=DjangoJSONEncoder))
 
+
 @csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     context = {}
