@@ -1,19 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpRequest, JsonResponse
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.serializers import serialize
-from django.db.models.fields.files import FieldFile
 from django.middleware.csrf import get_token
 
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import permission_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -25,13 +23,11 @@ import os
 from .models import Users, FriendRequest, FriendList
 from .forms import RegistrationForm, UsersAuthenticationForm, UsersUpdateForm
 from .utils import get_friend_request_or_false
-from .utils import process_profile_image, save_image_to_folder
 from .utils import generate_response, get_image_as_base64
+from .utils import serialize_friend_request
 from .friend_request_status import FriendRequestStatus
 from .tokens import create_jwt_pair_for_user
 
-
-# Create your views here.
 
 @csrf_exempt
 def index(request):
@@ -60,6 +56,14 @@ def get_csrf_token(request):
     logging.debug("token csrf is %s", token)
     return (JsonResponse({"csrf_token": token}))
 
+def get_is_auth(request, *args, **kwargs: HttpRequest) -> JsonResponse:
+    response_data = {}
+    current_user = request.user
+    if current_user.is_authenticated:
+        response_data['status'] = "Online"
+    else:
+        response_data['status'] = "Offline"
+    return (JsonResponse(response_data, encoder=DjangoJSONEncoder))
 
 
 @csrf_exempt
@@ -207,7 +211,6 @@ def account_view(request, *args, **kwargs):
         context['id'] = account.id
         context['username'] = account.username
         context['email'] = account.email
-        context['hide_email'] = account.hide_email
 
         if account.profile_image:
             image_path = os.path.join(
@@ -278,7 +281,6 @@ def account_view(request, *args, **kwargs):
 
         context['is_self'] = is_self
         context['is_friend'] = is_friend
-        context['BASE_URL'] = settings.BASE_URL
         context['request_sent'] = request_sent
     logging.debug("context in account view is %s", context)
     return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
@@ -289,11 +291,12 @@ def account_view(request, *args, **kwargs):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def edit_account_view(request, *arg, **kwargs):
+    context = {}
+
     if not request.user.is_authenticated:
         context = {"error": "You must be authenticated to edit your profile."}
         return (JsonResponse(context, encoder=DjangoJSONEncoder, status=403))
     user_id = kwargs.get("user_id")
-    context = {}
     try:
         user = Users.objects.get(pk=user_id)
     except Users.DoesNotExist:
@@ -317,7 +320,8 @@ def edit_account_view(request, *arg, **kwargs):
             form.save()
             # We redirect to the same page to see the changes
             context['success'] = "Profile updated successfully."
-            return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
+            return (JsonResponse(
+                context, encoder=DjangoJSONEncoder, status=200))
         else:
             logging.debug("form is not valid")
             form = UsersUpdateForm(
@@ -452,56 +456,28 @@ def send_friend_request(request, *args, **kwargs):
 
 
 def friend_requests(request, *args, **kwargs):
-    context = {}
-    user = request.user
-    if user.is_authenticated:
+    response_data = {}
+    current_user = request.user
+    if current_user.is_authenticated:
         user_id = kwargs.get("user_id")
         account = Users.objects.get(pk=user_id)
-        if account == user:
+        if account == current_user:
             friend_requests = FriendRequest.objects.filter(receiver=account,
                                                            is_active=True)
-            serialized_friend_requests = []
-            for request in friend_requests:
-                sender_username = request.sender.username
-                receiver_username = request.receiver.username
-                if request.sender.profile_image:
-                    image_path = os.path.join(
-                            settings.MEDIA_ROOT, str(account.profile_image))
-                    encoded_string = get_image_as_base64(image_path)
-                    if encoded_string:
-                        serialized_data = {
-                                "pk": request.pk,
-                                "sender": sender_username,
-                                "receiver": receiver_username,
-                                "sender_profile_image": encoded_string,
-                        }
-                    else:
-                        serialized_data = {
-                                "pk": request.pk,
-                                "sender": sender_username,
-                                "receiver": receiver_username,
-                                "sender_profile_image": "",
-                        }
-                else:
-                    serialized_data = {
-                            "pk": request.pk,
-                            "sender": sender_username,
-                            "receiver": receiver_username,
-                            "sender_profile_image": "",
-                    }
-                serialized_friend_requests.append(serialized_data)
-            context['friend_requests'] = serialized_friend_requests
+            serialized_friend_requests = [
+                    serialize_friend_request(request) for request in
+                    friend_requests]
+            response_data['friend_requests'] = serialized_friend_requests
         else:
-            context['error'] = "That is not your account."
-            logging.debug("context 1 on friend_requests is %s", context)
+            response_data['error'] = "That is not your account."
             return (JsonResponse(
-                context, encoder=DjangoJSONEncoder, status=401))
+                response_data, encoder=DjangoJSONEncoder, status=401))
     else:
-        context['error'] = "You must be authenticated to view friend requests."
-        logging.debug("context 2 on friend_requests is %s", context)
-        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=401))
-    logging.debug("context 3 on friend_requests is %s", context)
-    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
+        response_data['error'] = "You must be authenticated to view friend requests."
+        return (JsonResponse(
+            response_data, encoder=DjangoJSONEncoder, status=401))
+    logging.debug("response_data 3 on friend_requests is %s", response_data)
+    return (JsonResponse(response_data, encoder=DjangoJSONEncoder, status=200))
 
 
 def accept_friend_request(request, *args, **kwargs):
@@ -592,14 +568,9 @@ def cancel_friend_request(request, *args, **kwargs):
         user_id = body_data.get("receiver_user_id")
         if user_id:
             receiver = Users.objects.get(pk=user_id)
-            try:                # for account in search_results:
-                    # accounts.append((account,
-                                    # auth_user_friend_list.is_mutual_friend(account)))
-                    # context['accounts'] = accounts
-
-                friend_requests = FriendRequest.objects.filter(sender=user,
-                                                            receiver=receiver,
-                                                              is_active=True)
+            try:
+                friend_requests = FriendRequest.objects.filter(
+                        sender=user, receiver=receiver, is_active=True)
             except FriendRequest.DoesNotExist:
                 payload['error'] = "Friend request not found."
             # There should only be a single active friend request at any given
