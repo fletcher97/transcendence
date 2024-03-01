@@ -117,7 +117,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
-            token.blacklist()
+            # token.blacklist()
             context = {
                     "message": "Logout successful.",
                     "status": "success",
@@ -128,7 +128,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
         except TokenError as e:
             context = {
                     "message": "Logout failed.",
-                    "status": "failed",
+                    "status": "failed", 
                     "error": str(e),
                     }
             logging.debug("context is %s", context)
