@@ -190,14 +190,11 @@ b {
 }
 
 #local-pong-canvas {
-    height: 80vh; 
-    width: 80vw;
-    height: 50vh; 
     border: 1px solid var(--blue);
     /* box-shadow: 1px 2px 3px var(--accent-color);  */
     padding: 0;
-    width: 1000px;
-    height: 1000px; 
+    width: 800px;
+    height: 500px; 
         
 }
 
