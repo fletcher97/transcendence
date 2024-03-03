@@ -1,119 +1,124 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
 
 :root {
-    --blue: rgb(0, 132, 255);
-    --bg-blue: 344C65;
-    --dark-blue: #2E4257;
-    --dark-bg: #1f2d3d;
-    --pink: #db3593;
-    --light-blue: rgb(112, 186, 255);
-    --light-pink: #F0EEF6;
+  --blue: rgb(0, 132, 255);
+  --bg-blue: 344C65;
+  --dark-blue: #2e4257;
+  --dark-bg: #1f2d3d;
+  --pink: #db3593;
+  --light-blue: rgb(112, 186, 255);
+  --light-pink: #f0eef6;
 
-    --primary-color: var(--blue);
-    --background-color: var(--light-pink);
-    --accent-color: var(--pink);
+  --primary-color: var(--blue);
+  --background-color: var(--light-pink);
+  --accent-color: var(--pink);
 }
 body {
-    background-color: var(--background-color);
-    background-color:   var(--dark-blue);
-    background-color: rgb(20, 20, 30);
-    background-color: #1f2d3d;
-    font-family: 'Orbitron', sans-serif;
-    color: var(--accent-color);
-    cursor: url('./icons8-cursor-48.png'), none;
+  background-color: var(--background-color);
+  background-color: var(--dark-blue);
+  background-color: rgb(20, 20, 30);
+  background-color: #1f2d3d;
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-color);
+  cursor: url("./icons8-cursor-48.png"), none;
 }
 
 .game-bg {
-    background-color: var(--dark-blue);
+  background-color: var(--dark-blue);
 }
 
 .night-mode {
-    background-color: #49627C;
+  background-color: #49627c;
 }
 
 h1.night-mode {
-    color: #5596ff;
-    text-shadow: 4px 4px 8px var(--accent-color);
+  color: #5596ff;
+  text-shadow: 4px 4px 8px var(--accent-color);
 }
 
 .my-btn {
-    background-color: var(--background-color);
-    border-radius: 5px;
-    border: 1px solid var(--accent-color);
-    padding: 10px 20px 10px 20px;
-    /* cursor: auto; */
-    background-color:#1f2d3d;
-    color: var(--accent-color);
-    }
+  background-color: var(--background-color);
+  border-radius: 5px;
+  border: 1px solid var(--accent-color);
+  padding: 10px 20px 10px 20px;
+  /* cursor: auto; */
+  background-color: #1f2d3d;
+  color: var(--accent-color);
+}
 .my-btn:disabled {
-    background-color: var(--background-color);
-    border-radius: 5px;
+  background-color: var(--background-color);
+  border-radius: 5px;
 }
 .my-btn:hover {
-    color: black;
-    background-color: var(--accent-color);
-    }
+  color: black;
+  background-color: var(--accent-color);
+}
 
 .hidden {
-    opacity: 0%;
-    transform: translateY(-100%);
-    transition: all .2s ease-in-out ;
+  opacity: 0%;
+  transform: translateY(-100%);
+  transition: all 0.2s ease-in-out;
 }
 
 .show {
-    opacity: 1;
-    transform: translateY(0%);
+  opacity: 1;
+  transform: translateY(0%);
 }
 
-
 h1 {
-    font-size: 5rem;
-    color: var(--accent-color);
-    text-shadow: 0px 0px 4px var(--accent-color);
+  font-size: 5rem;
+  color: var(--accent-color);
+  text-shadow: 0px 0px 4px var(--accent-color);
 }
 
 h5 {
-    color: rgb(0, 132, 255);
-    text-shadow: 0px 0px 4px rgb(0, 132, 255);
+  color: rgb(0, 132, 255);
+  text-shadow: 0px 0px 4px rgb(0, 132, 255);
 }
 
 .glow {
-    animation: flicker .6s infinite alternate;
+  animation: flicker 0.6s infinite alternate;
+}
+
+.glow-blue {
+  color: var(--blue);
+  text-shadow: 0px 0px 4px var(--blue);
+  animation: flicker-blue 0.6s infinite alternate;
 }
 
 h3 {
-    color: var(--accent-color);
-    /* color: white; */
-    font-size: 24px;
-    text-shadow: 1px 1px 4px var(--accent-color);
-    }
-    
-    h4 {
-        color: white;
-        font-size: 18px;
-        color: var(--accent-color);
-        color: rgb(0, 132, 255);
-        /* text-shadow: 1px 1px 6px var(--accent-color); */
-        text-shadow: 1px 1px 4px rgb(0, 132, 255);
+  color: var(--accent-color);
+  /* color: white; */
+  font-size: 24px;
+  text-shadow: 1px 1px 4px var(--accent-color);
+}
+
+h4 {
+  color: white;
+  font-size: 18px;
+  color: var(--accent-color);
+  color: rgb(0, 132, 255);
+  /* text-shadow: 1px 1px 6px var(--accent-color); */
+  text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 p {
-    color: var(--accent-color);
-    color: rgb(240, 240, 240);
-    margin-bottom: 0;
-    /* color: rgb(0, 132, 255);
+  color: var(--accent-color);
+  color: rgb(240, 240, 240);
+  margin-bottom: 0;
+  /* color: rgb(0, 132, 255);
     text-shadow: 1px 1px 4px rgb(0, 132, 255); */
 }
 
 a {
-    color: var(--accent-color);
-        color: rgb(240, 240, 240);
-        color: rgb(0, 132, 255);
-        text-shadow: 1px 1px 4px rgb(0, 132, 255);
+  color: var(--accent-color);
+  color: rgb(240, 240, 240);
+  color: rgb(0, 132, 255);
+  text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 
 b {
-    color: rgb(0, 132, 255);
-    text-shadow: 1px 1px 4px rgb(0, 132, 255);
+  color: rgb(0, 132, 255);
+  text-shadow: 1px 1px 4px rgb(0, 132, 255);
 }
 /* #CLASSIC-PONG {
             /* color: var(--accent-color); */
@@ -122,260 +127,292 @@ b {
         } */
 
 .svg-container #classic-pong-bg {
-    /* text-shadow: 2px 2px 0px var(--accent-color); */
-    fill: blue;
-    fill: var(--accent-color);
-    color: white;
-    transition: text-shadow 0.3s ease;
-
+  /* text-shadow: 2px 2px 0px var(--accent-color); */
+  fill: blue;
+  fill: var(--accent-color);
+  color: white;
+  transition: text-shadow 0.3s ease;
 }
 
 .svg-container:hover #CLASSIC-PONG {
-    /* color: var(--accent-color); */
-    text-shadow: 2px 2px 4px var(--primary-color);
-    transition: text-shadow 3s ease;
-
-
+  /* color: var(--accent-color); */
+  text-shadow: 2px 2px 4px var(--primary-color);
+  transition: text-shadow 3s ease;
 }
 
 .svg-container:hover {
-    box-shadow: 5px 5px 4px;
+  box-shadow: 5px 5px 4px;
 }
 
 .svg-container:hover #classic-pong-bg {
-    fill: var(--accent-color);
-    fill: rgba(0, 0, 255, 0.3);
-    box-shadow: 10px 10px;
+  fill: var(--accent-color);
+  fill: rgba(0, 0, 255, 0.3);
+  box-shadow: 10px 10px;
 }
 
 .child1 {
-    transition-delay: 0ms;
+  transition-delay: 0ms;
 }
 
 .child2 {
-    transition-delay: 150ms;
+  transition-delay: 150ms;
 }
 
 .child3 {
-    transition-delay: 300ms;
+  transition-delay: 300ms;
 }
 
 .child4 {
-    transition-delay: 450ms;
+  transition-delay: 450ms;
 }
 
 .child5 {
-    transition-delay: 600ms;
+  transition-delay: 600ms;
 }
 
 .inactive {
-    opacity: 0.5;
-
+  opacity: 0.5;
 }
 
 #pong-background {
-    z-index: -1;
-    position:fixed;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--background-color);
-  }
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background-color);
+}
 
-  #three-canvas {
-    /* z-index: 2; */
-    height: 100px;
-    width: 100px;
-    
+#three-canvas {
+  /* z-index: 2; */
+  height: 100px;
+  width: 100px;
 }
 
 #local-pong-canvas {
-    border: 1px solid var(--blue);
-    /* box-shadow: 1px 2px 3px var(--accent-color);  */
-    padding: 0;
-    width: 800px;
-    height: 500px; 
-        
+  border: 1px solid var(--blue);
+  /* box-shadow: 1px 2px 3px var(--accent-color);  */
+  padding: 0;
+  width: 800px;
+  height: 500px;
+  box-shadow: inset 2px 2px 15px var (--accent-color);
+  /* opacity: 0.2; */
+  filter: blur(5px);
+  /* outline: 80px solid var(--dark-bg); */
+  /* box-sizing: border-box; */
 }
 
-  .toast-container.toast-red, .toast-header.toast-red {
-    color: red;
-  }
+.toast-container.toast-red,
+.toast-header.toast-red {
+  color: red;
+}
 
-  .toast-container.toast-green, .toast-header.toast-green {
-    color: green;
-  }
+.toast-container.toast-green,
+.toast-header.toast-green {
+  color: green;
+}
 
-  .toast-success-bg {
-    background-color: rgb(150, 255, 152);
-  }
+.toast-success-bg {
+  background-color: rgb(150, 255, 152);
+}
 
-  .toast-error-bg {
-    background-color: rgb(255, 150, 150);
-  }
+.toast-error-bg {
+  background-color: rgb(255, 150, 150);
+}
 
 .nav-item {
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .nav-item:hover {
-    opacity: 1;
-    cursor: pointer;
-    
+  opacity: 1;
+  cursor: pointer;
 }
 
 .rooms-container {
-    height: 60vh;
-    box-shadow: 0px 0px 1px 1px var(--dark-blue);
-    background-color: #1c2835;
-    background-color: var(--dark-blue);
-    border-radius: 10px;
-    /* border: .1px solid rgb(89, 89, 89); */
-    /* border: 10px solid var(--dark-blue); */
-    /* make it a scrollable container with fixed height */
+  height: 60vh;
+  box-shadow: 0px 0px 1px 1px var(--dark-blue);
+  background-color: #1c2835;
+  background-color: var(--dark-blue);
+  border-radius: 10px;
+  /* border: .1px solid rgb(89, 89, 89); */
+  /* border: 10px solid var(--dark-blue); */
+  /* make it a scrollable container with fixed height */
 }
 
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
-    box-shadow: 0px 0px 1px 1px var(--dark-blue);
-    padding: 30px;
-    background-color: #1c2835;
-    background-color: var(--dark-blue);
-    border-radius: 10px;
-    /* border: .1px solid rgb(89, 89, 89); */
-    /* border: 10px solid var(--b); */
-    /* make it a scrollable container with fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0px 0px 1px 1px var(--dark-blue);
+  padding: 30px;
+  background-color: #1c2835;
+  background-color: var(--dark-blue);
+  border-radius: 10px;
+  /* border: .1px solid rgb(89, 89, 89); */
+  /* border: 10px solid var(--b); */
+  /* make it a scrollable container with fixed height */
 }
 
 .rooms-rows-container {
-    max-height: 40vh;
-    overflow-y: scroll;
-    /* hide scrollbar */
-    /* scrollbar-width: none; */
+  max-height: 40vh;
+  overflow-y: scroll;
+  /* hide scrollbar */
+  /* scrollbar-width: none; */
 }
 
 .modal-container {
-    background-color: var(--dark-bg);
+  background-color: var(--dark-bg);
 }
 
 .game-panel {
-    background-color: var(--dark-bg);
-    border-right: 1px solid var(--dark-blue);
-    width: 30%;
+  background-color: var(--dark-bg);
+  border-right: 1px solid var(--dark-blue);
+  width: 30%;
 }
 
 #game-canvas {
-    height: 80vh;
-    border: 1px solid var(--accent-color);
-    box-shadow: 1px 2px 3px var(--accent-color);
-    padding: 0;
-    /* width: 100%; */
+  height: 80vh;
+  border: 1px solid var(--accent-color);
+  box-shadow: 1px 2px 3px var(--accent-color);
+  padding: 0;
+  /* width: 100%; */
 }
 
 .btn {
-    border-radius: 5px;
-    border: 1px solid var(--accent-color);
-    padding: 10px 20px 10px 20px;
-    background-color: var(--accent-color);
-    color: rgb(200, 200, 220);
-    text-shadow: 1px 1px 4px rgb(200, 200, 220);    
+  border-radius: 5px;
+  border: 1px solid var(--accent-color);
+  padding: 10px 20px 10px 20px;
+  background-color: var(--accent-color);
+  color: rgb(200, 200, 220);
+  text-shadow: 1px 1px 4px rgb(200, 200, 220);
 }
 
 #game-ready-btn-kuk {
-    font-size: 26px;
-    /* padding: 0;
+  font-size: 26px;
+  /* padding: 0;
     margin: 0;  */
-    height: 50%;
+  height: 50%;
 }
 
 .btn:hover {
-    color: var(--accent-color);
-    background-color: #cd5197;
+  color: var(--accent-color);
+  background-color: #cd5197;
 }
 
 .input-box {
-    border-radius: 8px;
-    /* border: 1px solid var(--accent-color); */
-    padding: 5px 10px 5px 10px;
-    margin: 5px;
-    background-color: rgb(200, 200, 220);
-    color: var(--accent-color);
-    /* text-shadow: 1px 1px 4px var(--accent-color);     */
+  border-radius: 8px;
+  /* border: 1px solid var(--accent-color); */
+  padding: 5px 10px 5px 10px;
+  margin: 5px;
+  background-color: rgb(200, 200, 220);
+  color: var(--accent-color);
+  /* text-shadow: 1px 1px 4px var(--accent-color);     */
 }
 
-
-
 .input-box:active {
-    border: 1px solid var(--accent-color);
+  border: 1px solid var(--accent-color);
 }
 
 .dashboard-room-box {
-    border-radius: 10px;
-    max-height: 10vh;
-    border: 1px solid var(--blue);
-    border: 1px solid rgba(33, 38, 60, 0.637);
+  border-radius: 10px;
+  max-height: 10vh;
+  border: 1px solid var(--blue);
+  border: 1px solid rgba(33, 38, 60, 0.637);
 }
 
 .dashboard-room-box:hover {
-    background-color: var(--dark-bg);
+  background-color: var(--dark-bg);
 }
 
-
 @keyframes flicker {
-    0% {
-        text-shadow:
-        /* 0 0 1px white, */
-        0 0 1px whitesmoke,
-        /* 0 0 2px whitesmoke, */
-        0 0 10px var(--accent-color),
-        0 0 21px var(--accent-color),
-        0 0 25px var(--accent-color);
+  0% {
+    text-shadow:
+        /* 0 0 1px white, */ 0 0 1px whitesmoke,
+      /* 0 0 2px whitesmoke, */ 0 0 10px var(--accent-color),
+      0 0 21px var(--accent-color), 0 0 25px var(--accent-color);
+  }
+  100% {
+    text-shadow:
+        /* 0 0 1px white, */ 0 0 1px whitesmoke,
+      /* 0 0 2px whitesmoke, */ 0 0 10px var(--accent-color),
+      0 0 21px var(--accent-color), 0 0 40px var(--accent-color);
+  }
+}
 
-    }
-    100% {
-        text-shadow:
-        /* 0 0 1px white, */
-        0 0 1px whitesmoke,
-        /* 0 0 2px whitesmoke, */
-        0 0 10px var(--accent-color),
-        0 0 21px var(--accent-color),
-        0 0 40px var(--accent-color);
-    }
+@keyframes flicker-blue {
+  0% {
+    text-shadow:
+        /* 0 0 1px white, */ 0 0 1px whitesmoke,
+      /* 0 0 2px whitesmoke, */ 0 0 10px var(--blue), 0 0 21px var(--blue),
+      0 0 25px var(--blue);
+  }
+  100% {
+    text-shadow:
+        /* 0 0 1px white, */ 0 0 1px whitesmoke,
+      /* 0 0 2px whitesmoke, */ 0 0 10px var(--blue), 0 0 21px var(--blue),
+      0 0 40px var(--blue);
+  }
 }
 
 .pink-p {
-    color: var(--accent-color);
+  color: var(--accent-color);
 }
 
 .blue-p {
-    color: rgb(0, 132, 255);
-    /* text-shadow: 1px 1px 6px var(--accent-color); */
-    text-shadow: 1px 1px 4px rgb(0, 132, 255);
-    font-weight: 100;
+  color: rgb(0, 132, 255);
+  /* text-shadow: 1px 1px 6px var(--accent-color); */
+  text-shadow: 1px 1px 4px rgb(0, 132, 255);
+  font-weight: 100;
 }
 
 .dark-btn {
-    background-color: #1c2835;
-    background-color: var(--dark-bg);
-    color: rgb(0, 132, 255);
-    text-shadow: 1px 1px 4px rgb(0, 132, 255);
-    border: 0px;
+  background-color: #1c2835;
+  background-color: var(--dark-bg);
+  color: rgb(0, 132, 255);
+  text-shadow: 1px 1px 4px rgb(0, 132, 255);
+  border: 0px;
 }
 
 .dark-btn:hover {
-    background-color: #546475;
-    color: #1c2835;
-    border: 0px;
+  background-color: var(--blue);
+  color: white;
+  border: 0px;
 }
 
 .light-dark-btn {
-    background-color: #546475;
-    border: 0px;
-    
+  background-color: #546475;
+  border: 0px;
+}
+
+.pink-btn {
+  /* background-color: var(--accent-color); */
+  font-size: 1.5rem;
+  outline: 2px solid var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  box-sizing: border-box;
+  font-weight: 800;
+  animation: flicker-blue 0.6s infinite alternate;
+  /* border-radius: 4px; */
+  /* padding: 20px; */
+  color: var(--blue);
+  text-shadow: 0 0 10px var(--blue);
+  border: 0px;
+  transition: background-color 0.2s ease-in;
+  transition: color 0.2s ease-in;
+}
+
+.pink-btn::before .pink-btn:hover {
+  background-color: var(--blue);
+  color: var(--blue);
+  color: rgb(224, 224, 224);
+  /* animation: flicker 0.6s infinite alternate; */
+  border: 0px;
+}
+
+.pink-btn:hover::before {
+  transform: translate(-5%, 0) skew(-15deg);
 }

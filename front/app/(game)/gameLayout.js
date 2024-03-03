@@ -101,7 +101,7 @@ export default class GameView {
     const content = document.getElementById("app");
     if (content) {
       content.innerHTML = `
-      <div class="min-vh-100">
+      <div  class="min-vh-100">
         <div class="d-flex justify-content-between">
           <div class="min-vh-100 container d-flex row justify-content-between game-panel m-0 p-3">
             <h2 id="room-name-header" class="glow">${this.room.name}</h2>

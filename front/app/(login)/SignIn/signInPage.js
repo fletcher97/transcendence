@@ -56,7 +56,9 @@ export class SignInView {
         this.switchRoute("/");
       } catch (error) {
         console.log("Error: ", error);
-        showMultipleToasts([error[0]], "Error");
+        if (error) {
+          showMultipleToasts([error[0]], "Error");
+        }
 
         signInButton.innerHTML = "SIGN IN";
         usernameInput.value = "";

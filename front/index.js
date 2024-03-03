@@ -4,7 +4,30 @@ import LoginView from "./app/(login)/loginLayout.js";
 import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
 import MetaPongPage from "./app/(game)/metaPong.js/metaPong.js";
 
-const room = { name: "lol" };
+const parseJWTToken = async () => {
+  // Decode the JWT (this doesn't verify the signature, only decodes the payload)
+  const accessToken = localStorage.getItem("access_token");
+  if (accessToken) {
+    console.log("accessToken: ", accessToken);
+    const decodedToken = atob(accessToken.split(".")[1]);
+    // Parse the JSON-encoded payload
+    const payload = JSON.parse(decodedToken);
+    console.log("payload: ", payload);
+    // check if experied
+    const exp = payload.exp;
+    const now = Date.now() / 1000;
+    console.log("exp: ", exp);
+    console.log("now: ", now);
+    return payload;
+    if (exp < now) {
+      console.log("token expired");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user_id");
+      return false;
+    }
+  }
+};
+
 const checkAuth = async () => {
   // Replace 'your-api-endpoint' with the actual endpoint URL
   const apiUrl = "https://localhost:443/api/user/get_is_auth/";
@@ -34,7 +57,7 @@ const checkAuth = async () => {
   }
 };
 
-const switchRoute = (route, popstate = false) => {
+export const switchRoute = (route, popstate = false) => {
   console.log("popstate: ", popstate);
   console.log("switching route to: ", route);
   // get session id from cookies
@@ -45,6 +68,8 @@ const switchRoute = (route, popstate = false) => {
   //   history.pushState({ route }, null, route);
   //   return;
   // }
+  const app = document.getElementById("app");
+  // app.innerHTML = "";
 
   if (
     route === "/" ||
@@ -88,10 +113,15 @@ const initApp = async () => {
   const userId = localStorage.getItem("user_id");
 
   const authResponse = await checkAuth();
+  const jwtToken = await parseJWTToken();
+  console.log("jwtToken: ", jwtToken);
   const sessionStatus = authResponse.status.toLowerCase();
   console.log("sessionStatus: ", sessionStatus);
 
-  if (sessionStatus === "online") {
+  if (
+    sessionStatus === "online"
+    // (jwtToken && jwtToken.exp > Date.now() / 1000)
+  ) {
     if (url.pathname !== "/login" && url.pathname !== "/register") {
       switchRoute(url.pathname);
     } else {

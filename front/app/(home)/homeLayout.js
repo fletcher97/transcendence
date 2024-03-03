@@ -36,18 +36,6 @@ export default class HomeView {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
-    // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
-    // if (accessToken !== undefined) {
-    //   console.log("accessToken: ", accessToken);
-
-    //   const decodedToken = atob(accessToken.split(".")[1]);
-
-    //   // Parse the JSON-encoded payload
-    //   const payload = JSON.parse(decodedToken);
-
-    //   console.log("payload: ", payload);
-    // }
-
     // Check if the access token is present
 
     // console.log("me: ", me);
@@ -105,6 +93,7 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
+    const localPongButton = document.querySelector("#play-local-pong-btn");
     const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
     const logoutButton = document.querySelector("#log-out-btn");
@@ -116,6 +105,12 @@ export default class HomeView {
     // await new Promise((resolve) => setTimeout(resolve, 200));
     this.activeTabElement = document.getElementById(this.activeTab);
     // Add click event listener
+    if (localPongButton) {
+      localPongButton.addEventListener("click", () => {
+        this.switchRoute("/game/local-pong");
+      });
+    }
+
     dashboardButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);
       const route = "/dashboard";
@@ -155,6 +150,13 @@ export default class HomeView {
   //   Your browser does not support the audio element.
   // </audio>
 
+  // <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
+  //               <img src="${
+  //                 "data:image/png;base64," + this.me.profile_image_base64
+  //               }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+  //             </div>
+  //             <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
+
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
     await this.fetchData();
@@ -163,17 +165,13 @@ export default class HomeView {
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">
-        <div class="container row min-vw-100">
+        <div class="container row min-vw-100 m-0">
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
-            <div class="d-flex align-items-center">
-            <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="${
-                  "data:image/png;base64," + this.me.profile_image_base64
-                }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+              <div class="d-flex align-items-center">
+                <a href="/friends" style="text-decoration:none;">
+                  <h1 style="font-size: 32px" class="glow">42-PONG</h1>
+                </a>
               </div>
-              <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
-              </div>
-            
           <div class="d-flex align-items-center">
           <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
           <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
@@ -182,8 +180,8 @@ export default class HomeView {
           </div>
           </div>  
           <div style="height:50px"></div>
-          <div class="container row px-5">
-          <div class="container row d-flex align-items-center">
+          <div class="container row px-5 m-0">
+          <div class="container row d-flex  align-items-center">
           
           <hr class="w-100 border-2" />
           <div id="home-container"></div> 

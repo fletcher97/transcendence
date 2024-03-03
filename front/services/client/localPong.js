@@ -1,3 +1,5 @@
+import { switchRoute } from "../../index.js";
+
 const canvas = document.getElementById("local-pong-canvas");
 console.log("inside localPong.js");
 const ctx = canvas.getContext("2d");
@@ -10,7 +12,9 @@ const paddleWidth = 10,
 let paddle1Y = canvas.height / 2 - paddleHeight / 2;
 let paddle2Y = canvas.height / 2 - paddleHeight / 2;
 const paddleSpeed = 12;
+const localPongContainer = document.getElementById("local-pong-container");
 createReplayButton();
+const returnButton = createReturnButton();
 
 const ballSize = 15;
 let ballX = canvas.width / 2;
@@ -42,9 +46,9 @@ function draw() {
   // Draw scores
   ctx.fillStyle = mainColour;
   ctx.shadowColor = mainColour;
-  ctx.fillText("Player 1: " + player1Score, 100, 50);
-  ctx.font = "bold 28px Orbitron";
-  ctx.fillText("Player 2: " + player2Score, canvas.width - 250, 50);
+  ctx.font = "bold 68px Orbitron";
+  ctx.fillText(player1Score, 240, 70);
+  ctx.fillText(player2Score, 410, 70);
 
   // Draw dashed line in the middle
   ctx.shadowColor = mainColour;
@@ -140,12 +144,19 @@ function startGame() {
 
 function endGame() {
   gameState = "paused";
-  player1Score = 0;
-  player2Score = 0;
+  const canvas = document.getElementById("local-pong-canvas");
+  canvas.style.filter = "blur(5px)";
   ballX = canvas.width / 2;
   const replayButton = document.getElementById("local-pong-replay-btn");
   replayButton.textContent = "REPLAY";
   replayButton.style.display = "block";
+  returnButton.style.display = "block";
+
+  const winHeader = document.getElementById("win-header");
+  winHeader.textContent =
+    player1Score === 5 ? "Player 1 wins!" : "Player 2 wins!";
+  player1Score = 0;
+  player2Score = 0;
 }
 
 function gameLoop() {
@@ -199,15 +210,20 @@ gameLoop();
 
 function handleReplayClick(replayButton) {
   console.log("handleReplayClick");
+  const canvas = document.getElementById("local-pong-canvas");
+  canvas.style.filter = "blur(0px)";
+  const winHeader = document.getElementById("win-header");
+  winHeader.textContent = "";
   startGame();
   replayButton.style.display = "none";
+  returnButton.style.display = "none";
 }
 
 function createReplayButton() {
   const replayButton = document.createElement("button");
   replayButton.textContent = "START GAME";
   replayButton.id = "local-pong-replay-btn";
-  replayButton.style.display = "block";
+  replayButton.style.width = "20%";
   replayButton.classList.add("btn");
   replayButton.classList.add("btn-active");
   replayButton.classList.add("dark-btn");
@@ -217,10 +233,56 @@ function createReplayButton() {
   replayButton.style.left = "50%";
   replayButton.style.transform = "translate(-50%, -50%)";
   replayButton.style.padding = "30px";
-  replayButton.style.border = "3px dashed blue";
+  replayButton.style.outline = "3px dashed blue";
   replayButton.style.borderRadius = "10px";
   replayButton.style.fontSize = "16px";
   replayButton.style.cursor = "pointer";
   replayButton.addEventListener("click", () => handleReplayClick(replayButton));
-  document.body.appendChild(replayButton);
+  localPongContainer.appendChild(replayButton);
+  const winHeader = document.createElement("h1");
+  winHeader.classList.add("glow-blue");
+  winHeader.id = "win-header";
+  winHeader.style.position = "absolute";
+  winHeader.style.top = "50%"; // Center vertically
+  winHeader.style.left = "50%"; // Center horizontally
+  winHeader.style.transform = "translate(-50%, -200%)"; // Center using translate
+  // winHeader.innerHTML = "Player 1 wins!";
+  localPongContainer.appendChild(winHeader);
+}
+
+function createReturnButton() {
+  const returnButton = document.createElement("button");
+  returnButton.textContent = "RETURN";
+  returnButton.id = "local-pong-replay-btn";
+  // returnButton.style.display = "block";
+  returnButton.style.width = "20%";
+
+  returnButton.classList.add("btn");
+  returnButton.classList.add("btn-active");
+  returnButton.classList.add("dark-btn");
+  returnButton.style.opacity = "80%";
+  returnButton.style.position = "absolute";
+  returnButton.style.top = "65%";
+  returnButton.style.left = "50%";
+  returnButton.style.transform = "translate(-50%, -50%)";
+  returnButton.style.padding = "30px";
+  returnButton.style.outline = "3px dashed blue";
+  returnButton.style.borderRadius = "10px";
+  returnButton.style.fontSize = "16px";
+  returnButton.style.cursor = "pointer";
+  returnButton.addEventListener("click", () => {
+    localPongContainer.innerHTML = "";
+    switchRoute("/");
+  });
+  localPongContainer.appendChild(returnButton);
+  const winHeader = document.createElement("h1");
+  winHeader.classList.add("glow-blue");
+  winHeader.id = "win-header";
+  winHeader.style.position = "absolute";
+  winHeader.style.top = "180%"; // Center vertically
+  winHeader.style.left = "50%"; // Center horizontally
+  winHeader.style.transform = "translate(-50%, -200%)"; // Center using translate
+  // winHeader.innerHTML = "Player 1 wins!";
+  localPongContainer.appendChild(winHeader);
+  return returnButton;
 }
