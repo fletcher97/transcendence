@@ -93,7 +93,6 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    const localPongButton = document.querySelector("#play-local-pong-btn");
     const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
     const logoutButton = document.querySelector("#log-out-btn");
@@ -103,13 +102,6 @@ export default class HomeView {
     // };
 
     // await new Promise((resolve) => setTimeout(resolve, 200));
-    this.activeTabElement = document.getElementById(this.activeTab);
-    // Add click event listener
-    if (localPongButton) {
-      localPongButton.addEventListener("click", () => {
-        this.switchRoute("/game/local-pong");
-      });
-    }
 
     dashboardButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);

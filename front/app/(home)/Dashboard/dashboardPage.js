@@ -30,11 +30,22 @@ export default class DashboardView {
   };
 
   addEventListeners = async () => {
-    // const roomsSeeAllBtn = document.getElementById("rooms-see-all-btn");
-    // roomsSeeAllBtn.addEventListener("click", () => {
-    //   this.switchView("roomsView");
-    // });
+    const localPongButton = document.querySelector("#play-local-pong-btn");
+    const metaPongButton = document.querySelector("#play-meta-pong-btn");
     const form = document.getElementById("createGameForm");
+
+    this.activeTabElement = document.getElementById(this.activeTab);
+    // Add click event listener
+    if (localPongButton) {
+      localPongButton.addEventListener("click", () => {
+        this.switchRoute("/game/local-pong");
+      });
+    }
+    if (metaPongButton) {
+      metaPongButton.addEventListener("click", () => {
+        this.switchRoute("/game/meta-pong");
+      });
+    }
 
     // Show the modal event listener
     const submitButton = form.querySelector('button[type="submit"]');
@@ -148,10 +159,10 @@ export default class DashboardView {
           <button class="btn dark-btn pink-btn" id="play-local-pong-btn">LOCAL PONG</button>
         </div>
         <div class="justify-content-center d-flex">
-          <button class="btn dark-btn pink-btn" id="">TOURNAMENTS</button>
+          <button class="btn dark-btn pink-btn" id="play-meta-pong-btn">3D PONG</button>
         </div>
         <div class="justify-content-center d-flex">
-          <button class="btn dark-btn pink-btn" id="">ROOMS</button>
+          <button class="btn dark-btn pink-btn" id="">TOURNAMENTS</button>
         </div>
       </div>
     </div>`;

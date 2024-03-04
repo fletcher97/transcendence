@@ -23,6 +23,14 @@ body {
   cursor: url("./icons8-cursor-48.png"), none;
 }
 
+#app {
+  min-height: 100vh;
+  /* background: linear-gradient(rgb(0, 132, 255, .1) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0, 132, 255, .1) 1px, transparent 1px);
+    background-size: 3px 3px; */
+    /* Adjust the size of the grid lines *
+}
+
 .game-bg {
   background-color: var(--dark-blue);
 }
@@ -184,9 +192,13 @@ b {
 }
 
 #three-canvas {
-  /* z-index: 2; */
-  height: 100px;
-  width: 100px;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--blue);
 }
 
 #local-pong-canvas {
@@ -390,7 +402,7 @@ b {
 
 .pink-btn {
   /* background-color: var(--accent-color); */
-  font-size: 1.5rem;
+  font-size: 1.9rem;
   outline: 2px solid var(--blue);
   box-shadow: 0 0 10px var(--blue);
   box-sizing: border-box;
