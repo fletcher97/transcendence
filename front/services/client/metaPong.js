@@ -126,7 +126,7 @@ document.addEventListener("mousemove", (event) => {
 // });
 
 // Initialize ball speed
-let ballSpeedX = 0.27;
+let ballSpeedX = 0.35;
 let ballSpeedY = 0.2;
 let ballSpeedZ = 0.2; // Added speed along the z-axis
 
@@ -263,22 +263,40 @@ function animate() {
 }
 
 function updateOpponentPaddle() {
+  const anticipationTime = 1; // Time in seconds for AI anticipation
+  const difficultyFactor = 0.13; // Adjust difficulty responsiveness
   // Calculate the difference in position between the ball and the opponent paddle
-  const desiredX = ball.position.x;
-  const desiredY = ball.position.y;
+  // Calculate the anticipated position of the ball after anticipationTime seconds
+  const anticipatedBallPositionX =
+    ball.position.x + anticipationTime * ballSpeedX;
+  const anticipatedBallPositionY =
+    ball.position.y + anticipationTime * ballSpeedY;
 
-  // Move the opponent paddle towards the desired position
-  const diffX = desiredX - opponentPaddle.position.x;
-  const diffY = desiredY - opponentPaddle.position.y;
+  // Calculate the differences between the AI's current position and the anticipated ball position
+  const diffX = anticipatedBallPositionX - opponentPaddle.position.x;
+  const diffY = anticipatedBallPositionY - opponentPaddle.position.y;
 
-  // Ensure that the opponent paddle doesn't move too fast
-  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
-  const speed = Math.min(29, distance);
+  // Smoothly adjust the opponent paddle's X and Y coordinates towards the anticipated position
+  opponentPaddle.position.x += diffX * difficultyFactor;
+  opponentPaddle.position.y += diffY * difficultyFactor;
 
-  const angle = Math.atan2(diffY, diffX);
+  // Optional: Clamp the opponent paddle's coordinates within certain ranges
+  const minX = -10;
+  const maxX = 10;
+  const minY = -10;
+  const maxY = 10;
 
-  opponentPaddle.position.x += speed * Math.cos(angle);
-  opponentPaddle.position.y += speed * Math.sin(angle);
+  opponentPaddle.position.x = Math.max(
+    minX,
+    Math.min(maxX, opponentPaddle.position.x)
+  );
+  opponentPaddle.position.y = Math.max(
+    minY,
+    Math.min(maxY, opponentPaddle.position.y)
+  );
+
+  // opponentPaddle.position.x += speed * Math.cos(angle);
+  // opponentPaddle.position.y += speed * Math.sin(angle);
   const opponentBoundingBox = new THREE.Box3().setFromObject(opponentPaddle);
   const ballBoundingBox = new THREE.Box3().setFromObject(ball);
   const playerWallTwoBoundingBox = new THREE.Box3().setFromObject(
@@ -309,7 +327,7 @@ function updateOpponentPaddle() {
     // Update the ball's speed based on the reflected vector
     ballSpeedX = reflectedVector.x;
     ballSpeedY = reflectedVector.y;
-    ballSpeedZ = reflectedVector.z;
+    ball.position.z += ballSpeedZ;
   } else if (playerWallTwoBoundingBox.intersectsBox(ballBoundingBox)) {
     scoreTwo++;
     document.getElementById("meta-score-2").innerHTML = scoreTwo;
