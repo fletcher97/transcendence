@@ -11,7 +11,7 @@ export const initLocalPongGame = async () => {
     const mainColour = blue;
     const endGameFlag = false;
     let winner = 0;
-    const maxScore = 1;
+    const maxScore = 5;
 
     const paddleWidth = 10;
     const paddleHeight = 80;

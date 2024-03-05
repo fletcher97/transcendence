@@ -50,8 +50,8 @@ export default class HomeView {
     // if (this.activeTabElement === button) return;
     console.log("this.activeTab: ", this.activeTab);
     console.log("this.activeTabElement: ", this.activeTabElement);
-    this.activeTabElement.classList.add("inactive");
-    button.classList.remove("inactive");
+    this.activeTabElement.classList.add("nav-btn-inactive");
+    button.classList.remove("nav-btn-inactive");
     this.activeTabElement = button;
   };
 
@@ -93,7 +93,7 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    const friendsbutton = document.querySelector("#friends-button");
+    // const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
     const logoutButton = document.querySelector("#log-out-btn");
     // window.onload = async () => {
@@ -110,13 +110,13 @@ export default class HomeView {
       // this.render("dashboard");
       this.switchRoute("/dashboard");
     });
-    friendsbutton.addEventListener("click", () => {
-      this.toggleTab(friendsbutton);
-      // const route = "/friends";
-      // history.pushState({ route }, null, route);
-      this.switchRoute("/friends");
-      // this.render("friends");
-    });
+    // friendsbutton.addEventListener("click", () => {
+    //   this.toggleTab(friendsbutton);
+    //   // const route = "/friends";
+    //   // history.pushState({ route }, null, route);
+    //   this.switchRoute("/friends");
+    //   // this.render("friends");
+    // });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
       // push state to route == "/profile"
@@ -149,6 +149,11 @@ export default class HomeView {
   //             </div>
   //             <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
 
+  // OLD MENU
+  // <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
+  //         <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
+  //         <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
+
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
     await this.fetchData();
@@ -164,18 +169,24 @@ export default class HomeView {
                   <h1 style="font-size: 32px" class="glow">42-PONG</h1>
                 </a>
               </div>
-          <div class="d-flex align-items-center">
-          <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
-          <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
-          <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
-          <p class="btn active" id="log-out-btn">log out</p>
+          <div class="d-flex align-items-center gap-4">
+          <div id="dashboard-button" class="btn dark-btn nav-btn nav-btn-inactive">
+            <img src="/assets/dashboard.png" height="30"/>
+          </div>
+          <div id="profile-button" class="btn dark-btn nav-btn nav-btn-inactive">
+            <img src="/assets/friends.png" height="30"/>
+          </div>
+          <div id="log-out-btn" class="btn dark-btn pink-btn">
+            <img src="/assets/logout.png" height="30"/>
+          </div>
+          
           </div>
           </div>  
           <div style="height:50px"></div>
           <div class="container row px-5 m-0">
           <div class="container row d-flex  align-items-center">
           
-          <hr class="w-100 border-2" />
+          <hr class="w-100 border-2 border-primary" />
           <div id="home-container"></div> 
           </div>
         </div>

@@ -179,7 +179,9 @@ b {
 }
 
 .inactive {
-  opacity: 0.5;
+  /* opacity: 0.5;
+  background-color: #00000000;
+  color: rgb(224, 224, 224); */
 }
 
 #pong-background {
@@ -247,8 +249,8 @@ b {
 .rooms-container {
   height: 60vh;
   box-shadow: 0px 0px 1px 1px var(--dark-blue);
-  background-color: #1c2835;
-  background-color: var(--dark-blue);
+  background-color: #162536;
+  /* background-color: var(--dark-blue); */
   border-radius: 10px;
   /* border: .1px solid rgb(89, 89, 89); */
   /* border: 10px solid var(--dark-blue); */
@@ -262,8 +264,8 @@ b {
   gap: 10px;
   box-shadow: 0px 0px 1px 1px var(--dark-blue);
   padding: 30px;
-  background-color: #1c2835;
   background-color: var(--dark-blue);
+  background-color: #162536;
   border-radius: 10px;
   /* border: .1px solid rgb(89, 89, 89); */
   /* border: 10px solid var(--b); */
@@ -433,6 +435,39 @@ b {
 
 .pink-btn:hover::before {
   transform: translate(-5%, 0) skew(-15deg);
+}
+
+.nav-btn {
+  /* background-color: var(--accent-color); */
+
+  font-size: 1.9rem;
+  outline: 2px solid var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  box-sizing: border-box;
+  font-weight: 800;
+  animation: flicker-blue 0.6s infinite alternate;
+  /* border-radius: 4px; */
+  /* padding: 20px; */
+  color: var(--blue);
+  text-shadow: 0 0 10px var(--blue);
+  border: 0px;
+  transition: background-color 0.2s ease-in;
+  transition: color 0.2s ease-in;
+  background-color: var(--blue);
+  color: rgb(224, 224, 224);
+}
+
+.nav-btn-inactive {
+    background-color: var(--dark-bg);
+    color: rgb(224, 224, 224);
+}
+
+.pink-btn::before .pink-btn:hover {
+  background-color: var(--blue);
+  color: var(--blue);
+  color: rgb(224, 224, 224);
+  /* animation: flicker 0.6s infinite alternate; */
+  border: 0px;
 }
 
 #local-pong-menu  {
