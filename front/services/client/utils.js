@@ -53,3 +53,7 @@ export const showMultipleToasts = (messages, type) => {
     bootstrapToast.show();
   });
 };
+
+export const containsOnlyNumbersOrAlphabets = (str) => {
+  return /^[0-9]+$|^[a-zA-Z]+$/.test(str);
+};

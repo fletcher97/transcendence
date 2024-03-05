@@ -7,12 +7,7 @@ import {
 } from "../../assets/colors.js";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  100,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(100, 700 / 700, 0.1, 1000);
 const moveSpeed = 0.4;
 camera.position.set(0, 0, 18);
 
@@ -20,7 +15,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#three-canvas"),
 });
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+renderer.setSize(600, 600);
 document.body.appendChild(renderer.domElement);
 
 document.getElementById("meta-score-1").innerHTML = "0";
@@ -93,13 +88,13 @@ light.position.set(0, 1.6, 3);
 scene.add(light);
 
 // Handle window resizing
-window.addEventListener("resize", () => {
-  const newWidth = window.innerWidth;
-  const newHeight = window.innerHeight;
-  camera.aspect = newWidth / newHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(newWidth, newHeight);
-});
+// window.addEventListener("resize", () => {
+//   const newWidth = window.innerWidth;
+//   const newHeight = window.innerHeight;
+//   camera.aspect = newWidth / newHeight;
+//   camera.updateProjectionMatrix();
+//   renderer.setSize(newWidth, newHeight);
+// });
 
 // Handle user input
 const arrowKeyState = {};
@@ -109,6 +104,8 @@ document.addEventListener("mousemove", (event) => {
   // Update the mouse coordinates
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  console.log("mouse coor: ", mouse);
 
   // Update the position of the paddle based on mouse coordinates
   const paddleIntersection = getMouseIntersection(paddle);
@@ -227,8 +224,8 @@ function animate() {
     const reflectedVector = incidentVector.reflect(normalVector);
 
     // Update the ball's speed based on the reflected vector
-    ballSpeedX = reflectedVector.x * 1;
-    ballSpeedY = reflectedVector.y * 1;
+    ballSpeedX = reflectedVector.x * generateRandomFloatBetween(1, 1);
+    ballSpeedY = reflectedVector.y * generateRandomFloatBetween(1, 1);
     ball.position.z += ballSpeedZ;
   } else if (playerWallOneBoundingBox.intersectsBox(ballBoundingBox)) {
     scoreOne++;
@@ -256,6 +253,7 @@ function animate() {
   // }
 
   TWEEN.update();
+  paddleMaterial.color.setHex("FFFFFF");
   updateOpponentPaddle();
 
   // Render the scene
@@ -263,8 +261,8 @@ function animate() {
 }
 
 function updateOpponentPaddle() {
-  const anticipationTime = 1; // Time in seconds for AI anticipation
-  const difficultyFactor = 0.13; // Adjust difficulty responsiveness
+  const anticipationTime = 0.1; // Time in seconds for AI anticipation
+  const difficultyFactor = 0.12; // Adjust difficulty responsiveness
   // Calculate the difference in position between the ball and the opponent paddle
   // Calculate the anticipated position of the ball after anticipationTime seconds
   const anticipatedBallPositionX =
@@ -356,6 +354,10 @@ function tweenColor(material, targetColor) {
       material.color.setHex(Math.floor(object.color));
     })
     .start(); // Start the tween
+}
+
+function generateRandomFloatBetween(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 animate();

@@ -3,6 +3,7 @@ import HomeView from "./app/(home)/homeLayout.js";
 import LoginView from "./app/(login)/loginLayout.js";
 import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
 import MetaPongPage from "./app/(game)/metaPong.js/metaPong.js";
+import LocalTournamentPage from "./app/(game)/localTournament/localTournament.js";
 
 const parseJWTToken = async () => {
   // Decode the JWT (this doesn't verify the signature, only decodes the payload)
@@ -60,14 +61,6 @@ const checkAuth = async () => {
 export const switchRoute = (route, popstate = false) => {
   console.log("popstate: ", popstate);
   console.log("switching route to: ", route);
-  // get session id from cookies
-  // const sessionId = document.cookie.split("=")[1];
-  // console.log("access Token: ", accessToken);
-  // if (!accessToken) {
-  //   new LoginView(switchRoute, route);
-  //   history.pushState({ route }, null, route);
-  //   return;
-  // }
   const app = document.getElementById("app");
   // app.innerHTML = "";
 
@@ -93,6 +86,8 @@ export const switchRoute = (route, popstate = false) => {
     new LocalPongPage(switchRoute);
   } else if (route === "/game/meta-pong") {
     new MetaPongPage(switchRoute);
+  } else if (route === "/game/local-tournament") {
+    new LocalTournamentPage(switchRoute);
   }
   if (!popstate) {
     console.log(`pushing ${route} to history`);
