@@ -470,7 +470,7 @@ b {
   border: 0px;
 }
 
-#local-pong-menu  {
+.local-pong-menu  {
   position: absolute;
   top: 50%;
   left: 50%;

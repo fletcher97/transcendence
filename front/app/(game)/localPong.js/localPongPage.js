@@ -39,7 +39,7 @@ export default class LocalPongPage {
   getHtml = () => {
     return `
     <div class="row align-items-center" style="min-height: 95vh">
-      <div id="local-pong-menu" class="">
+      <div id="local-pong-menu" class="local-pong-menu">
       <h1 id="local-pong-win-header" class="glow-blue"></h1>  
       <div class="d-flex flex-column gap-4">
           <button class="btn pink-btn   dark-btn pong-menu-btn" id="local-pong-play-btn">play</button>
