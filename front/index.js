@@ -4,6 +4,7 @@ import LoginView from "./app/(login)/loginLayout.js";
 import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
 import MetaPongPage from "./app/(game)/metaPong.js/metaPong.js";
 import LocalTournamentPage from "./app/(game)/localTournament/localTournament.js";
+import MultiplayerPage from "./app/(home)/Multiplayer/multiplayerPage.js";
 
 const parseJWTToken = async () => {
   // Decode the JWT (this doesn't verify the signature, only decodes the payload)
@@ -68,6 +69,7 @@ export const switchRoute = (route, popstate = false) => {
     route === "/" ||
     route === "/dashboard" ||
     route == "/friends" ||
+    route == "/multiplayer" ||
     route == "/profile"
   ) {
     if (route === "/") {

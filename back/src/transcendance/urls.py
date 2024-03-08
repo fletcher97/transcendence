@@ -20,6 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("user/", include("user.urls")),
+    path("rooms/", include("rooms.urls")),
     path("pong/", include("pong.urls")),
 ]
 

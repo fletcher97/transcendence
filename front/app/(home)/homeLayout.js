@@ -7,6 +7,7 @@ import { accentColor } from "../../../../assets/colors.js";
 import logoutUser from "../../services/api/users/logoutUser.js";
 import getUser from "../../../services/api/users/getUser.js";
 import FriendsPage from "./Friends/friendsPage.js";
+import MultiplayerPage from "./Multiplayer/multiplayerPage.js";
 // import getUser
 
 export default class HomeView {
@@ -28,6 +29,10 @@ export default class HomeView {
       this.render.bind(this)
     );
     this.friendsPageInstance = new FriendsPage(
+      switchRoute,
+      this.render.bind(this)
+    );
+    this.multiplayerPageInstance = new MultiplayerPage(
       switchRoute,
       this.render.bind(this)
     );
@@ -87,6 +92,11 @@ export default class HomeView {
       const content = await this.friendsPageInstance.renderView();
       homeContainer.innerHTML = content;
       this.friendsPageInstance.addEventListeners();
+    } else if (view === "multiplayer") {
+      homeContainer.innerHTML = Spinner();
+      const content = await this.multiplayerPageInstance.renderView();
+      homeContainer.innerHTML = content;
+      this.multiplayerPageInstance.addEventListeners();
     }
   }
 
@@ -95,6 +105,7 @@ export default class HomeView {
     const dashboardButton = document.querySelector("#dashboard-button");
     // const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
+    const multiplayerButton = document.querySelector("#multiplayer-button");
     const logoutButton = document.querySelector("#log-out-btn");
     // window.onload = async () => {
     // addEventListener("DOMContentLoaded", async (event) => {
@@ -109,6 +120,10 @@ export default class HomeView {
       // history.pushState({ route }, null, route);
       // this.render("dashboard");
       this.switchRoute("/dashboard");
+    });
+    multiplayerButton.addEventListener("click", () => {
+      this.toggleTab(dashboardButton);
+      this.switchRoute("/multiplayer");
     });
     // friendsbutton.addEventListener("click", () => {
     //   this.toggleTab(friendsbutton);
@@ -172,6 +187,9 @@ export default class HomeView {
           <div class="d-flex align-items-center gap-4">
           <div id="dashboard-button" class="btn dark-btn nav-btn nav-btn-inactive">
             <img src="/assets/dashboard.png" height="30"/>
+          </div>
+          <div id="multiplayer-button" class="btn dark-btn nav-btn nav-btn-inactive">
+            <img src="/assets/multiplayer.png" height="30"/>
           </div>
           <div id="profile-button" class="btn dark-btn nav-btn nav-btn-inactive">
             <img src="/assets/friends.png" height="30"/>

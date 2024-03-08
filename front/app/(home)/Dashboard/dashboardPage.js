@@ -8,16 +8,6 @@ export default class DashboardView {
     this.me = null;
     this.switchRoute = switchRoute;
     this.switchView = switchView;
-    this.rooms = [
-      { name: "room1", numPlayers: 2, game: "classic pong" },
-      { name: "room2", numPlayers: 3, game: "meta pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-      { name: "room3", numPlayers: 4, game: "classic pong" },
-    ];
   }
 
   renderView = async () => {
@@ -32,10 +22,10 @@ export default class DashboardView {
   addEventListeners = async () => {
     const localPongButton = document.querySelector("#play-local-pong-btn");
     const metaPongButton = document.querySelector("#play-meta-pong-btn");
+    const multiplayerButton = document.querySelector("#play-multiplayer-btn");
     const localTournamentButton = document.querySelector(
       "#play-local-tournament-btn"
     );
-    const form = document.getElementById("createGameForm");
 
     this.activeTabElement = document.getElementById(this.activeTab);
     // Add click event listener
@@ -56,63 +46,70 @@ export default class DashboardView {
       });
     }
 
-    // Show the modal event listener
-    const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      console.log("input: ", event.target.value);
-      // Your custom logic for handling the form submission
-      // For example, you can retrieve the input value and perform an action
-      const gameName = document.getElementById("game-name").value;
-      console.log("Game Name:", gameName);
-      this.room = { name: gameName };
+    if (multiplayerButton) {
+      multiplayerButton.addEventListener("click", () => {
+        this.switchRoute("/multiplayer");
+      });
+    }
 
-      const modal = document.getElementById("createGameModal");
-      if (modal) {
-        modal.classList.remove("show");
-        modal.setAttribute("aria-hidden", "true");
-        modal.setAttribute("style", "display: none");
-        document.body.classList.remove("modal-open");
-        const modalBackdrop = document.querySelector(".modal-backdrop");
-        if (modalBackdrop) {
-          modalBackdrop.parentNode.removeChild(modalBackdrop);
-        }
-      }
-      this.switchRoute("/game", this.room);
+    // const form = document.getElementById("createGameForm");
+    // // Show the modal event listener
+    // const submitButton = form.querySelector('button[type="submit"]');
+    // submitButton.addEventListener("click", (event) => {
+    //   event.preventDefault();
+    //   console.log("input: ", event.target.value);
+    //   // Your custom logic for handling the form submission
+    //   // For example, you can retrieve the input value and perform an action
+    //   const gameName = document.getElementById("game-name").value;
+    //   console.log("Game Name:", gameName);
+    //   this.room = { name: gameName };
 
-      // Close the modal if needed
-      // modal.hide();
-    });
+    //   const modal = document.getElementById("createGameModal");
+    //   if (modal) {
+    //     modal.classList.remove("show");
+    //     modal.setAttribute("aria-hidden", "true");
+    //     modal.setAttribute("style", "display: none");
+    //     document.body.classList.remove("modal-open");
+    //     const modalBackdrop = document.querySelector(".modal-backdrop");
+    //     if (modalBackdrop) {
+    //       modalBackdrop.parentNode.removeChild(modalBackdrop);
+    //     }
+    //   }
+    //   this.switchRoute("/game", this.room);
+
+    //   // Close the modal if needed
+    //   // modal.hide();
+    // });
   };
 
-  createGameModal = () => {
-    return `
-    <div class="modal fade" id="createGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" >
-          <div class="modal-container modal-body">
-          <form id="createGameForm">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editProfileModalLabel">Create New Game</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+  // createGameModal = () => {
+  //   return `
+  //   <div class="modal fade" id="createGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  //     <div class="modal-dialog modal-dialog-centered" role="document">
+  //       <div class="modal-content" >
+  //         <div class="modal-container modal-body">
+  //         <form id="createGameForm">
+  //         <div class="modal-header">
+  //           <h5 class="modal-title" id="editProfileModalLabel">Create New Game</h5>
+  //           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  //         </div>
 
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="game-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control input-box" id="game-name" value="">
-            </div>
-          </div>
+  //         <div class="modal-body">
+  //           <div class="mb-3">
+  //             <label for="game-name" class="col-form-label">Name:</label>
+  //             <input type="text" class="form-control input-box" id="game-name" value="">
+  //           </div>
+  //         </div>
 
-          <div class="modal-footer">
-            <button id="submit-btn" type="submit" class="btn  dark-btn">Create Game</button>
-          </div>
-        </form>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  };
+  //         <div class="modal-footer">
+  //           <button id="submit-btn" type="submit" class="btn  dark-btn">Create Game</button>
+  //         </div>
+  //       </form>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>`;
+  // };
 
   // getHtml = async () => {
   //   return `
@@ -161,17 +158,19 @@ export default class DashboardView {
   // };
   getHtml = async () => {
     return `
-    ${this.createGameModal()}
     <div class="d-flex justify-content-center align-items-center gap-4 w-100 mh-100" style="min-height:78vh;">
       <div class="row align-items-center justify-content-between gap-4">
         <div class="justify-content-center d-flex">
           <button class="btn dark-btn pink-btn" id="play-local-pong-btn">LOCAL PONG</button>
         </div>
         <div class="justify-content-center d-flex">
-          <button class="btn dark-btn pink-btn" id="play-meta-pong-btn">3D PONG</button>
+        <button class="btn dark-btn pink-btn" id="play-multiplayer-btn">MULTIPLAYER</button>
         </div>
         <div class="justify-content-center d-flex">
-          <button class="btn dark-btn pink-btn" id="play-local-tournament-btn">TOURNAMENT</button>
+        <button class="btn dark-btn pink-btn" id="play-local-tournament-btn">LOCAL TOURNAMENT</button>
+        </div>
+        <div class="justify-content-center d-flex">
+          <button class="btn meta-pong-btn" id="play-meta-pong-btn">3D PONG</button>
         </div>
       </div>
     </div>`;

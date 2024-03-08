@@ -1,14 +1,16 @@
 import { RoomCountRectangle } from "./RoomCountRectangle.js";
 
-export const DashboardRoomBox = ({ room }) => {
+export const DashboardRoomBox = (room) => {
   const roomCountRectangles = [];
 
-  for (let i = 0; i < 4; i++) {
+  console.log("room in DashboardRoomBox: ", room);
+  const numPlayers = room.player2 ? 2 : 1;
+
+  for (let i = 0; i < 2; i++) {
     // console.log("i: ", i);
-    if (i < room.numPlayers) roomCountRectangles.push(true);
+    if (i < numPlayers) roomCountRectangles.push(true);
     else roomCountRectangles.push(false);
   }
-  console.log("room count rectangles: ", roomCountRectangles);
 
   // <button style="font-size: 15px" class="btn dark-btn">👀</button>
 
@@ -22,19 +24,21 @@ export const DashboardRoomBox = ({ room }) => {
               </div>
              </div>
               <div class="col-2">
-              <p style="font-size: 15px;width: 30px">${room.game}</p>
+                <p style="font-size: 15px;width: 30px">${room.name}</p>
               </div>
               <div class="col-2">
-              <p style="font-size: 15px">${room.name}</p>
+              <p style="font-size: 15px">${room.updated_at}</p>
               </div>
               <div class="col-2">
-              <p style="font-size: 15px">${room.numPlayers}</p>
+              <p style="font-size: 15px">${
+                room.is_active ? "waiting" : "playing"
+              }</p>
               </div>
               <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end gap-3">
                 
                   
-                  <a style="font-size: 15px" class="btn dark-btn">JOIN</a>
+                  <button style="font-size: 15px" class="btn meta-pong-btn">JOIN</button>
                 </div>
             </div>
           </div>

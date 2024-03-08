@@ -394,7 +394,8 @@ b {
 
 .dark-btn:hover {
   background-color: var(--blue);
-  color: white;
+  color: var(--dark-blue);
+  animation: flicker 0.6s infinite alternate;
   border: 0px;
 }
 
@@ -417,24 +418,20 @@ b {
   color: var(--blue);
   text-shadow: 0 0 10px var(--blue);
   border: 0px;
-  transition: background-color 0.2s ease-in;
-  transition: color 0.2s ease-in;
+  /* transition: background-color 0.2s ease-in; */
+  /* transition: color 0.2s ease-in; */
 }
 
 .pink-btn:disabled {
   color: var(--blue);
 }
 
-.pink-btn::before .pink-btn:hover {
+.pink-btn:hover {
   background-color: var(--blue);
-  color: var(--blue);
-  color: rgb(224, 224, 224);
-  /* animation: flicker 0.6s infinite alternate; */
+  /* color: var(--blue); */
+  /* color: rgb(224, 224, 224); */
+  animation: flicker-blue 0.6s infinite alternate;
   border: 0px;
-}
-
-.pink-btn:hover::before {
-  transform: translate(-5%, 0) skew(-15deg);
 }
 
 .nav-btn {
@@ -451,8 +448,8 @@ b {
   color: var(--blue);
   text-shadow: 0 0 10px var(--blue);
   border: 0px;
-  transition: background-color 0.2s ease-in;
-  transition: color 0.2s ease-in;
+  /* transition: background-color 0.2s ease-in;
+  transition: color 0.2s ease-in; */
   background-color: var(--blue);
   color: rgb(224, 224, 224);
 }
@@ -462,13 +459,6 @@ b {
     color: rgb(224, 224, 224);
 }
 
-.pink-btn::before .pink-btn:hover {
-  background-color: var(--blue);
-  color: var(--blue);
-  color: rgb(224, 224, 224);
-  /* animation: flicker 0.6s infinite alternate; */
-  border: 0px;
-}
 
 .local-pong-menu  {
   position: absolute;
@@ -534,4 +524,21 @@ b {
 
 #local-pong-return-btn:hover {
   opacity: 1;
+}
+
+.meta-pong-btn {
+  outline: 1px solid var(--accent-color);
+  background-color: #aaaaaa00;
+  color: var(--accent-color);
+  font-size: 1.9rem;
+  /* box-shadow: 0 0 10px var(--blue); */
+  box-sizing: border-box;
+  font-weight: 800;
+  animation: flicker 0.6s infinite alternate;
+  /* border-radius: 4px; */
+  /* padding: 20px; */
+  text-shadow: 0 0 10px var(--accent-color);
+  /* transition: background-color 0.2s ease-in;
+  transition: color 0.2s ease-in; */
+
 }

@@ -58,6 +58,7 @@ def get_csrf_token(request):
 
 def get_is_auth(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     response_data = {}
+    response_data["Access-Control-Allow-Origin"] = "*"
     current_user = request.user
     if current_user.is_authenticated:
         response_data['status'] = "Online"
