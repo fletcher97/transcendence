@@ -36,18 +36,6 @@ export default class HomeView {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("user_id");
 
-    // // Decode the JWT (this doesn't verify the signature, only decodes the payload)
-    // if (accessToken !== undefined) {
-    //   console.log("accessToken: ", accessToken);
-
-    //   const decodedToken = atob(accessToken.split(".")[1]);
-
-    //   // Parse the JSON-encoded payload
-    //   const payload = JSON.parse(decodedToken);
-
-    //   console.log("payload: ", payload);
-    // }
-
     // Check if the access token is present
 
     // console.log("me: ", me);
@@ -62,8 +50,8 @@ export default class HomeView {
     // if (this.activeTabElement === button) return;
     console.log("this.activeTab: ", this.activeTab);
     console.log("this.activeTabElement: ", this.activeTabElement);
-    this.activeTabElement.classList.add("inactive");
-    button.classList.remove("inactive");
+    this.activeTabElement.classList.add("nav-btn-inactive");
+    button.classList.remove("nav-btn-inactive");
     this.activeTabElement = button;
   };
 
@@ -105,7 +93,7 @@ export default class HomeView {
   async addEventListeners() {
     console.log("document ready state", document.readyState);
     const dashboardButton = document.querySelector("#dashboard-button");
-    const friendsbutton = document.querySelector("#friends-button");
+    // const friendsbutton = document.querySelector("#friends-button");
     const profileButton = document.querySelector("#profile-button");
     const logoutButton = document.querySelector("#log-out-btn");
     // window.onload = async () => {
@@ -114,8 +102,7 @@ export default class HomeView {
     // };
 
     // await new Promise((resolve) => setTimeout(resolve, 200));
-    this.activeTabElement = document.getElementById(this.activeTab);
-    // Add click event listener
+
     dashboardButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);
       const route = "/dashboard";
@@ -123,13 +110,13 @@ export default class HomeView {
       // this.render("dashboard");
       this.switchRoute("/dashboard");
     });
-    friendsbutton.addEventListener("click", () => {
-      this.toggleTab(friendsbutton);
-      // const route = "/friends";
-      // history.pushState({ route }, null, route);
-      this.switchRoute("/friends");
-      // this.render("friends");
-    });
+    // friendsbutton.addEventListener("click", () => {
+    //   this.toggleTab(friendsbutton);
+    //   // const route = "/friends";
+    //   // history.pushState({ route }, null, route);
+    //   this.switchRoute("/friends");
+    //   // this.render("friends");
+    // });
     profileButton.addEventListener("click", () => {
       this.toggleTab(profileButton);
       // push state to route == "/profile"
@@ -155,6 +142,18 @@ export default class HomeView {
   //   Your browser does not support the audio element.
   // </audio>
 
+  // <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
+  //               <img src="${
+  //                 "data:image/png;base64," + this.me.profile_image_base64
+  //               }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+  //             </div>
+  //             <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
+
+  // OLD MENU
+  // <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
+  //         <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
+  //         <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
+
   async initialRender() {
     // RENDER DIFFERENT VIEWS DEPENDING ON THINGS?
     await this.fetchData();
@@ -163,29 +162,31 @@ export default class HomeView {
     if (content) {
       content.innerHTML = `
       <div class="min-vh-100">
-        <div class="container row min-vw-100">
+        <div class="container row min-vw-100 m-0">
           <div class="d-flex align-items-center h-25 p-4 justify-content-between">
-            <div class="d-flex align-items-center">
-            <div class="border rounded-circle border-secondary border-2 style="border-radius: 50%;overflow: hidden">
-                <img src="${
-                  "data:image/png;base64," + this.me.profile_image_base64
-                }" alt="avatar" width="40" height="40" style="object-fit:cover"/>
+              <div class="d-flex align-items-center">
+                <a href="/friends" style="text-decoration:none;">
+                  <h1 style="font-size: 32px" class="glow">42-PONG</h1>
+                </a>
               </div>
-              <p class="ml-1">welcome back, <b>${this.me.username}!</b></p>
-              </div>
-            
-          <div class="d-flex align-items-center">
-          <b><h2 id="dashboard-button" class="nav-item inactive">DASHBOARD</h2></b>
-          <b><h2 id="friends-button" class="mx-2 inactive nav-item">FRIENDS</h2></b>
-          <b><h2 id="profile-button" class="mx-2 inactive nav-item">MY PROFILE</h2></b>
-          <p class="btn active" id="log-out-btn">log out</p>
+          <div class="d-flex align-items-center gap-4">
+          <div id="dashboard-button" class="btn dark-btn nav-btn nav-btn-inactive">
+            <img src="/assets/dashboard.png" height="30"/>
+          </div>
+          <div id="profile-button" class="btn dark-btn nav-btn nav-btn-inactive">
+            <img src="/assets/friends.png" height="30"/>
+          </div>
+          <div id="log-out-btn" class="btn dark-btn pink-btn">
+            <img src="/assets/logout.png" height="30"/>
+          </div>
+          
           </div>
           </div>  
           <div style="height:50px"></div>
-          <div class="container row px-5">
-          <div class="container row d-flex align-items-center">
+          <div class="container row px-5 m-0">
+          <div class="container row d-flex  align-items-center">
           
-          <hr class="w-100 border-2" />
+          <hr class="w-100 border-2 border-primary" />
           <div id="home-container"></div> 
           </div>
         </div>

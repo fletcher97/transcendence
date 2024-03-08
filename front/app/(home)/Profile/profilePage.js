@@ -1,4 +1,8 @@
 import { backgroundAccentColor } from "../../../../../assets/colors.js";
+import { FriendBox } from "../../../components/FriendBox.js";
+import { FriendRequestBox } from "../../../components/FriendRequestBox.js";
+import getFriendRequests from "../../../services/api/friends/getFriendRequests.js";
+import getFriends from "../../../services/api/friends/getFriends.js";
 import editUser from "../../../services/api/users/editUser.js";
 import getUser from "../../../services/api/users/getUser.js";
 import { DashboardRoomBox } from "/components/DashboardRoomBox.js";
@@ -23,6 +27,12 @@ export default class ProfilePage {
 
   fetchData = async () => {
     this.me = await getUser(this.userId);
+    const friendRequests = await getFriendRequests(this.userId);
+    this.friendRequests = friendRequests.friend_requests;
+    const friends = await getFriends(this.userId);
+    console.log("Friends initial: ", friends);
+    this.friends = friends.friends;
+    console.log("friends: ", this.friends);
   };
 
   renderView = async () => {
@@ -136,6 +146,63 @@ export default class ProfilePage {
     </div>`;
   };
 
+  addFriendModal = () => {
+    return `
+            <div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" >
+                <div class="modal-container modal-body">
+                <form id="friend-request-form">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Add Friend</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                    <label for="request-username-input" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control input-box" id="request-username-input" value="">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="submit-btn" type="submit" class="btn btn-primary dark-btn">Add Friend</button>
+                </div>
+                </form>
+                </div>
+                </div>
+            </div>
+            </div>`;
+  };
+
+  friendRequestsModal = () => {
+    return `
+            <div class="modal fade" id="friendRequestsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" >
+                    <div class="modal-container modal-body">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileModalLabel">Friend requests</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                             ${this.friendRequests
+                               .map((request) => `${FriendRequestBox(request)}`)
+                               .join("")}
+                            
+                        </div>
+                    </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>`;
+  };
+
   getHtml = async () => {
     return `
     ${this.editProfileModal()}
@@ -167,9 +234,35 @@ export default class ProfilePage {
             </div>
           </div>
         </div>
-        <div class="col-md-6 mt-3 mt-md-0">
+        <div class="col-md-7 mt-3 mt-md-0">
           <div class="flex-start">
-            <h2 class="glow">GAME HISTORY</h2>
+            <h2 class="glow">FRIENDS</h2>
+            ${this.addFriendModal()}
+            ${this.friendRequestsModal()}
+            <div class="d-flex gap-5">
+            </div>
+            <div style="height:35px"></div>
+            <div class="d-flex row gap-5 rooms-container p-4">
+            <div class="row justify-content-between m-0 p-0">
+            <div class="row justify-content-between gap-1" style="">
+
+            <div class="row rooms-rows-container m-0 mt-2">
+            ${this.friends.map((friend) => FriendBox(friend)).join("")}
+            </div> 
+            <div class="d-flex gap-4">
+            <div class="mt-auto">
+            <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#addFriendModal">ADD FRIEND</button>
+            </div>
+            <div class="mt-auto">
+            <button class="btn btn-sm dark-btn m-0 " data-bs-toggle="modal" data-bs-target="#friendRequestsModal">Friend Requests (${
+              this.friendRequests.length
+            })</button>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
             <p>No games played yet</p>
           </div>
         </div>

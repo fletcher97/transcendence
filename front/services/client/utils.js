@@ -53,3 +53,31 @@ export const showMultipleToasts = (messages, type) => {
     bootstrapToast.show();
   });
 };
+
+export const containsOnlyNumbersOrAlphabets = (str) => {
+  return /^[0-9]+$|^[a-zA-Z]+$/.test(str);
+};
+
+export const validateTournamentUserInput = (
+  userOneInput,
+  userTwoInput,
+  userThreeInput,
+  userFourInput
+) => {
+  console.log("userinput: ", userOneInput);
+  if (
+    userOneInput.value.trim() !== "" &&
+    userTwoInput.value.trim() !== "" &&
+    userThreeInput.value.trim() !== "" &&
+    userFourInput.value.trim() !== ""
+  ) {
+    if (
+      containsOnlyNumbersOrAlphabets(userOneInput.value.trim()) &&
+      containsOnlyNumbersOrAlphabets(userTwoInput.value.trim()) &&
+      containsOnlyNumbersOrAlphabets(userThreeInput.value.trim()) &&
+      containsOnlyNumbersOrAlphabets(userFourInput.value.trim())
+    )
+      return true;
+  }
+  return false;
+};
