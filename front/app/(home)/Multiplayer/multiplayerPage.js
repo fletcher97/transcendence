@@ -19,6 +19,11 @@ export default class MultiplayerPage {
     this.me = await getUser(this.userId);
     const rooms = await getRooms();
     this.rooms = rooms.rooms;
+    this.rooms.sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB - dateA;
+    });
     console.log("this.rooms: ", this.rooms);
   };
 
