@@ -1,3 +1,5 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const createFriendRequest = async (username) => {
   console.log("username: ", username);
   try {
@@ -6,14 +8,14 @@ const createFriendRequest = async (username) => {
       username: username,
     };
     const response = await fetch(
-      "https://localhost:443/api/user/friend_request/",
+      `https://${DOMAIN_NAME}/api/user/friend_request/`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
-        credentials: "include",
+        // credentials: "include",
       }
     );
 

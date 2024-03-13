@@ -1,3 +1,5 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const removeFriend = async (userId) => {
   try {
     // make post request to server with user fields
@@ -5,14 +7,14 @@ const removeFriend = async (userId) => {
       receiver_user_id: userId,
     };
     const response = await fetch(
-      "https://localhost:443/api/user/friend_remove/",
+      `https://${DOMAIN_NAME}/api/user/friend_remove/`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
-        credentials: "include",
+        // credentials: "include",
       }
     );
 

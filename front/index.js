@@ -5,6 +5,10 @@ import LocalPongPage from "./app/(game)/localPong.js/localPongPage.js";
 import MetaPongPage from "./app/(game)/metaPong.js/metaPong.js";
 import LocalTournamentPage from "./app/(game)/localTournament/localTournament.js";
 import MultiplayerPage from "./app/(home)/Multiplayer/multiplayerPage.js";
+import { DOMAIN_NAME } from "./config.js";
+import RoomPage from "./app/(game)/room/room.js";
+
+const room = new RoomPage("", 12);
 
 const parseJWTToken = async () => {
   // Decode the JWT (this doesn't verify the signature, only decodes the payload)
@@ -32,7 +36,7 @@ const parseJWTToken = async () => {
 
 const checkAuth = async () => {
   // Replace 'your-api-endpoint' with the actual endpoint URL
-  const apiUrl = "https://localhost:443/api/user/get_is_auth/";
+  const apiUrl = `https://${DOMAIN_NAME}/api/user/get_is_auth/`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -63,6 +67,12 @@ export const switchRoute = (route, popstate = false) => {
   console.log("popstate: ", popstate);
   console.log("switching route to: ", route);
   const app = document.getElementById("app");
+  const lastSlashIndex = route.lastIndexOf("/");
+
+  const firstPart = route.substring(0, lastSlashIndex);
+
+  console.log("firstPart: ", firstPart);
+
   // app.innerHTML = "";
 
   if (
@@ -90,6 +100,9 @@ export const switchRoute = (route, popstate = false) => {
     new MetaPongPage(switchRoute);
   } else if (route === "/game/local-tournament") {
     new LocalTournamentPage(switchRoute);
+  } else if (firstPart === "/rooms") {
+    const secondPart = route.substring(lastSlashIndex + 1);
+    // room;
   }
   if (!popstate) {
     console.log(`pushing ${route} to history`);

@@ -1,3 +1,5 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const editUser = async (user, userId) => {
   console.log("user in editUser(): ", user);
   console.log("userId in editUser(): ", userId);
@@ -5,7 +7,7 @@ const editUser = async (user, userId) => {
   try {
     // make post request to server with user fields
     const response = await fetch(
-      `https://localhost:443/api/user/account/${userId}/edit/`,
+      `https://${DOMAIN_NAME}/api/user/account/${userId}/edit/`,
       {
         method: "POST",
         headers: {

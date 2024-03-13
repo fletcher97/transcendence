@@ -1,16 +1,18 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const signInUser = async (user) => {
   try {
     // make post request to server with user fields
     console.log("user in signInUser: ", user);
 
-    const response = await fetch("https://localhost:443/api/user/login/", {
+    const response = await fetch(`https://${DOMAIN_NAME}/api/user/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
       body: JSON.stringify(user),
-      credentials: "include",
+      // credentials: "include",
     });
     // delay for 1s
 

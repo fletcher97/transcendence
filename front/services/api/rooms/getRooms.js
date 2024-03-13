@@ -1,11 +1,13 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const getRooms = async () => {
   try {
-    const response = await fetch(`https://localhost/api/rooms/rooms`, {
+    const response = await fetch(`https://${DOMAIN_NAME}/api/rooms/rooms`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        credentials: "include",
+        // credentials: "include",
       },
     });
     if (!response.ok) {

@@ -1,4 +1,4 @@
-// jwt token in auth header
+import { DOMAIN_NAME } from "../../../config.js";
 
 // refresh tkoen
 
@@ -6,7 +6,7 @@ const logoutUser = async () => {
   const access_token = localStorage.getItem("access_token");
   const refresh_token = localStorage.getItem("refresh_token");
   try {
-    const response = await fetch("https://localhost:443/api/user/logout/", {
+    const response = await fetch(`https://${DOMAIN_NAME}/api/user/logout/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

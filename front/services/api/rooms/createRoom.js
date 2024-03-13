@@ -1,3 +1,5 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const createRoom = async (room) => {
   console.log("room: ", room);
   try {
@@ -10,13 +12,13 @@ const createRoom = async (room) => {
       created_at: room.time,
       updated_at: room.time,
     };
-    const response = await fetch("https://localhost:443/api/rooms/rooms", {
+    const response = await fetch(`https://${DOMAIN_NAME}/api/rooms/rooms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),
-      credentials: "include",
+      // credentials: "include",
     });
 
     console.log("response in createRoom: ", response);

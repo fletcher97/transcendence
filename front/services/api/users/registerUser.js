@@ -1,13 +1,15 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const registerUser = async (user) => {
   try {
     // make post request to server with user fields
-    const response = await fetch("https://localhost:443/api/user/register/", {
+    const response = await fetch(`https://${DOMAIN_NAME}/api/user/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-      credentials: "include",
+      // credentials: "include",
     });
 
     console.log("response in registerUser: ", response);

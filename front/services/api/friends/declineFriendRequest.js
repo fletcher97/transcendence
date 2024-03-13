@@ -1,3 +1,5 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const declineFriendRequest = async (requestId) => {
   const accessToken = localStorage.getItem("access_token");
   console.log("requestId: ", requestId);
@@ -5,13 +7,13 @@ const declineFriendRequest = async (requestId) => {
   try {
     // make post request to server with user fields
     const response = await fetch(
-      `https://localhost:443/api/user/decline_friend_request/${requestId}/`,
+      `https://${DOMAIN_NAME}/api/user/decline_friend_request/${requestId}/`,
       {
         method: "GET",
         Authorization: `Bearer ${accessToken}`,
         Accept: "application/json",
         "Content-Type": "application/json",
-        credentials: "include",
+        // credentials: "include",
       }
     );
 

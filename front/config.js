@@ -1,5 +1,5 @@
-const FRONT_DEV_ENV = {
-  WEB_SOCKET_URL: "ws://localhost:443",
+export const FRONT_DEV_ENV = {
+  WEB_SOCKET_URL: "ws://${DOMAIN_NAME}",
   USER_EXAMPLE: {
     id: "12",
     username: "testuser",
@@ -7,4 +7,4 @@ const FRONT_DEV_ENV = {
   },
 };
 
-export default FRONT_DEV_ENV;
+export const DOMAIN_NAME = "10.12.7.5";

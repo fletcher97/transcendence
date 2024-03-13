@@ -1,16 +1,18 @@
+import { DOMAIN_NAME } from "../../../config.js";
+
 const getFriends = async (userId) => {
   const accessToken = localStorage.getItem("access_token");
 
   try {
     const response = await fetch(
-      `https://localhost/api/user/friend_list/${userId}/`,
+      `https://${DOMAIN_NAME}/api/user/friend_list/${userId}/`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
           Accept: "application/json",
           "Content-Type": "application/json",
-          credentials: "include",
+          // credentials: "include",
         },
       }
     );

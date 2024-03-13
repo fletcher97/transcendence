@@ -12,10 +12,13 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
+from rooms.consumers import consumers
 
-import pong.routing
+from rooms.routing import websocket_urlpatterns
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "transcendance.settings")
+
+logging.debug("rooms routing: ", rooms.routing)
 
 application = ProtocolTypeRouter(
     {
@@ -23,7 +26,7 @@ application = ProtocolTypeRouter(
         "https": get_asgi_application(),
         "websocket": AuthMiddlewareStack(
             URLRouter(
-                pong.routing.websocket_urlpatterns,
+                websocket_urlpatterns,
             )
         ),
     }
