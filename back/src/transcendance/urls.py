@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path("user/", include("user.urls")),
-    path("pong/", include("pong.urls")),
+    path('user/', include("user.urls")),
+    path("accounts/", include("allauth.urls")),
 ]
 
 if settings.DEBUG:
