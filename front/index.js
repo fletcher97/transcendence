@@ -10,6 +10,7 @@ import RoomPage from "./app/(game)/room/room.js";
 
 const room = new RoomPage("", 12);
 
+
 const parseJWTToken = async () => {
   // Decode the JWT (this doesn't verify the signature, only decodes the payload)
   const accessToken = localStorage.getItem("access_token");
@@ -100,9 +101,11 @@ export const switchRoute = (route, popstate = false) => {
     new MetaPongPage(switchRoute);
   } else if (route === "/game/local-tournament") {
     new LocalTournamentPage(switchRoute);
+
   } else if (firstPart === "/rooms") {
     const secondPart = route.substring(lastSlashIndex + 1);
     // room;
+
   }
   if (!popstate) {
     console.log(`pushing ${route} to history`);

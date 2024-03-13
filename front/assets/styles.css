@@ -304,7 +304,9 @@ b {
   background-color: var(--accent-color);
   color: rgb(200, 200, 220);
   text-shadow: 1px 1px 4px rgb(200, 200, 220);
+
   transition: none;
+
 }
 
 #game-ready-btn-kuk {
@@ -451,15 +453,23 @@ b {
   border: 0px;
   /* transition: background-color 0.2s ease-in;
   transition: color 0.2s ease-in; */
+
   background-color: var(--blue);
   color: rgb(224, 224, 224);
 }
-
 .nav-btn-inactive {
     background-color: var(--dark-bg);
     color: rgb(224, 224, 224);
 }
 
+
+.pink-btn::before .pink-btn:hover {
+  background-color: var(--blue);
+  color: var(--blue);
+  color: rgb(224, 224, 224);
+  /* animation: flicker 0.6s infinite alternate; */
+  border: 0px;
+}
 
 .local-pong-menu  {
   position: absolute;
@@ -541,5 +551,6 @@ b {
   text-shadow: 0 0 10px var(--accent-color);
   /* transition: background-color 0.2s ease-in;
   transition: color 0.2s ease-in; */
+
 
 }

@@ -15,10 +15,14 @@ from rest_framework.decorators import permission_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from allauth.socialaccount.providers.oauth2.views import OAuth2View
+from allauth.socialaccount.models import SocialApp
+
 
 import json
 import logging
 import os
+import requests
 
 from .models import Users, FriendRequest, FriendList
 from .forms import RegistrationForm, UsersAuthenticationForm, UsersUpdateForm
@@ -56,14 +60,23 @@ def get_csrf_token(request):
     logging.debug("token csrf is %s", token)
     return (JsonResponse({"csrf_token": token}))
 
+
 def get_is_auth(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     response_data = {}
     current_user = request.user
     if current_user.is_authenticated:
         response_data['status'] = "Online"
+        response_data['user_id'] = request.user.pk
     else:
         response_data['status'] = "Offline"
     return (JsonResponse(response_data, encoder=DjangoJSONEncoder))
+
+
+def get_google_login_url(request, *args, **kwargs: HttpRequest) -> JsonResponse:
+    google_app = SocialApp.objects.get(provider="google")
+    google_login_url = google_app.get_login_url(request)
+    return (JsonResponse({"google_login_url": google_login_url}))
+
 
 @csrf_exempt
 def login_view(request, *args, **kwargs: HttpRequest) -> JsonResponse:
@@ -117,7 +130,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
-            # token.blacklist()
+            token.blacklist()
             context = {
                     "message": "Logout successful.",
                     "status": "success",
@@ -128,7 +141,7 @@ def logout_view(request: HttpRequest) -> JsonResponse:
         except TokenError as e:
             context = {
                     "message": "Logout failed.",
-                    "status": "failed", 
+                    "status": "failed",
                     "error": str(e),
                     }
             logging.debug("context is %s", context)
@@ -148,7 +161,7 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
     user = request.user
     if user.is_authenticated:
         context["error"] = "You are already registered and logged in."
-        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=400))
+        return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
@@ -171,17 +184,22 @@ def register_user(request, *args, **kwargs: HttpRequest) -> JsonResponse:
                 return (JsonResponse(
                     context, encoder=DjangoJSONEncoder, status=201))
             else:
-                context = generate_response("401", error_message=form.errors)
+                errors = []
+                for field_errors in form.errors.values():
+                    errors.extend(field_errors)
+                # context = generate_response("401", error_message=errors)
+                context = {"error": errors}
+                return (JsonResponse(context, encoder=DjangoJSONEncoder,
+                                     status=200))
         except json.JSONDecodeError:
-            errors = {"JSONDecodeError": "Please provide a valid JSON."}
+            errors = {"error": "Please provide a valid JSON."}
             context = generate_response("401", error_message=errors)
-            logging.debug("context is %s", context)
             return (JsonResponse(
-                context, encoder=DjangoJSONEncoder, status=401))
+                context, encoder=DjangoJSONEncoder, status=200))
     else:
         context['error'] = "Method not allowed."
     logging.debug("context before is %s", context)
-    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=422))
+    return (JsonResponse(context, encoder=DjangoJSONEncoder, status=200))
 
 
 @permission_classes([IsAuthenticated])
@@ -319,10 +337,8 @@ def edit_account_view(request, *arg, **kwargs):
             form.save()
             # We redirect to the same page to see the changes
             context['success'] = "Profile updated successfully."
-
             return (JsonResponse(
                 context, encoder=DjangoJSONEncoder, status=200))
-
         else:
             logging.debug("form is not valid")
             form = UsersUpdateForm(
@@ -641,3 +657,33 @@ def friend_list_view(request, *args, **kwargs):
         context['error'] = "You must be authenticated to view a friends list."
     logging.debug("context on friend_list_view: %s", context)
     return JsonResponse(context, encoder=DjangoJSONEncoder, status=200)
+
+
+@csrf_exempt
+def auth42(request, *args, **kwargs):
+    response_data = {}
+    body_unicode = request.body.decode("utf-8")
+    body_data = json.loads(body_unicode)
+    code = body_data.get("code")
+    logging.debug("code is %s", code)
+    if not code:
+        response_data['error'] = "No code provided."
+        return JsonResponse(
+                response_data, encoder=DjangoJSONEncoder, status=200)
+    url = 'https://api.42.fr/oauth/token'
+    data = {
+            "grant_type": "authorization_code",
+            "client_id": os.environ.get("CLIENT_ID"),
+            "client_secret": os.environ.get("CLIENT_SECRET"),
+            "code": code,
+            "redirect_uri": "https://127.0.0.1:443/profile",
+            }
+    logging.debug("data on 42auth is %s", data)
+    try:
+        response = requests.post(url, data=data)
+        response.raise_for_status()
+        response_data = response.json()
+    except requests.exceptions.RequestException as e:
+        response_data['error'] = str(e)
+    logging.debug("response_data on 42auth is %s", response_data)
+    return JsonResponse(response_data, encoder=DjangoJSONEncoder, status=200)

@@ -121,6 +121,7 @@ export default class HomeView {
       // this.render("dashboard");
       this.switchRoute("/dashboard");
     });
+    
     multiplayerButton.addEventListener("click", () => {
       this.toggleTab(dashboardButton);
       this.switchRoute("/multiplayer");
@@ -188,9 +189,11 @@ export default class HomeView {
           <div id="dashboard-button" class="btn dark-btn nav-btn nav-btn-inactive">
             <img src="/assets/dashboard.png" height="30"/>
           </div>
+
           <div id="multiplayer-button" class="btn dark-btn nav-btn nav-btn-inactive">
             <img src="/assets/multiplayer.png" height="30"/>
           </div>
+
           <div id="profile-button" class="btn dark-btn nav-btn nav-btn-inactive">
             <img src="/assets/friends.png" height="30"/>
           </div>
